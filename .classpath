@@ -7,5 +7,9 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="/java2dx"/>
+	<classpathentry kind="src" path="/java2d"/>
+	<classpathentry kind="src" path="/jrworkspace"/>
+	<classpathentry kind="src" path="/discreteCurves"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
