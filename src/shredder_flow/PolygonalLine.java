@@ -29,25 +29,7 @@ public class PolygonalLine extends Plugin {
 		super.install(c);
 	}
 
-	public double[] triangulate(DraggablePolygon2D polygon2d) {
-
-		DraggablePoint2DList listOfContolPoints = polygon2d.getControlPoints();
-		Point2DList pointList = listOfContolPoints.getModel();
-		double[][] boundaryPoints = pointList.toDoubleArray();
-		Ruppert ruppert = new Ruppert(boundaryPoints);
-		ruppert.getIndices();
-		double[] points = ruppert.getPoints();
-		return points;
-	}
-
-	public double[][] rearrange(double[] points) {
-		double[][] newPoints = new double[points.length / 2][2];
-		for (int i = 0; i < points.length; i = i + 2) {
-			newPoints[i][0] = points[i];
-			newPoints[i][1] = points[i + 1];
-		}
-		return newPoints;
-	}
+	
 
 	public static void main(String[] args) {
 		Java2DViewer vr = new Java2DViewer();
