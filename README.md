@@ -14,7 +14,7 @@ from https://gitlab.discretization.de/groups/jtem
 6. jtem/beans
 7. jtem/jrworkspace
 8. jtem/mfc
-9. jtem/function#
+9. jtem/function
 
 
 
