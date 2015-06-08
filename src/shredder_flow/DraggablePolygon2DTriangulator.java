@@ -20,7 +20,6 @@ public class DraggablePolygon2DTriangulator {
 
 
 	public void triangulate(DraggablePolygon2D polygon2d) {
-
 		DraggablePoint2DList listOfContolPoints = polygon2d.getControlPoints();
 		Point2DList pointList = listOfContolPoints.getModel();
 		double[][] boundaryPoints = pointList.toDoubleArray();
