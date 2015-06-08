@@ -8,6 +8,16 @@ import de.jtem.numericalMethods.geometry.meshGeneration.ruppert.Ruppert;
 public class DraggablePolygon2DTriangulator {
 	private double[][] points;
 	private int[] indices;
+	
+	public double[][] getPoints() {
+		return points;
+	}
+
+	public int[] getIndices() {
+		return indices;
+	}
+
+
 
 	public void triangulate(DraggablePolygon2D polygon2d) {
 
@@ -20,7 +30,7 @@ public class DraggablePolygon2DTriangulator {
 		points = rearrange(ruppertPoints);
 	}
 
-	public double[][] rearrange(double[] points) {
+	private double[][] rearrange(double[] points) {
 		double[][] newPoints = new double[points.length / 2][2];
 		for (int i = 0; i < points.length; i = i + 2) {
 			newPoints[i][0] = points[i];

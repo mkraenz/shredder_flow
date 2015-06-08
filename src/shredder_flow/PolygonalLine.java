@@ -13,10 +13,16 @@ import de.jtem.numericalMethods.geometry.meshGeneration.ruppert.Ruppert;
 
 public class PolygonalLine extends Plugin {
 
+	private DraggablePolygon2D polygon;
+
+	public DraggablePolygon2D getPolygon() {
+		return polygon;
+	}
+
 	@Override
 	public void install(Controller c) throws Exception {
 
-		DraggablePolygon2D polygon = new DraggablePolygon2D(10,
+		polygon = new DraggablePolygon2D(10,
 				DraggablePoint2DList.CIRCULAR, 0, 0, 1, true, true);
 		// add the circle scene to the scene root
 		SceneComponent root = c.getPlugin(Java2DView.class).getViewer2D()
@@ -31,10 +37,6 @@ public class PolygonalLine extends Plugin {
 
 	
 
-	public static void main(String[] args) {
-		Java2DViewer vr = new Java2DViewer();
-		vr.registerPlugin(new PolygonalLine());
-		vr.startup();
-	}
+	
 
 }
