@@ -17,4 +17,9 @@ from https://gitlab.discretization.de/groups/jtem
 9. jtem/function
 
 
+
 - [jreality](https://gitlab.discretization.de/jreality/jreality)
+
+from email from Felix
+
+10. discreteCurves
