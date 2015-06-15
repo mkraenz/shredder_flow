@@ -16,27 +16,25 @@ import de.jtem.jrworkspace.plugin.Plugin;
 
 public class TriangulatedDomainController extends Plugin {
 	private TriangulatedDomainModel model;
-	
-	public TriangulatedDomainController(TriangulatedDomainModel model){
+
+	public TriangulatedDomainController(TriangulatedDomainModel model) {
 		this.model = model;
 	}
-	
-	private SceneComponent turnIntoDataThatTheJava2DViewerUnderstands(){
+
+	private SceneComponent turnIntoDataThatTheJava2DViewerUnderstands() {
 		double[][] points = model.getPoints();
 		SceneComponent sceneComponent = new SceneComponent();
-		List<Double> pointSet = sceneComponent.getPoints(); //TODO extract edges
-		for(int i=0;i<points.length;i++){
-			pointSet.add(new Point2DDouble(points[i][0],points[i][1]));
+		List<Double> sceneComponentPointSet = sceneComponent.getPoints();
+		for (int i = 0; i < points.length; i++) {
+			sceneComponentPointSet.add(new Point2DDouble(points[i][0],
+					points[i][1]));
 		}
-		sceneComponent.setPointShape(new Ellipse2DDouble(-10, -10, 20, 20));
 		sceneComponent.setPointPaint(Color.blue);
-		sceneComponent.setShape(new Arc2D.Double(0, 0, 30, 30, 90, 135,
-				Arc2D.OPEN));
-		sceneComponent.setPaint(Color.ORANGE);
 
 		return sceneComponent;
-		
+
 	}
+
 	@Override
 	public void install(Controller c) throws Exception {
 		// add the circle scene to the scene root
@@ -47,13 +45,15 @@ public class TriangulatedDomainController extends Plugin {
 		// add the control scene
 		root.addChild(model.getBoundaryPolygon().getControlScene());
 
+		root.addChild(getSceneComponent());
+
 		super.install(c);
 	}
 
-	public SceneComponent getSceneComponent(){
+	public SceneComponent getSceneComponent() {
 		return turnIntoDataThatTheJava2DViewerUnderstands();
 	}
-	
+
 	public void setModel(TriangulatedDomainModel model) {
 		this.model = model;
 	}

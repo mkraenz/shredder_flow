@@ -6,7 +6,7 @@ import de.jtem.java2dx.plugin.Java2DViewer;
 
 public class Visualizer {
 	public static void main(String[] args) {		
-		int BOUNDARY_CONTROL_POINT_COUNT = 10;
+		int BOUNDARY_CONTROL_POINT_COUNT = 100;
 		TriangulatedDomainModel model = new TriangulatedDomainModel(BOUNDARY_CONTROL_POINT_COUNT);
 		TriangulatedDomainController controller = new TriangulatedDomainController(model);
 		
