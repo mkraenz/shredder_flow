@@ -12,5 +12,6 @@
 	<classpathentry kind="src" path="/jrworkspace"/>
 	<classpathentry kind="src" path="/discreteCurves"/>
 	<classpathentry kind="src" path="/numericalMethods"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
