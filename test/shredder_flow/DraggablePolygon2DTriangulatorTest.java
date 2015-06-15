@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.omg.CORBA.portable.IndirectionException;
 
 import de.jtem.java2dx.modelling.DraggablePoint2DList;
 import de.jtem.java2dx.modelling.DraggablePolygon2D;
@@ -49,15 +50,22 @@ public class DraggablePolygon2DTriangulatorTest {
 		for (int i = 0; i < indices.length; i++) {
 			setOneIfVertexIsInTriangle(indices, vertexIndices, i);
 		}
-		for (int i = 0; i < vertexIndices.length; i++){
+		for (int i = 0; i < vertexIndices.length; i++) {
 			assertNotNull(vertexIndices[i]);
 		}
 	}
 
-	private void setOneIfVertexIsInTriangle(int[] indices, int[] vertexIndices, int i) {
+	private void setOneIfVertexIsInTriangle(int[] indices, int[] vertexIndices,
+			int i) {
 		if (indices[i] < vertexIndices.length) {
 			vertexIndices[indices[i]] = 1;
 		}
 	}
 
+	@Test
+	public void testNeighborsNotNull() throws Exception {
+		if (boundaryPolygon.getDefaultPointCount() != 3) {
+			assertNotNull(triangulator.getNeighbors());
+		}
+	}
 }
