@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.jtem.java2d.SceneComponent;
 import de.jtem.java2dx.Ellipse2DDouble;
+import de.jtem.java2dx.Line2DDouble;
 import de.jtem.java2dx.Point2DDouble;
 import de.jtem.java2dx.modelling.DraggablePoint2DList;
 import de.jtem.java2dx.modelling.DraggablePolygon2D;
@@ -22,17 +23,48 @@ public class TriangulatedDomainController extends Plugin {
 	}
 
 	private SceneComponent turnIntoDataThatTheJava2DViewerUnderstands() {
-		double[][] points = model.getPoints();
 		SceneComponent sceneComponent = new SceneComponent();
+		addPointsToSceneComponent(sceneComponent);
+		addEdgesToSceneComponent(sceneComponent);
+		return sceneComponent;
+	}
+
+	private void addEdgesToSceneComponent(SceneComponent sceneComponent) {
+		int[] indices = model.getIndices();
+		double[][] points = model.getPoints();
+
+		for (int i = 0; i < indices.length / 3 - 1; i++) {
+			SceneComponent edgeSceneComponent1 = new SceneComponent();
+			SceneComponent edgeSceneComponent2 = new SceneComponent();
+			SceneComponent edgeSceneComponent3 = new SceneComponent();
+			Line2DDouble edge1 = new Line2DDouble(points[indices[3*i]][0],
+					points[indices[3*i]][1], points[indices[3*i + 1]][0],
+					points[indices[3*i + 1]][1]);
+			Line2DDouble edge2 = new Line2DDouble(points[indices[3*i + 1]][0],
+					points[indices[3*i + 1]][1], points[indices[3*i + 2]][0],
+					points[indices[3*i + 2]][1]);
+			Line2DDouble edge3 = new Line2DDouble(points[indices[3*i + 2]][0],
+					points[indices[3*i + 2]][1], points[indices[3*i]][0],
+					points[indices[3*i]][1]);
+
+			edgeSceneComponent1.setShape(edge1);
+			edgeSceneComponent2.setShape(edge2);
+			edgeSceneComponent3.setShape(edge3);
+			
+			sceneComponent.addChild(edgeSceneComponent1);
+			sceneComponent.addChild(edgeSceneComponent2);
+//			sceneComponent.addChild(edgeSceneComponent3);
+		}
+	}
+
+	private void addPointsToSceneComponent(SceneComponent sceneComponent) {
+		double[][] points = model.getPoints();
 		List<Double> sceneComponentPointSet = sceneComponent.getPoints();
 		for (int i = 0; i < points.length; i++) {
 			sceneComponentPointSet.add(new Point2DDouble(points[i][0],
 					points[i][1]));
 		}
 		sceneComponent.setPointPaint(Color.blue);
-
-		return sceneComponent;
-
 	}
 
 	@Override

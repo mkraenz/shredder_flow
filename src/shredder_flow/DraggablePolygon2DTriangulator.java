@@ -6,7 +6,7 @@ import de.jtem.java2dx.modelling.DraggablePolygon2D;
 import de.jtem.numericalMethods.geometry.meshGeneration.ruppert.Ruppert;
 
 public class DraggablePolygon2DTriangulator {
-	private static final int ANGLE_CONSTRAINT_IN_DEGREE = 10;
+	private static final int ANGLE_CONSTRAINT_IN_DEGREE = 25;
 	private double[][] points;
 	private int[] indices;
 
