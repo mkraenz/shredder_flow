@@ -53,7 +53,7 @@ public class TriangulatedDomainController extends Plugin {
 			
 			sceneComponent.addChild(edgeSceneComponent1);
 			sceneComponent.addChild(edgeSceneComponent2);
-//			sceneComponent.addChild(edgeSceneComponent3);
+			sceneComponent.addChild(edgeSceneComponent3);
 		}
 	}
 
