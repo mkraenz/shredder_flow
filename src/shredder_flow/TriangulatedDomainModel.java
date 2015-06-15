@@ -7,19 +7,21 @@ public class TriangulatedDomainModel {
 	private DraggablePolygon2D boundaryPolygon;
 	private double[][] points;
 	private int[] indices;
-	private DraggablePolygon2DTriangulator triangulator = new DraggablePolygon2DTriangulator();
 
 	public TriangulatedDomainModel(int pointCount) {
 		boundaryPolygon = new DraggablePolygon2D(pointCount,
 				DraggablePoint2DList.CIRCULAR, 0, 0, 1, true, true);
-		triangulator.triangulate(boundaryPolygon);
-		points = triangulator.getPoints();
-		indices = triangulator.getIndices();
+		triangulateAndSetPointsAndIndices();
 	}
 
 	public void updateTriangulation() {
+		triangulateAndSetPointsAndIndices();
+	}
+
+	private void triangulateAndSetPointsAndIndices() {
+		DraggablePolygon2DTriangulator triangulator = new DraggablePolygon2DTriangulator();
 		triangulator.triangulate(boundaryPolygon);
-		points = triangulator.getPoints();
+		points = triangulator.getPointsAs2DimensionalArray();
 		indices = triangulator.getIndices();
 	}
 
@@ -34,5 +36,6 @@ public class TriangulatedDomainModel {
 	public int[] getIndices() {
 		return indices;
 	}
-
+	
+	
 }

@@ -6,28 +6,15 @@ import de.jtem.java2dx.modelling.DraggablePolygon2D;
 import de.jtem.numericalMethods.geometry.meshGeneration.ruppert.Ruppert;
 
 public class DraggablePolygon2DTriangulator {
-	private static final int ANGLE_CONSTRAINT_IN_DEGREE = 25;
-	private double[][] points;
-	private int[] indices;
-
-	public double[][] getPoints() {
-		return points;
-	}
-
-	public int[] getIndices() {
-		return indices;
-	}
+	private static final int ANGLE_CONSTRAINT_IN_DEGREE = 20;
+	private Ruppert ruppert;
 
 	public void triangulate(DraggablePolygon2D polygon2d) {
 		DraggablePoint2DList listOfControlPoints = polygon2d.getControlPoints();
 		Point2DList controlPointList = listOfControlPoints.getModel();
-		double[][] pointsForRuppert = rearrangeAsAnArrayForRuppert(controlPointList);
-
+		double[][] pointsForRuppert = rearrangeToOneCrossNDimensionalArray(controlPointList);
 		Ruppert ruppert = triangulateWithRuppert(pointsForRuppert);
-
-		this.indices = ruppert.getIndices();
-		double[] triangulationVertices = ruppert.getPoints();
-		this.points = rearrangeAsTwoDimensionalArray(triangulationVertices);
+		this.ruppert = ruppert;
 	}
 
 	private Ruppert triangulateWithRuppert(double[][] pointsForRuppert) {
@@ -37,7 +24,24 @@ public class DraggablePolygon2DTriangulator {
 		return ruppert;
 	}
 
-	private double[][] rearrangeAsAnArrayForRuppert(Point2DList pointList) {
+	public double[][] getPointsAs2DimensionalArray() {
+		return rearrangeToNCrossTwoDimensionalArray(this.ruppert.getPoints());
+	}
+
+	public double[] getPointsAsOneDimensionalArray() {
+		return this.ruppert.getPoints();
+	}
+
+	public int[] getIndices() {
+		return this.ruppert.getIndices();
+	}
+	
+	public int[] getNeighbors(){
+		return ruppert.getNeighbors();
+	}
+
+	private double[][] rearrangeToOneCrossNDimensionalArray(
+			Point2DList pointList) {
 		double[][] boundaryPoints = pointList.toDoubleArray();
 		double[][] pointsForRuppert = new double[1][boundaryPoints.length * 2];
 		for (int i = 0; i < boundaryPoints.length; i++) {
@@ -47,7 +51,7 @@ public class DraggablePolygon2DTriangulator {
 		return pointsForRuppert;
 	}
 
-	private double[][] rearrangeAsTwoDimensionalArray(double[] points) {
+	private double[][] rearrangeToNCrossTwoDimensionalArray(double[] points) {
 		double[][] newPoints = new double[points.length / 2][2];
 		for (int i = 0; i < points.length; i = i + 2) {
 			newPoints[i / 2][0] = points[i];
