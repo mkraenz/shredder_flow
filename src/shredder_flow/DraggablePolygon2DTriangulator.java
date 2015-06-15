@@ -22,9 +22,9 @@ public class DraggablePolygon2DTriangulator {
 		DraggablePoint2DList listOfControlPoints = polygon2d.getControlPoints();
 		Point2DList controlPointList = listOfControlPoints.getModel();
 		double[][] pointsForRuppert = rearrangeAsAnArrayForRuppert(controlPointList);
-		
+
 		Ruppert ruppert = triangulateWithRuppert(pointsForRuppert);
-		
+
 		this.indices = ruppert.getIndices();
 		double[] triangulationVertices = ruppert.getPoints();
 		this.points = rearrangeAsTwoDimensionalArray(triangulationVertices);
