@@ -32,8 +32,8 @@ public class DraggablePolygon2DTriangulator {
 	private double[][] rearrange(double[] points) {
 		double[][] newPoints = new double[points.length / 2][2];
 		for (int i = 0; i < points.length; i = i + 2) {
-			newPoints[i][0] = points[i];
-			newPoints[i][1] = points[i + 1];
+			newPoints[i/2][0] = points[i];
+			newPoints[i/2][1] = points[i + 1];
 		}
 		return newPoints;
 	}

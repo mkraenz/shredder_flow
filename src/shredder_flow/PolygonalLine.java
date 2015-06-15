@@ -22,7 +22,7 @@ public class PolygonalLine extends Plugin {
 	@Override
 	public void install(Controller c) throws Exception {
 
-		polygon = new DraggablePolygon2D(10,
+		DraggablePolygon2D polygon = new DraggablePolygon2D(10,
 				DraggablePoint2DList.CIRCULAR, 0, 0, 1, true, true);
 		// add the circle scene to the scene root
 		SceneComponent root = c.getPlugin(Java2DView.class).getViewer2D()
@@ -37,6 +37,10 @@ public class PolygonalLine extends Plugin {
 
 	
 
-	
+	public static void main(String[] args) {
+		Java2DViewer vr = new Java2DViewer();
+		vr.registerPlugin(new PolygonalLine());
+		vr.startup();
+	}
 
 }
