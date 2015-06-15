@@ -10,10 +10,9 @@ public class Visualizer {
 		TriangulatedDomainModel model = new TriangulatedDomainModel(BOUNDARY_CONTROL_POINT_COUNT);
 		TriangulatedDomainController controller = new TriangulatedDomainController(model);
 		
-		Java2DViewer vr = new Java2DViewer();	
+		Java2DViewer vr = new Java2DViewer();
+		vr.registerPlugin(controller);
 		
-		
-		SceneComponent SceneGraph = controller.getSceneComponent();
 		vr.startup();
 		
 	}
