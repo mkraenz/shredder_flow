@@ -24,32 +24,18 @@ public class TriangulatedDomainController extends Plugin {
 
 	private SceneComponent turnIntoDataThatTheJava2DViewerUnderstands() {
 		SceneComponent sceneComponent = new SceneComponent();
-		addPointsToSceneComponent(sceneComponent);
-		addEdgesToSceneComponent(sceneComponent);
+		double[][] points = model.getPoints();
+		int[] indices = model.getIndices();
+		addPointsToSceneComponent(sceneComponent, points);
+		addEdgesToSceneComponent(sceneComponent, points, indices);
 		return sceneComponent;
 	}
 
-	private void addEdgesToSceneComponent(SceneComponent sceneComponent) {
-		int[] indices = model.getIndices();
-		double[][] points = model.getPoints();
-
-		for (int i = 0; i < indices.length / 3 - 1; i++) {
-			SceneComponent edgeSceneComponent1 = new SceneComponent();
-			SceneComponent edgeSceneComponent2 = new SceneComponent();
-			SceneComponent edgeSceneComponent3 = new SceneComponent();
-			Line2DDouble edge1 = new Line2DDouble(points[indices[3*i]][0],
-					points[indices[3*i]][1], points[indices[3*i + 1]][0],
-					points[indices[3*i + 1]][1]);
-			Line2DDouble edge2 = new Line2DDouble(points[indices[3*i + 1]][0],
-					points[indices[3*i + 1]][1], points[indices[3*i + 2]][0],
-					points[indices[3*i + 2]][1]);
-			Line2DDouble edge3 = new Line2DDouble(points[indices[3*i + 2]][0],
-					points[indices[3*i + 2]][1], points[indices[3*i]][0],
-					points[indices[3*i]][1]);
-
-			edgeSceneComponent1.setShape(edge1);
-			edgeSceneComponent2.setShape(edge2);
-			edgeSceneComponent3.setShape(edge3);
+	private void addEdgesToSceneComponent(SceneComponent sceneComponent, double[][] points, int[] indices) {
+		for (int i = 0; i < indices.length / 3; i++) {
+			SceneComponent edgeSceneComponent1 = createEdgeSceneComponent(3*i, 3*i+1, points, indices);
+			SceneComponent edgeSceneComponent2 = createEdgeSceneComponent(3*i+1, 3*i+2, points, indices);
+			SceneComponent edgeSceneComponent3 = createEdgeSceneComponent(3*i+2, 3*i, points, indices);
 			
 			sceneComponent.addChild(edgeSceneComponent1);
 			sceneComponent.addChild(edgeSceneComponent2);
@@ -57,8 +43,17 @@ public class TriangulatedDomainController extends Plugin {
 		}
 	}
 
-	private void addPointsToSceneComponent(SceneComponent sceneComponent) {
-		double[][] points = model.getPoints();
+	private SceneComponent createEdgeSceneComponent(int i, int j, double[][] points, int[] indices) {
+		SceneComponent edgeSceneComponent1 = new SceneComponent();
+		Line2DDouble edge1 = new Line2DDouble(points[indices[i]][0],
+				points[indices[i]][1], points[indices[j]][0],
+				points[indices[j]][1]);
+
+		edgeSceneComponent1.setShape(edge1);
+		return edgeSceneComponent1;
+	}
+
+	private void addPointsToSceneComponent(SceneComponent sceneComponent, double[][] points) {
 		List<Double> sceneComponentPointSet = sceneComponent.getPoints();
 		for (int i = 0; i < points.length; i++) {
 			sceneComponentPointSet.add(new Point2DDouble(points[i][0],
