@@ -17,9 +17,12 @@ from https://gitlab.discretization.de/groups/jtem
 9. jtem/function
 
 
-
 - [jreality](https://gitlab.discretization.de/jreality/jreality)
 
 from email from Felix
 
-10. discreteCurves
+- discreteCurves
+
+
+from [Apache](http://commons.apache.org/proper/commons-math/download_math.cgi)
+- commons-math3-3.5
