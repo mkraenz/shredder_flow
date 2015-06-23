@@ -24,5 +24,5 @@ from email from Felix
 - discreteCurves
 
 
-from [Apache](http://commons.apache.org/proper/commons-math/download_math.cgi)
-- commons-math3-3.5
+from [findjar.com](http://www.findjar.com/jar/java3d/jars/vecmath-1.3.1.jar.html)
+- [commons-math3-3.5](http://mirrors.ibiblio.org/pub/mirrors/maven/java3d/jars/vecmath-1.3.1.jar)
