@@ -1,4 +1,4 @@
-package shredder_flow;
+package shredder_flow.triangulated_domain;
 
 import java.awt.Color;
 import java.awt.geom.Point2D.Double;
@@ -12,18 +12,20 @@ import de.jtem.jrworkspace.plugin.Controller;
 import de.jtem.jrworkspace.plugin.Plugin;
 
 public class TriangulatedDomainController extends Plugin {
-	private TriangulatedDomainModel model;
+	private ITriangulatedDomainModel model;
 
-	public TriangulatedDomainController(TriangulatedDomainModel model) {
+	public TriangulatedDomainController(ITriangulatedDomainModel model) {
 		this.model = model;
 	}
 
-	private SceneComponent turnIntoDataThatTheJava2DViewerUnderstands() {
+	private SceneComponent getSceneComponent() {
 		SceneComponent sceneComponent = new SceneComponent();
 		double[][] points = model.getPoints();
 		int[] indices = model.getIndices();
 		addPointsToSceneComponent(sceneComponent, points);
 		addEdgesToSceneComponent(sceneComponent, points, indices);
+
+		sceneComponent.addChild(model.getSceneComponentOfBoundaryPolygon());
 		return sceneComponent;
 	}
 
@@ -70,17 +72,10 @@ public class TriangulatedDomainController extends Plugin {
 				.getRoot();
 
 		root.addChild(getSceneComponent());
-		root.addChild(model.getBoundaryPolygon().getViewScene());
-		root.addChild(model.getBoundaryPolygon().getControlScene());
 		super.install(c);
 	}
 
-	public SceneComponent getSceneComponent() {
-		return turnIntoDataThatTheJava2DViewerUnderstands();
-	}
-
-	public void setModel(TriangulatedDomainModel model) {
+	public void setModel(ITriangulatedDomainModel model) {
 		this.model = model;
 	}
-
 }

@@ -1,15 +1,15 @@
-package shredder_flow;
+package shredder_flow.triangulated_domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.omg.CORBA.portable.IndirectionException;
 
 import de.jtem.java2dx.modelling.DraggablePoint2DList;
 import de.jtem.java2dx.modelling.DraggablePolygon2D;
 
-public class DraggablePolygon2DTriangulatorTest {
+public class DraggablePolygon2DTriangulatorTest extends TestCase {
 
 	private DraggablePolygon2D boundaryPolygon;
 	private DraggablePolygon2DTriangulator triangulator;
@@ -32,15 +32,15 @@ public class DraggablePolygon2DTriangulatorTest {
 	@Test
 	public void testTriangulateIndicesAndPointsNotNull() throws Exception {
 		assertNotNull(triangulator.getIndices());
-		assertNotNull(triangulator.getPointsAs2DimensionalArray());
-		assertNotNull(triangulator.getPointsAsOneDimensionalArray());
+		assertNotNull(triangulator.getPoints2DArray());
+		assertNotNull(triangulator.getPoints1DArray());
 	}
 
 	@Test
 	public void testNonemptyIndicesAndPoints() throws Exception {
 		assertNotEquals(0, triangulator.getIndices());
-		assertNotEquals(0, triangulator.getPointsAs2DimensionalArray());
-		assertNotEquals(0, triangulator.getPointsAsOneDimensionalArray());
+		assertNotEquals(0, triangulator.getPoints2DArray());
+		assertNotEquals(0, triangulator.getPoints1DArray());
 	}
 
 	@Test

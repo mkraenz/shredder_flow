@@ -1,6 +1,6 @@
-package shredder_flow;
-import shredder_flow.TriangleList;
-import shredder_flow.TriangulationVertexList;
+package shredder_flow.logic;
+import shredder_flow.logic.TriangleList;
+import shredder_flow.logic.TriangulationVertexList;
 
 public class MeshModel {
 	private TriangleList triangles;

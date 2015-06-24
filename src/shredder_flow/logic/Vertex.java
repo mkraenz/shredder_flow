@@ -1,4 +1,4 @@
-package shredder_flow;
+package shredder_flow.logic;
 
 import javax.vecmath.Vector2d;
 

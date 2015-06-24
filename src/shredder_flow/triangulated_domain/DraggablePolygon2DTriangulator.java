@@ -1,16 +1,16 @@
-package shredder_flow;
+package shredder_flow.triangulated_domain;
 
 import de.jtem.java2dx.Point2DList;
 import de.jtem.java2dx.modelling.DraggablePoint2DList;
 import de.jtem.java2dx.modelling.DraggablePolygon2D;
 import de.jtem.numericalMethods.geometry.meshGeneration.ruppert.Ruppert;
 
-public class DraggablePolygon2DTriangulator {
-	private static final int ANGLE_CONSTRAINT_IN_DEGREE = 20;
+public class DraggablePolygon2DTriangulator implements ITriangulator {
+	private int minimalAngleConstraint = 20;
 	private Ruppert ruppert;
 
-	public void triangulate(DraggablePolygon2D polygon2d) {
-		DraggablePoint2DList listOfControlPoints = polygon2d.getControlPoints();
+	public void triangulate(DraggablePolygon2D boundaryCurve) {
+		DraggablePoint2DList listOfControlPoints = boundaryCurve.getControlPoints();
 		Point2DList controlPointList = listOfControlPoints.getModel();
 		double[][] pointsForRuppert = rearrangeToOneCrossNDimensionalArray(controlPointList);
 		Ruppert ruppert = triangulateWithRuppert(pointsForRuppert);
@@ -19,24 +19,24 @@ public class DraggablePolygon2DTriangulator {
 
 	private Ruppert triangulateWithRuppert(double[][] pointsForRuppert) {
 		Ruppert ruppert = new Ruppert(pointsForRuppert);
-		ruppert.setAngleConstraint(ANGLE_CONSTRAINT_IN_DEGREE);
+		ruppert.setAngleConstraint(minimalAngleConstraint);
 		ruppert.refine();
 		return ruppert;
 	}
 
-	public double[][] getPointsAs2DimensionalArray() {
+	public double[][] getPoints2DArray() {
 		return rearrangeToNCrossTwoDimensionalArray(this.ruppert.getPoints());
 	}
 
-	public double[] getPointsAsOneDimensionalArray() {
+	public double[] getPoints1DArray() {
 		return this.ruppert.getPoints();
 	}
 
 	public int[] getIndices() {
 		return this.ruppert.getIndices();
 	}
-	
-	public int[] getNeighbors(){
+
+	public int[] getNeighbors() {
 		return ruppert.getNeighbors();
 	}
 
@@ -58,5 +58,11 @@ public class DraggablePolygon2DTriangulator {
 			newPoints[i / 2][1] = points[i + 1];
 		}
 		return newPoints;
+	}
+
+	@Override
+	public void setAngleConstraint(int maximalAngle) {
+		this.minimalAngleConstraint = maximalAngle;
+		
 	}
 }
