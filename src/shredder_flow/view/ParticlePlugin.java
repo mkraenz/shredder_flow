@@ -23,9 +23,10 @@ public class ParticlePlugin extends Plugin {
 
 	public void addParticles() {
 		/*
-		 * TODO find a way to properly add particles using the datafield creator. It might even be better to
-		 * have an own class to handle the adding. The ParticlePlugin would then
-		 * only draw the particles. While the other one handles only adding.
+		 * TODO find a way to properly add particles using the datafield
+		 * creator. It might even be better to have an own class to handle the
+		 * adding. The ParticlePlugin would then only draw the particles. While
+		 * the other one handles only adding.
 		 */
 	}
 }

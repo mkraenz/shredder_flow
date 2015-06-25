@@ -1,12 +1,19 @@
 package shredder_flow.view;
 
+import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
+import shredder_flow.logic.FunctionGenerator;
 import shredder_flow.logic.TriangulationVertexList;
 
-public class FunctionGeneratorInvoker {
+public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 
-	TriangulationVertexList vertices;
-	
-	public FunctionGeneratorInvoker(TriangulationVertexList vertices) {
+	private TriangulationVertexList vertices;
+	private FunctionGenerator generator;
+
+	public FunctionGeneratorInvoker(FunctionGenerator generator) {
+		this.generator = generator;
+	}
+
+	public void setVertexList(TriangulationVertexList vertices) {
 		this.vertices = vertices;
 	}
 

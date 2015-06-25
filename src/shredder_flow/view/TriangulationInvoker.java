@@ -1,19 +1,21 @@
 package shredder_flow.view;
 
+import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
+import shredder_flow.logic.DraggablePolygon2DAdapter;
 import shredder_flow.logic.MeshModel;
-import shredder_flow.logic.RuppertAdapter;
 
-public class TriangulationInvoker {
-	
+public class TriangulationInvoker extends View2DShrinkPanelPlugin {
+
 	private MeshModel model;
-	private RuppertAdapter ruppertAdapter;
+	private DraggablePolygon2DAdapter polygonAdapter;
 
-	public TriangulationInvoker(MeshModel model, RuppertAdapter ruppertAdapter) {
+	public TriangulationInvoker(MeshModel model,
+			DraggablePolygon2DAdapter polygonAdapter) {
 		this.model = model;
-		this.ruppertAdapter = ruppertAdapter;
-	}	
-	
-	public void invokeTriangulation(){
+		this.polygonAdapter = polygonAdapter;
+	}
+
+	public void invokeTriangulation() {
 		// TODO implement
 	}
 }
