@@ -1,7 +1,5 @@
 package shredder_flow.logic;
 
-import java.util.ArrayList;
-
 public class Triangle {
 
 	private TriangulationVertexList vertices;
@@ -9,18 +7,15 @@ public class Triangle {
 	private FieldVector fieldVector;
 
 	public void setNeighbors(TriangleList neighbors) {
-		if (neighbors.size() != 3) {
-			throw new IllegalArgumentException(
-					"A triangle can only have up to 3 neighbors. The given list contains "
-							+ neighbors.size()
-							+ " triangles. If there are no further triangles, specify null to fill up the list.");
-		}
 		this.neighbors = neighbors;
 	}
 
 	public boolean isNeighbor(Triangle triangle) {
-		// TODO: implement
-		return false;
+		if (vertices.hasTwoOrMoreEqualVertices(triangle.getVertices())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Triangle(TriangulationVertexList vertices) {
@@ -33,7 +28,7 @@ public class Triangle {
 		return null;
 	}
 
-	public ArrayList<Vertex> getVertices() {
+	public VertexList getVertices() {
 		return this.vertices;
 	}
 

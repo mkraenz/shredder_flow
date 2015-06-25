@@ -64,8 +64,7 @@ public class RuppertAdapter {
 					if (triangles.get(i).isNeighbor(triangles.get(j))) {
 						neighbors.add(triangles.get(j));
 						// TODO: test if following 3 lines work before enabling
-						// it in
-						// production
+						// it 
 						// if(neighbors.size() == 3){
 						// break;
 						// }
