@@ -21,6 +21,14 @@ public class RuppertAdapter {
 		return vertices;
 	}
 
+	public int getMaximalTriangleNumber() {
+		return maximalTriangleNumber;
+	}
+
+	public int getMinimalAngleConstraint() {
+		return minimalAngleConstraint;
+	}
+
 	public TriangleList getTriangleList() {
 		return triangles;
 	}
@@ -35,19 +43,15 @@ public class RuppertAdapter {
 		Ruppert ruppert = triangulateWithRuppert(pointsForRuppert);
 		setVertices(ruppert.getPoints());
 		setTriangles(ruppert.getIndices());
-
-		// TODO: implement
 	}
 
 	private void setTriangles(int[] indices) {
 		createTriangles(indices);
-		setNeighbors(); //TODO check what we have to do here
+		setNeighbors(); 
 	}
 
 	private void setNeighbors() {
-		for (int i = 0; i < triangles.size(); i++) {
-			setTriangleNeighbors(triangles.get(i));
-		}
+		// TODO: implement, if neccessary even by changing signature
 	}
 
 	private void createTriangles(int[] indices) {
@@ -87,9 +91,5 @@ public class RuppertAdapter {
 			a[0][i + 1] = vertex.getY();
 		}
 		return a;
-	}
-
-	private void setTriangleNeighbors(Triangle triangle) {
-		// TODO: implement
 	}
 }

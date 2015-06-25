@@ -12,7 +12,7 @@ public class Triangle {
 			throw new IllegalArgumentException(
 					"A triangle can only have up to 3 neighbors. The given list contains "
 							+ neighbors.size()
-							+ " triangles. Iff there are no further triangles specify null to fill up to 3 items in the list.");
+							+ " triangles. If there are no further triangles, specify null to fill up the list.");
 		}
 		this.neighbors = neighbors;
 	}
