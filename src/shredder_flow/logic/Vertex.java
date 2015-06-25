@@ -30,11 +30,11 @@ public class Vertex {
 		this.functionValue = functionValue;
 	}
 
-	public boolean isPositionEqual(Vertex vertex) {
+	public boolean isPositionEqual(double x, double y) {
 		/**
 		 * Check if the position coordinates of this vertex and the given one are equal.
 		 */
-		if (this.getX() != vertex.getX() || this.getY() != vertex.getY()) {
+		if (this.getX() != x|| this.getY() != y) {
 			return false;
 		}
 		else{

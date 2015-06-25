@@ -6,6 +6,7 @@ public class Triangle {
 
 	private TriangulationVertexList vertices;
 	private TriangleList neighbors;
+	private FieldVector fieldVector;
 
 	public void setNeighbors(TriangleList neighbors) {
 		if (neighbors.size() != 3) {
@@ -16,8 +17,6 @@ public class Triangle {
 		}
 		this.neighbors = neighbors;
 	}
-
-	private FieldVector fieldVector;
 
 	public Triangle(TriangulationVertexList vertices) {
 		this.vertices = vertices;
@@ -38,7 +37,11 @@ public class Triangle {
 	}
 
 	public boolean isVertex(double x, double y) {
-		// TODO: implement
+		for (Vertex vertex : vertices) {
+			if (vertex.isPositionEqual(x, y)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
