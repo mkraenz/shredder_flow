@@ -9,6 +9,12 @@ public class RuppertAdapter {
 	private int maximalTriangleNumber = -1;
 	private int minimalAngleConstraint = 10;
 
+	public RuppertAdapter(TriangulationVertexList vertexList,
+			TriangleList triangleList) {
+		this.vertices = vertexList;
+		this.triangles = triangleList;
+	}
+
 	public void setMaximalTriangleNumber(int maximalTriangleNumber) {
 		this.maximalTriangleNumber = maximalTriangleNumber;
 	}
@@ -47,11 +53,26 @@ public class RuppertAdapter {
 
 	private void setTriangles(int[] indices) {
 		createTriangles(indices);
-		setNeighbors(); 
+		setNeighbors();
 	}
 
 	private void setNeighbors() {
-		// TODO: implement, if neccessary even by changing signature
+		for (int i = 0; i < triangles.size(); i++) {
+			TriangleList neighbors = new TriangleList();
+			for (int j = 0; j < triangles.size(); j++) {
+				if (i != j) {
+					if (triangles.get(i).isNeighbor(triangles.get(j))) {
+						neighbors.add(triangles.get(j));
+						// TODO: test if following 3 lines work before enabling
+						// it in
+						// production
+						// if(neighbors.size() == 3){
+						// break;
+						// }
+					}
+				}
+			}
+		}
 	}
 
 	private void createTriangles(int[] indices) {

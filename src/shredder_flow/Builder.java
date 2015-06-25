@@ -43,7 +43,7 @@ public class Builder {
 
 	private void setParticleUpdaterPlugin(Java2DViewer viewer, int UPDATES_PER_SECOND,
 			ParticleList particles) {
-		Timer updateTimer = new Timer(0, null);
+		Timer updateTimer = new Timer(0, null); // TODO maybe bind the timer to the viewers timer
 		ParticleUpdater particleUpdater = new ParticleUpdater(particles, UPDATES_PER_SECOND, updateTimer);
 		ParticleUpdateInvoker particleUpdateInvoker = new ParticleUpdateInvoker(particleUpdater);
 		viewer.registerPlugin(particleUpdateInvoker);

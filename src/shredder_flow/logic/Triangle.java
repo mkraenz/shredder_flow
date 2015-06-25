@@ -18,6 +18,11 @@ public class Triangle {
 		this.neighbors = neighbors;
 	}
 
+	public boolean isNeighbor(Triangle triangle) {
+		// TODO: implement
+		return false;
+	}
+
 	public Triangle(TriangulationVertexList vertices) {
 		this.vertices = vertices;
 		this.fieldVector = new FieldVector(0, 0);
