@@ -13,12 +13,9 @@ public class ParticlePlugin extends Plugin {
 		// TODO: implement
 	}
 
-	public ParticlePlugin(ParticleList particles) {
+	public ParticlePlugin(ParticleCreator creator, ParticleList particles) {
+		this.creator = creator;
 		this.particles = particles;
-	}
-
-	public void setParticleList(ParticleList particleList) {
-		this.particles = particleList;
 	}
 
 	public void addParticles() {

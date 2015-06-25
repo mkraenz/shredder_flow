@@ -6,6 +6,10 @@ public class MeshModel {
 	private TriangleList triangles;
 	private TriangulationVertexList vertices;
 
+	public MeshModel(TriangleList triangleList, TriangulationVertexList vertexList) {
+		this.triangles = triangleList;
+		this.vertices = vertexList;
+	}
 	public TriangleList getTriangles() {
 		return triangles;
 	}

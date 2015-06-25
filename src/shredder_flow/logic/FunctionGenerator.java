@@ -4,8 +4,8 @@ public class FunctionGenerator {
 	
 	private TriangulationVertexList vertices;
 
-	public void setVertices(TriangulationVertexList vertices) {
-		this.vertices = vertices;
+	public FunctionGenerator(TriangulationVertexList vertexList) {
+		this.vertices = vertexList;
 	}
 
 	public void generate(){

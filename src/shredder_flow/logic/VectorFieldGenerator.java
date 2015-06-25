@@ -4,6 +4,10 @@ public class VectorFieldGenerator {
 
 	private TriangleList triangles;
 
+	public VectorFieldGenerator(TriangleList triangleList) {
+		this.triangles = triangleList;
+	}
+	
 	public void setTriangles(TriangleList triangles) {
 		this.triangles = triangles;
 	}
