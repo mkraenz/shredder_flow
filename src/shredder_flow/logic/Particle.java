@@ -7,13 +7,13 @@ import shredder_flow.logic.Triangle;
 public class Particle {
 
 	private Vector2d position;
-	private NextPositionStrategy strategy;
+	private MovementStrategy strategy;
 	private Triangle triangle;
 
 	public Particle(double x, double y, Triangle triangle) {
 		this.triangle = triangle;
 		this.position = new Vector2d(x,y);
-		this.strategy = new NextPositionStrategy();
+		this.strategy = new MovementStrategy();
 	}
 
 	public Triangle getTriangle() {
@@ -25,12 +25,7 @@ public class Particle {
 	}
 
 	public void update(double deltaT) {
-		updatePosition(deltaT);
-	}
-
-	private void updatePosition(double deltaT) {
-		Vector2d newPosition = strategy.getNextPosition(position, triangle,
-				deltaT);
-		position.set(newPosition);
+		strategy.setNextPositionAndTriangle(
+				deltaT, this);
 	}
 }

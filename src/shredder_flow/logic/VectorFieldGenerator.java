@@ -7,10 +7,6 @@ public class VectorFieldGenerator {
 	public VectorFieldGenerator(TriangleList triangleList) {
 		this.triangles = triangleList;
 	}
-	
-	public void setTriangles(TriangleList triangles) {
-		this.triangles = triangles;
-	}
 
 	public void generate() {
 		// TODO: implement

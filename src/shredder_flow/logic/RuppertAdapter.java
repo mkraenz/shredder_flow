@@ -9,6 +9,14 @@ public class RuppertAdapter {
 	private int maximalTriangleNumber = -1;
 	private int minimalAngleConstraint = 10;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param vertexList
+	 *            List in which resulting Vertex instances will be saved
+	 * @param triangleList
+	 *            list in which resulting Triangle instances will be saved
+	 */
 	public RuppertAdapter(TriangulationVertexList vertexList,
 			TriangleList triangleList) {
 		this.vertices = vertexList;
@@ -65,7 +73,7 @@ public class RuppertAdapter {
 					if (triangles.get(i).isNeighbor(triangles.get(j))) {
 						neighbors.add(triangles.get(j));
 						// TODO: test if following 3 lines work before enabling
-						// it 
+						// it
 						// if(neighbors.size() == 3){
 						// break;
 						// }

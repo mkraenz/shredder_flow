@@ -1,4 +1,5 @@
 package shredder_flow.logic;
+
 import shredder_flow.logic.TriangleList;
 import shredder_flow.logic.TriangulationVertexList;
 
@@ -6,10 +7,12 @@ public class MeshModel {
 	private TriangleList triangles;
 	private TriangulationVertexList vertices;
 
-	public MeshModel(TriangleList triangleList, TriangulationVertexList vertexList) {
+	public MeshModel(TriangleList triangleList,
+			TriangulationVertexList vertexList) {
 		this.triangles = triangleList;
 		this.vertices = vertexList;
 	}
+
 	public TriangleList getTriangles() {
 		return triangles;
 	}

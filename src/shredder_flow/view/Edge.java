@@ -5,11 +5,9 @@ import de.jtem.java2dx.Line2DDouble;
 
 /**
  * Extention of awt class. Therefore this is for use in the view.
- * @author Mirco
- *
  */
 class Edge extends Line2DDouble {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public Edge(Vertex vertex1, Vertex vertex2) {

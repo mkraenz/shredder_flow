@@ -12,7 +12,8 @@ public class ParticleUpdater implements ActionListener {
 	private int updatesPerSecond;
 	private Timer updateTimer;
 
-	public ParticleUpdater(ParticleList particles, int updatesPerSecond, Timer updateTimer) {
+	public ParticleUpdater(ParticleList particles, int updatesPerSecond,
+			Timer updateTimer) {
 		this.setFastForwardFactor(1);
 		this.particles = particles;
 		this.updatesPerSecond = updatesPerSecond;
@@ -22,14 +23,14 @@ public class ParticleUpdater implements ActionListener {
 
 	private void configureTimer() {
 		updateTimer.addActionListener(this);
-		double updateInterval = Math.floor(1.0/updatesPerSecond *1000);
+		double updateInterval = Math.floor(1.0 / updatesPerSecond * 1000);
 		updateTimer.setDelay((int) updateInterval);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for (Particle particle : particles) {
-			particle.update(fastForwardFactor*updatesPerSecond);
+			particle.update(fastForwardFactor * updatesPerSecond);
 		}
 	}
 
@@ -40,14 +41,13 @@ public class ParticleUpdater implements ActionListener {
 	public void setFastForwardFactor(double fastForwardFactor) {
 		this.fastForwardFactor = fastForwardFactor;
 	}
-	
-	public void stopUpdates(){
+
+	public void stopUpdates() {
 		updateTimer.stop();
 	}
-	
+
 	public void startUpdates() {
 		updateTimer.start();
 	}
-	
 
 }

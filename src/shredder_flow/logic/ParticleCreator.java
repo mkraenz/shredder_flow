@@ -9,7 +9,7 @@ public class ParticleCreator {
 		this.particles = particleList;
 		this.triangles = triangleList;
 	}
-	
+
 	public void addParticle(double x, double y) {
 		Triangle triangleContainingPosition = triangles.getTriangle(x, y);
 		if (triangleContainingPosition != null) {

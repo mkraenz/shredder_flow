@@ -44,7 +44,7 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(triangulateButton);
 		triangulateButton.setText("Triangulate");
 	}
-	
+
 	class TriangulateAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -54,6 +54,7 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 			meshPlugin.draw();
 		}
 	}
+
 	class ResetTriangulationAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 

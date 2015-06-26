@@ -14,16 +14,16 @@ public class DraggablePolygon2DAdapter {
 		this.plugin = plugin;
 	}
 
-	public Boundary getBoundary(){
+	public Boundary getBoundary() {
 		SubdividedPolygon2D polygon = plugin.getSubdividedPolygon();
 		Polygon2D polygonModel = polygon.getModel();
-		Boundary boundary = point2DListToBounary(polygonModel);
+		Boundary boundary = point2DListToBoundary(polygonModel);
 		return boundary;
 	}
 
-	public Boundary point2DListToBounary(Point2DList controlPointList) {
+	private Boundary point2DListToBoundary(Point2DList pointList) {
 		Boundary boundary = new Boundary();
-		for (Point2DDouble point : controlPointList) {
+		for (Point2DDouble point : pointList) {
 			Vertex vertex = new Vertex(point.x, point.y);
 			boundary.add(vertex);
 		}
