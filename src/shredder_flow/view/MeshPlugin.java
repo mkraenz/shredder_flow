@@ -32,7 +32,7 @@ public class MeshPlugin extends Plugin {
 	}
 
 	public void draw() {
-		clearOwnSceneComponents();
+		clear();
 
 		drawVertices(verticesSceneComponent, model.getVertices());
 		drawEdges(edgesSceneComponent, model.getTriangles());
@@ -44,8 +44,9 @@ public class MeshPlugin extends Plugin {
 		parentSceneComponent.addChild(vectorsSceneComponent);
 	}
 
-	private void clearOwnSceneComponents() {
+	private void clear() {
 		verticesSceneComponent.removeAllChildren();
+		verticesSceneComponent.getPoints().clear();
 		edgesSceneComponent.removeAllChildren();
 		vectorsSceneComponent.removeAllChildren();
 
