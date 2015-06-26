@@ -46,14 +46,7 @@ public class Builder {
 		setVectorFieldGeneratorPlugin(viewer, triangles);
 		
 		setParticlePlugin(viewer, particles, triangles);
-		setParticleAdder(viewer, particles, triangles);
 		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles);
-	}
-
-	private void setParticleAdder(Java2DViewer viewer, ParticleList particles, TriangleList triangles) {
-		ParticleAdderPanel particleAdder = new ParticleAdderPanel(new ParticleCreator(
-				particles, triangles));
-		viewer.registerPlugin(particleAdder);
 	}
 
 	private void setParticleUpdaterPlugin(Java2DViewer viewer,
@@ -72,6 +65,10 @@ public class Builder {
 		ParticlePlugin particlePlugin = new ParticlePlugin(new ParticleCreator(
 				particles, triangles), particles);
 		viewer.registerPlugin(particlePlugin);
+		
+		ParticleAdderPanel particleAdder = new ParticleAdderPanel(new ParticleCreator(
+				particles, triangles), particlePlugin);
+		viewer.registerPlugin(particleAdder);
 	}
 
 	private void setVectorFieldGeneratorPlugin(Java2DViewer viewer,

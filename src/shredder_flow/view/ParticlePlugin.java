@@ -42,10 +42,9 @@ public class ParticlePlugin extends Plugin {
 			scenePointSet.add(new Point2DDouble(particle.getX(), particle
 					.getY()));
 		}
-		particleSceneComponent.setPointPaint(Color.red); // TODO: proper color,
-															// size...
+		particleSceneComponent.setPointPaint(Color.green); // TODO: proper color,
 	}
-
+	
 	private void clear() {
 		particleSceneComponent.removeAllChildren();
 		particleSceneComponent.getPoints().clear();
