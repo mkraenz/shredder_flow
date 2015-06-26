@@ -11,6 +11,8 @@ import shredder_flow.logic.Vertex;
 import de.jtem.java2d.SceneComponent;
 import de.jtem.java2dx.Point2DDouble;
 import de.jtem.java2dx.beans.SceneComponentBeanInfo;
+import de.jtem.java2dx.plugin.Java2DView;
+import de.jtem.jrworkspace.plugin.Controller;
 import de.jtem.jrworkspace.plugin.Plugin;
 
 public class ParticlePlugin extends Plugin {
@@ -18,9 +20,23 @@ public class ParticlePlugin extends Plugin {
 	private ParticleList particles;
 	private ParticleCreator creator;
 	private SceneComponent particleSceneComponent;
+	private SceneComponent parentSceneComponent;
+
+	public ParticlePlugin(ParticleCreator creator, ParticleList particles) {
+		this.creator = creator;
+		this.particles = particles;
+		this.particleSceneComponent = new SceneComponent();
+	}
 
 	public void draw() {
 		clear();
+		drawParticles();
+		parentSceneComponent.fireAppearanceChange();
+//TODO: maybe better to use
+//		particleSceneComponent.fireAppearanceChange();
+	}
+
+	private void drawParticles() {
 		List<Double> scenePointSet = particleSceneComponent.getPoints();
 		for (Particle particle : particles) {
 			scenePointSet.add(new Point2DDouble(particle.getX(), particle
@@ -35,12 +51,6 @@ public class ParticlePlugin extends Plugin {
 		particleSceneComponent.getPoints().clear();
 	}
 
-	public ParticlePlugin(ParticleCreator creator, ParticleList particles) {
-		this.creator = creator;
-		this.particles = particles;
-		this.particleSceneComponent = new SceneComponent();
-	}
-
 	public void addParticles() {
 		/*
 		 * TODO find a way to properly add particles using the datafield
@@ -49,8 +59,12 @@ public class ParticlePlugin extends Plugin {
 		 * the other one handles only adding.
 		 */
 	}
-
-	public void addRandomParticle() {
-
+	
+	@Override
+	public void install(Controller c) throws Exception {
+		super.install(c);
+		this.parentSceneComponent = c.getPlugin(Java2DView.class).getViewer2D()
+				.getRoot();
+		parentSceneComponent.addChild(particleSceneComponent);
 	}
 }
