@@ -9,10 +9,10 @@ import javax.swing.JButton;
 import shredder_flow.logic.ParticleCreator;
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
 
-public class ParticleAdder extends View2DShrinkPanelPlugin {
+public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 	private ParticleCreator creator;
 	
-	public ParticleAdder(ParticleCreator creator) {
+	public ParticleAdderPanel(ParticleCreator creator) {
 		this.creator = creator;
 		addGuiElements();
 	}
