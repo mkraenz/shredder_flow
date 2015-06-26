@@ -76,11 +76,11 @@ public class RuppertAdapter {
 	}
 
 	private void createTriangles(int[] indices) {
-		for (int i = 0; i < indices.length / 3; i += 3) {
+		for (int i = 0; i < indices.length; i += 3) {
 			TriangulationVertexList triangleVertices = new TriangulationVertexList();
-			triangleVertices.add(vertices.get(i));
-			triangleVertices.add(vertices.get(i + 1));
-			triangleVertices.add(vertices.get(i + 2));
+			triangleVertices.add(vertices.get(indices[i]));
+			triangleVertices.add(vertices.get(indices[i + 1]));
+			triangleVertices.add(vertices.get(indices[i + 2]));
 
 			triangles.add(new Triangle(triangleVertices));
 		}
