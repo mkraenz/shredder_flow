@@ -42,6 +42,7 @@ public class MeshPlugin extends Plugin {
 		parentSceneComponent.addChild(verticesSceneComponent);
 		parentSceneComponent.addChild(edgesSceneComponent);
 		parentSceneComponent.addChild(vectorsSceneComponent);
+		parentSceneComponent.fireAppearanceChange();
 	}
 
 	private void clear() {
