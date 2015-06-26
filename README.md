@@ -17,9 +17,12 @@ from https://gitlab.discretization.de/groups/jtem
 9. jtem/function
 
 
-
 - [jreality](https://gitlab.discretization.de/jreality/jreality)
 
 from email from Felix
 
-10. discreteCurves
+- discreteCurves
+
+
+from [findjar.com](http://www.findjar.com/jar/java3d/jars/vecmath-1.3.1.jar.html)
+- [commons-math3-3.5](http://mirrors.ibiblio.org/pub/mirrors/maven/java3d/jars/vecmath-1.3.1.jar)
