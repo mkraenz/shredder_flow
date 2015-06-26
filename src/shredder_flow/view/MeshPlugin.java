@@ -11,7 +11,6 @@ import shredder_flow.logic.TriangleList;
 import shredder_flow.logic.TriangulationVertexList;
 import shredder_flow.logic.Vertex;
 import de.jtem.java2d.SceneComponent;
-import de.jtem.java2dx.Line2DDouble;
 import de.jtem.java2dx.Point2DDouble;
 import de.jtem.java2dx.plugin.Java2DView;
 import de.jtem.jrworkspace.plugin.Controller;
@@ -20,31 +19,36 @@ import de.jtem.jrworkspace.plugin.Plugin;
 public class MeshPlugin extends Plugin {
 
 	private MeshModel model;
-	private SceneComponent sceneComponent;
 	private SceneComponent parentSceneComponent;
+	private SceneComponent verticesSceneComponent;
+	private SceneComponent edgesSceneComponent;
+	private SceneComponent vectorsSceneComponent;
 
 	public MeshPlugin(MeshModel model) {
 		this.model = model;
-		this.sceneComponent = new SceneComponent();
+		this.verticesSceneComponent = new SceneComponent();
+		this.edgesSceneComponent = new SceneComponent();
+		this.vectorsSceneComponent = new SceneComponent();
 	}
 
-	public void setModel(MeshModel model) {
-		this.model = model;
-	}
-
-	private void draw() {
-		// TODO might be that these three sceneComponents should be data fields
-		SceneComponent verticesSceneComponent = new SceneComponent();
-		SceneComponent edgesSceneComponent = new SceneComponent();
-		SceneComponent vectorsSceneComponent = new SceneComponent();
+	public void draw() {
+		clearOwnSceneComponents();
 
 		drawVertices(verticesSceneComponent, model.getVertices());
 		drawEdges(edgesSceneComponent, model.getTriangles());
-//TODO:		drawFieldVectors(vectorsSceneComponent, model.getTriangles());
+		// TODO: draw field vectors
+		// drawFieldVectors(vectorsSceneComponent, model.getTriangles());
 
 		parentSceneComponent.addChild(verticesSceneComponent);
 		parentSceneComponent.addChild(edgesSceneComponent);
 		parentSceneComponent.addChild(vectorsSceneComponent);
+	}
+
+	private void clearOwnSceneComponents() {
+		verticesSceneComponent.removeAllChildren();
+		edgesSceneComponent.removeAllChildren();
+		vectorsSceneComponent.removeAllChildren();
+
 	}
 
 	private void drawVertices(SceneComponent sceneComponent,
@@ -65,14 +69,17 @@ public class MeshPlugin extends Plugin {
 
 	private SceneComponent getTriangleEdgesSceneComponent(Triangle triangle) {
 		SceneComponent triangleSceneComponent = new SceneComponent();
-		
+
 		Vertex vertex1 = triangle.getVertices().get(1);
 		Vertex vertex2 = triangle.getVertices().get(2);
 		Vertex vertex3 = triangle.getVertices().get(3);
-		
-		triangleSceneComponent.addChild(getEdgeSceneComponent(vertex1, vertex2));
-		triangleSceneComponent.addChild(getEdgeSceneComponent(vertex2, vertex3));
-		triangleSceneComponent.addChild(getEdgeSceneComponent(vertex3, vertex1));
+
+		triangleSceneComponent
+				.addChild(getEdgeSceneComponent(vertex1, vertex2));
+		triangleSceneComponent
+				.addChild(getEdgeSceneComponent(vertex2, vertex3));
+		triangleSceneComponent
+				.addChild(getEdgeSceneComponent(vertex3, vertex1));
 		return triangleSceneComponent;
 	}
 
@@ -86,8 +93,9 @@ public class MeshPlugin extends Plugin {
 	private void drawFieldVectors(SceneComponent sceneComponent,
 			TriangleList triangles) {
 		for (Triangle triangle : triangles) {
-// TODO:			if(triangle.getFieldVector().length() != 0)
-			SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(triangle.getFieldVector());
+			// TODO: if(triangle.getFieldVector().length() != 0)
+			SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(triangle
+					.getFieldVector());
 			sceneComponent.addChild(fieldVectorSceneComponent);
 		}
 	}
@@ -96,13 +104,12 @@ public class MeshPlugin extends Plugin {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public void install(Controller c) throws Exception {
 		super.install(c);
 		this.parentSceneComponent = c.getPlugin(Java2DView.class).getViewer2D()
 				.getRoot();
-		draw();
 	}
-	
+
 }

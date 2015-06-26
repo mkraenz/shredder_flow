@@ -74,7 +74,6 @@ public class Builder {
 		viewer.registerPlugin(triangulationInvoker);
 
 		MeshPlugin meshPlugin = new MeshPlugin(meshModel);
-		meshPlugin.setModel(meshModel);
 		viewer.registerPlugin(meshPlugin);
 	}
 
