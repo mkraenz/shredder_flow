@@ -34,10 +34,10 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 	}
 
 	private void addResetButton() {
-		final JButton triangulateButton = new JButton();
-		triangulateButton.setAction(new ResetTriangulationAction());
-		shrinkPanel.add(triangulateButton);
-		triangulateButton.setText("Reset Triangulation");
+		JButton resetButton = new JButton();
+		resetButton.setAction(new ResetTriangulationAction());
+		shrinkPanel.add(resetButton);
+		resetButton.setText("Reset Triangulation");
 	}
 
 	private void addTriangulateButton() {
@@ -52,6 +52,7 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			reset();
 			invokeTriangulation();
 			meshPlugin.draw();
 		}
@@ -62,16 +63,20 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO reset triangulation properly
-			model.getVertices().clear();
-			model.getTriangles().clear();
-			meshPlugin.draw();
+			reset();
 		}
+
 	}
 
 	public void invokeTriangulation() {
 		RuppertAdapter ruppertAdapter = new RuppertAdapter(model.getVertices(),
 				model.getTriangles());
 		ruppertAdapter.triangulate(polygonAdapter.getBoundary());
+	}
+
+	private void reset() {
+		model.getVertices().clear();
+		model.getTriangles().clear();
+		meshPlugin.draw();
 	}
 }
