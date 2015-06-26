@@ -73,7 +73,7 @@ public class Builder {
 				meshModel, polygon2DAdapter);
 		viewer.registerPlugin(triangulationInvoker);
 
-		MeshPlugin meshPlugin = new MeshPlugin();
+		MeshPlugin meshPlugin = new MeshPlugin(meshModel);
 		meshPlugin.setModel(meshModel);
 		viewer.registerPlugin(meshPlugin);
 	}

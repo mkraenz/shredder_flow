@@ -68,11 +68,11 @@ public class TriangulatedDomainController extends Plugin {
 
 	@Override
 	public void install(Controller c) throws Exception {
+		super.install(c);
 		SceneComponent root = c.getPlugin(Java2DView.class).getViewer2D()
 				.getRoot();
 
 		root.addChild(getSceneComponent());
-		super.install(c);
 	}
 
 	public void setModel(ITriangulatedDomainModel model) {
