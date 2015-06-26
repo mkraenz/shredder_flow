@@ -26,7 +26,9 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 	}
 
 	private void addGuiElements() {
-		shrinkPanel.setLayout(new GridLayout(2, 2));
+		final int ROWS = 2;
+		final int COLUMNS = 2;
+		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addTriangulateButton();
 		addResetButton();
 	}
