@@ -69,12 +69,14 @@ public class Builder {
 	private void setMeshRelatedPlugins(Java2DViewer viewer,
 			DraggablePolygon2DAdapter polygon2DAdapter, TriangleList triangles, TriangulationVertexList vertices) {
 		MeshModel meshModel = new MeshModel(triangles, vertices);
-		TriangulationInvoker triangulationInvoker = new TriangulationInvoker(
-				meshModel, polygon2DAdapter);
-		viewer.registerPlugin(triangulationInvoker);
 
 		MeshPlugin meshPlugin = new MeshPlugin(meshModel);
 		viewer.registerPlugin(meshPlugin);
+		
+		TriangulationInvoker triangulationInvoker = new TriangulationInvoker(
+				meshModel, polygon2DAdapter, meshPlugin);
+		viewer.registerPlugin(triangulationInvoker);
+
 	}
 
 	public static void main(String[] args) {

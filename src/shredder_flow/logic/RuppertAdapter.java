@@ -47,7 +47,8 @@ public class RuppertAdapter {
 	public void triangulate(Boundary boundary) {
 		double[][] pointsForRuppert = rearrangeAsOneCrossNDimensionalArray(boundary);
 		Ruppert ruppert = triangulateWithRuppert(pointsForRuppert);
-		setVertices(ruppert.getPoints());
+		double[] ruppertPoints = ruppert.getPoints();
+		setVertices(ruppertPoints);
 		setTriangles(ruppert.getIndices());
 	}
 
@@ -86,9 +87,7 @@ public class RuppertAdapter {
 	}
 
 	private void setVertices(double[] points) {
-		// changing the order of the vertices before calling setTriangles will
-		// result in wrong triangles because of createTriangles(int)
-		for (int i = 0; i < points.length / 2; i += 2) {
+		for (int i = 0; i < points.length; i += 2) {
 			vertices.add(new Vertex(points[i], points[i + 1]));
 		}
 	}

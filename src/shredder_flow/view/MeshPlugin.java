@@ -70,16 +70,16 @@ public class MeshPlugin extends Plugin {
 	private SceneComponent getTriangleEdgesSceneComponent(Triangle triangle) {
 		SceneComponent triangleSceneComponent = new SceneComponent();
 
+		Vertex vertex0 = triangle.getVertices().get(0);
 		Vertex vertex1 = triangle.getVertices().get(1);
 		Vertex vertex2 = triangle.getVertices().get(2);
-		Vertex vertex3 = triangle.getVertices().get(3);
 
+		triangleSceneComponent
+				.addChild(getEdgeSceneComponent(vertex0, vertex1));
 		triangleSceneComponent
 				.addChild(getEdgeSceneComponent(vertex1, vertex2));
 		triangleSceneComponent
-				.addChild(getEdgeSceneComponent(vertex2, vertex3));
-		triangleSceneComponent
-				.addChild(getEdgeSceneComponent(vertex3, vertex1));
+				.addChild(getEdgeSceneComponent(vertex2, vertex0));
 		return triangleSceneComponent;
 	}
 
