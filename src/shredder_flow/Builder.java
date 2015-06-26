@@ -13,6 +13,7 @@ import shredder_flow.logic.TriangulationVertexList;
 import shredder_flow.logic.VectorFieldGenerator;
 import shredder_flow.view.FunctionGeneratorInvoker;
 import shredder_flow.view.MeshPlugin;
+import shredder_flow.view.ParticleAdder;
 import shredder_flow.view.ParticlePlugin;
 import shredder_flow.view.ParticleUpdateInvoker;
 import shredder_flow.view.TriangulationInvoker;
@@ -43,8 +44,16 @@ public class Builder {
 		setMeshRelatedPlugins(viewer, polygon2DAdapter, triangles, vertices);
 		setFunctionGeneratorPlugin(viewer, vertices);
 		setVectorFieldGeneratorPlugin(viewer, triangles);
+		
 		setParticlePlugin(viewer, particles, triangles);
+		setParticleAdder(viewer, particles, triangles);
 		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles);
+	}
+
+	private void setParticleAdder(Java2DViewer viewer, ParticleList particles, TriangleList triangles) {
+		ParticleAdder particleAdder = new ParticleAdder(new ParticleCreator(
+				particles, triangles));
+		viewer.registerPlugin(particleAdder);
 	}
 
 	private void setParticleUpdaterPlugin(Java2DViewer viewer,

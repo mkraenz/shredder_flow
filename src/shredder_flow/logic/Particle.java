@@ -12,7 +12,7 @@ public class Particle {
 
 	public Particle(double x, double y, Triangle triangle) {
 		this.triangle = triangle;
-		this.position = new Vector2d(x,y);
+		this.position = new Vector2d(x, y);
 		this.strategy = new MovementStrategy();
 	}
 
@@ -25,7 +25,18 @@ public class Particle {
 	}
 
 	public void update(double deltaT) {
-		strategy.setNextPositionAndTriangle(
-				deltaT, this);
+		strategy.setNextPositionAndTriangle(deltaT, this);
+	}
+
+	public double getX() {
+		return position.x;
+	}
+
+	public double getY() {
+		return position.y;
+	}
+	
+	public Vector2d getPosition(){
+		return position;
 	}
 }
