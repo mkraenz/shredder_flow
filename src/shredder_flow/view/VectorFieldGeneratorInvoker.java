@@ -1,5 +1,9 @@
 package shredder_flow.view;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
 import shredder_flow.logic.TriangleList;
 import shredder_flow.logic.VectorFieldGenerator;
@@ -7,11 +11,6 @@ import shredder_flow.logic.VectorFieldGenerator;
 public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 	private VectorFieldGenerator generator;
-	private TriangleList triangles;
-
-	public void setTriangleList(TriangleList triangles) {
-		this.triangles = triangles;
-	}
 
 	public VectorFieldGeneratorInvoker(VectorFieldGenerator generator) {
 		this.generator = generator;
