@@ -83,7 +83,7 @@ public class Triangle {
 
 	/**
 	 * Gives the neighboring triangle closest to this position. If there are
-	 * more than one, i.e. we are at a vertex, then returns the triangle that
+	 * more than one, then returns the triangle that
 	 * lies in the given direction based at given position.
 	 * 
 	 * @param x
@@ -92,12 +92,18 @@ public class Triangle {
 	 * @return
 	 */
 	public Triangle getNeighbor(double x, double y, Vector2d direction) {
-		if (isVertex(x, y)) {
-			// TODO: implement, taking the direction into account
-			return null;
+		Triangle neighbor = getNeighbor(x, y);
+		if (neighbor != null) {
+			return neighbor;
 		} else {
-			return getNeighbor(x, y);
+			return getNeighborInDirection(x,y,direction);
 		}
+	}
+
+	private Triangle getNeighborInDirection(double x, double y, Vector2d direction) {
+		// TODO Auto-generated method stub
+		return null;
+		
 	}
 
 	public VertexList getVertices() {
