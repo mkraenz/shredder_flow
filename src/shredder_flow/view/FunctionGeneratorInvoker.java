@@ -6,7 +6,6 @@ import shredder_flow.logic.TriangulationVertexList;
 
 public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 
-	private TriangulationVertexList vertices;
 	private FunctionGenerator generator;
 
 	public FunctionGeneratorInvoker(FunctionGenerator generator) {
