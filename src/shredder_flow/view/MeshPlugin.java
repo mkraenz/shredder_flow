@@ -19,7 +19,6 @@ import de.jtem.jrworkspace.plugin.Plugin;
 public class MeshPlugin extends Plugin {
 
 	private MeshModel model;
-	private SceneComponent parentSceneComponent;
 	private SceneComponent verticesSceneComponent;
 	private SceneComponent edgesSceneComponent;
 	private SceneComponent vectorsSceneComponent;
@@ -39,10 +38,7 @@ public class MeshPlugin extends Plugin {
 		// TODO: draw field vectors
 		// drawFieldVectors(vectorsSceneComponent, model.getTriangles());
 
-		parentSceneComponent.addChild(verticesSceneComponent);
-		parentSceneComponent.addChild(edgesSceneComponent);
-		parentSceneComponent.addChild(vectorsSceneComponent);
-		parentSceneComponent.fireAppearanceChange();
+		verticesSceneComponent.fireAppearanceChange();
 	}
 
 	private void clear() {
@@ -110,8 +106,11 @@ public class MeshPlugin extends Plugin {
 	@Override
 	public void install(Controller c) throws Exception {
 		super.install(c);
-		this.parentSceneComponent = c.getPlugin(Java2DView.class).getViewer2D()
+		SceneComponent parentSceneComponent = c.getPlugin(Java2DView.class).getViewer2D()
 				.getRoot();
+		parentSceneComponent.addChild(verticesSceneComponent);
+		parentSceneComponent.addChild(edgesSceneComponent);
+		parentSceneComponent.addChild(vectorsSceneComponent);
 	}
 
 }

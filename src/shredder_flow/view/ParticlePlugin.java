@@ -18,7 +18,6 @@ public class ParticlePlugin extends Plugin {
 	private ParticleList particles;
 	private ParticleCreator creator;
 	private SceneComponent particleSceneComponent;
-	private SceneComponent parentSceneComponent;
 
 	public ParticlePlugin(ParticleCreator creator, ParticleList particles) {
 		this.creator = creator;
@@ -29,9 +28,7 @@ public class ParticlePlugin extends Plugin {
 	public void draw() {
 		clear();
 		drawParticles();
-		parentSceneComponent.fireAppearanceChange();
-//TODO: maybe better to use
-//		particleSceneComponent.fireAppearanceChange();
+		particleSceneComponent.fireAppearanceChange();
 	}
 
 	private void drawParticles() {
@@ -60,7 +57,7 @@ public class ParticlePlugin extends Plugin {
 	@Override
 	public void install(Controller c) throws Exception {
 		super.install(c);
-		this.parentSceneComponent = c.getPlugin(Java2DView.class).getViewer2D()
+		SceneComponent parentSceneComponent = c.getPlugin(Java2DView.class).getViewer2D()
 				.getRoot();
 		parentSceneComponent.addChild(particleSceneComponent);
 	}
