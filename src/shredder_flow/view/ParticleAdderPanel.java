@@ -8,7 +8,6 @@ import javax.swing.JButton;
 
 import shredder_flow.logic.ParticleCreator;
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
-import de.jtem.jrworkspace.plugin.Plugin;
 
 public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 	private ParticleCreator creator;

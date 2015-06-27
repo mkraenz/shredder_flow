@@ -12,9 +12,9 @@ public class TriangleTest {
 	@Before
 	public void setUp() throws Exception {
 		TriangulationVertexList vertices = new TriangulationVertexList();
-		vertices.add( new Vertex(0,0) );
-		vertices.add( new Vertex(1,0) );
-		vertices.add( new Vertex(0,1) );
+		vertices.add(new Vertex(0, 0));
+		vertices.add(new Vertex(1, 0));
+		vertices.add(new Vertex(0, 1));
 		unitTriangle = new Triangle(vertices);
 	}
 
@@ -28,12 +28,13 @@ public class TriangleTest {
 		assertTrue(unitTriangle.isInTriangle(0, 0));
 		assertTrue(unitTriangle.isInTriangle(1, 0));
 		assertTrue(unitTriangle.isInTriangle(0, 1));
-		assertTrue(unitTriangle.isInTriangle(1/2, 0));
-		assertTrue(unitTriangle.isInTriangle(0, 1/2));
-		
+		assertTrue(unitTriangle.isInTriangle(1.0 / 2, 0));
+		assertTrue(unitTriangle.isInTriangle(0, 1.0 / 2));
+
 		assertFalse(unitTriangle.isInTriangle(0, -1));
 		assertFalse(unitTriangle.isInTriangle(0, -0.00000001));
 		assertFalse(unitTriangle.isInTriangle(200, 50));
 		assertFalse(unitTriangle.isInTriangle(-123, -1));
+		assertFalse(unitTriangle.isInTriangle(1.0 / 2, 1));
 	}
 }
