@@ -6,6 +6,7 @@ public class Triangle {
 
 	private TriangulationVertexList vertices;
 	private TriangleList neighbors;
+
 	public TriangleList getNeighbors() {
 		return neighbors;
 	}
@@ -30,22 +31,60 @@ public class Triangle {
 	}
 
 	/**
-	 * Gives the neighboring triangle closest to this position. If this there
-	 * are more than once, i.e. we are at a vertex, then returns null.
+	 * Gives the neighboring triangle closest to this position. If there are
+	 * more than one, then returns null.
 	 * 
 	 * @param x
 	 * @param y
 	 * @return
 	 */
 	public Triangle getNeighbor(double x, double y) {
-		// TODO: implement
+		double dist1 = getDistanceToEdge(x, y, 0, 1);
+		double dist2 = getDistanceToEdge(x, y, 1, 2);
+		double dist3 = getDistanceToEdge(x, y, 2, 0);
+		if (dist1 < dist2 && dist1 < dist3) {
+			return getNeighborWithVertices(vertices.get(0), vertices.get(1));
+		} else {
+			if (dist2 < dist1 && dist2 < dist3) {
+				return getNeighborWithVertices(vertices.get(1), vertices.get(2));
+			} else {
+				if (dist3 < dist1 && dist3 < dist2) {
+					return getNeighborWithVertices(vertices.get(2),
+							vertices.get(0));
+				} else {
+					return null;
+				}
+			}
+		}
+	}
+
+	private Triangle getNeighborWithVertices(Vertex vertex1, Vertex vertex2) {
+		for (Triangle triangle : neighbors) {
+			if (triangle.getVertices().contains(vertex1)
+					&& triangle.getVertices().contains(vertex2)) {
+				return triangle;
+			}
+		}
 		return null;
 	}
 
+	protected double getDistanceToEdge(double x, double y, int vertexIndex1,
+			int vertexIndex2) {
+		double x1 = vertices.get(vertexIndex1).getX();
+		double y1 = vertices.get(vertexIndex1).getY();
+		double x2 = vertices.get(vertexIndex2).getX();
+		double y2 = vertices.get(vertexIndex2).getY();
+		double nominator = Math.abs((y2 - y1) * x - (x2 - x1) * y + x2 * y1
+				- y2 * x1);
+		double denominator = Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1)
+				* (x2 - x1));
+		return nominator / denominator;
+	}
+
 	/**
-	 * Gives the neighboring triangle closest to this position. If this there
-	 * are more than once, i.e. we are at a vertex, then it the triangle that
-	 * lies in the given direction based at given position is returned.
+	 * Gives the neighboring triangle closest to this position. If there are
+	 * more than one, i.e. we are at a vertex, then returns the triangle that
+	 * lies in the given direction based at given position.
 	 * 
 	 * @param x
 	 * @param y

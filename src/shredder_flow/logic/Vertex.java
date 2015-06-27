@@ -14,11 +14,11 @@ public class Vertex {
 	}
 
 	public double getY() {
-		return position.x;
+		return position.y;
 	}
 
 	public double getX() {
-		return position.y;
+		return position.x;
 	}
 
 	public double getFunctionValue() {

@@ -37,4 +37,13 @@ public class TriangleTest {
 		assertFalse(unitTriangle.isInTriangle(-123, -1));
 		assertFalse(unitTriangle.isInTriangle(1.0 / 2, 1));
 	}
+
+	@Test
+	public void testGetDistanceToEdge() throws Exception {
+		assertEquals(0, unitTriangle.getDistanceToEdge(1/ 2.0, 0, 0, 1), 0);
+		assertEquals(1/Math.sqrt(2), unitTriangle.getDistanceToEdge(0, 0, 1, 2), 0);
+		assertEquals(1.2, unitTriangle.getDistanceToEdge(1/3.0, 1.2, 0, 1), 0);
+		assertEquals(1.52, unitTriangle.getDistanceToEdge(-1.52, 1/6, 2, 0), 0);
+		
+	}
 }
