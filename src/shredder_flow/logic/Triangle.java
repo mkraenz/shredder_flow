@@ -6,6 +6,10 @@ public class Triangle {
 
 	private TriangulationVertexList vertices;
 	private TriangleList neighbors;
+	public TriangleList getNeighbors() {
+		return neighbors;
+	}
+
 	private FieldVector fieldVector;
 
 	public void setNeighbors(TriangleList neighbors) {
