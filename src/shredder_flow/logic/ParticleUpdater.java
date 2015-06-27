@@ -29,9 +29,7 @@ public class ParticleUpdater implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (Particle particle : particles) {
-			particle.update(fastForwardFactor * updatesPerSecond);
-		}
+		particles.update(fastForwardFactor * updatesPerSecond);
 	}
 
 	public void setParticles(ParticleList particles) {

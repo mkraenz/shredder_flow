@@ -37,13 +37,17 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 		button.setText(caption);
 	}
 	
+	private void addRandomParticleCloud() {
+		creator.addRandomParticleCloud();
+		particlePlugin.draw();
+	}
+
 	class RandomParticlesAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			creator.addRandomParticleCloud();
-			particlePlugin.draw();
+			addRandomParticleCloud();
 		}
 	}
 }
