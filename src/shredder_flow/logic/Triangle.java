@@ -83,7 +83,23 @@ public class Triangle {
 	 * @return true, if lies within or on the boundary, else false.
 	 */
 	public boolean isInTriangle(double x, double y) {
-		// TODO: implement
-		return true;
+		// We use Barycentric coordinate system. See wikipedia
+		// for reference.
+		double x1 = vertices.get(0).getX();
+		double y1 = vertices.get(0).getY();
+		double x2 = vertices.get(1).getX();
+		double y2 = vertices.get(1).getY();
+		double x3 = vertices.get(2).getX();
+		double y3 = vertices.get(2).getY();
+		double alpha = ((y2 - y3) * (x - x3) + (x3 - x2) * (y - y3))
+				/ ((y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3));
+		double beta = ((y3 - y1) * (x - x3) + (x1 - x3) * (y - y3))
+				/ ((y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3));
+		double gamma = 1.0 - alpha - beta;
+		if (alpha >= 0 && beta >= 0 && gamma >= 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
