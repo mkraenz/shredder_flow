@@ -1,6 +1,5 @@
 package shredder_flow.view;
 
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
