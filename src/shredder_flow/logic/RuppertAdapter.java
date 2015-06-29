@@ -51,6 +51,8 @@ public class RuppertAdapter {
 	 * Triangulate the domain within the given Boundary and store the resulting
 	 * data in this class's datafields. Further constraints can (optionally) be
 	 * set via setMaximalTriangleNumber(int) and setMaximalTriangleNumber(int).
+	 * The Boundary is considered to be cyclic. i.e. triangulate() assumes that
+	 * there is an edge between the last and the first element of Boundary.
 	 */
 	public void triangulate(Boundary boundary) {
 		double[][] pointsForRuppert = rearrangeAsOneCrossNDimensionalArray(boundary);
@@ -72,14 +74,14 @@ public class RuppertAdapter {
 				if (i != j) {
 					if (triangles.get(i).isNeighbor(triangles.get(j))) {
 						neighbors.add(triangles.get(j));
-						// TODO: test if following 3 lines work before enabling
-						// it
-						// if(neighbors.size() == 3){
+						// disable if performance problems occur
+						// if (neighbors.size() == 3) {
 						// break;
 						// }
 					}
 				}
 			}
+			triangles.get(i).setNeighbors(neighbors);
 		}
 	}
 
