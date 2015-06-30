@@ -5,13 +5,16 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
 import shredder_flow.logic.FunctionGenerator;
 
 public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 
+	private static final String RANDOM_VALUES = "Random Values";
 	private FunctionGenerator generator;
+	private JComboBox<String> functionsComboBox;
 
 	public FunctionGeneratorInvoker(FunctionGenerator generator) {
 		this.generator = generator;
@@ -37,8 +40,9 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 	}
 
 	private void addFunctionSelectBox() {
-		// TODO Auto-generated method stub
-
+		functionsComboBox = new JComboBox<String>();
+		functionsComboBox.addItem(RANDOM_VALUES);
+		shrinkPanel.add(functionsComboBox);
 	}
 
 	private void addButton(AbstractAction action, String caption) {
@@ -53,7 +57,9 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO
+			if(functionsComboBox.getSelectedItem() == RANDOM_VALUES){
+				generator.generateRandomFunction(-10, 10);
+			}
 		}
 	}
 }
