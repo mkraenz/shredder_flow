@@ -9,11 +9,13 @@ public class Particle {
 	private Vector2d position;
 	private MovementStrategy strategy;
 	private Triangle triangle;
+	private boolean movement;
 
 	public Particle(double x, double y, Triangle triangle, MovementStrategy strategy) {
 		this.triangle = triangle;
 		this.position = new Vector2d(x, y);
 		this.strategy = strategy;
+		this.movement=true;
 	}
 
 	public Triangle getTriangle() {
@@ -22,13 +24,19 @@ public class Particle {
 	public void setPosition(double x, double y){
 		this.position.set(x,y);
 	}
-
+	
+	public void setMovement(boolean movement){
+		this.movement=movement;
+	}
+	
 	public void setTriangle(Triangle triangle) {
 		this.triangle = triangle;
 	}
 
 	public void update(double deltaT) {
-		strategy.setNextPositionAndTriangle(deltaT, this);
+		if(movement==true){
+			strategy.setNextPositionAndTriangle(deltaT, this);
+		}
 	}
 
 	public double getX() {

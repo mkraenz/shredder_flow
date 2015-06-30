@@ -1,3 +1,4 @@
+
 package shredder_flow.logic;
 
 import javax.vecmath.Vector2d;
@@ -12,9 +13,10 @@ public class MovementStrategy {
 	
 	public void setNextPositionAndTriangle(double deltaT, Particle particle) {
 		// TODO Auto-generated method stub
-		double lambda;
 		int i;
-		double eps = 0.0001;
+		int counter = 0;
+		double lambda;
+		double eps = 0.001;
 		double distance;
 		double triangletime;
 		double[] intersectionpoint = new double[2];
@@ -24,13 +26,14 @@ public class MovementStrategy {
 		double[] b;
 		double velocity;
 		boolean intersection;
+		boolean overflow = false;
 		Vector2d position;
 		Triangle tri;
 		VertexList vlist;
 		FieldVector vec;
-		
+
 		double time = deltaT;
-		while(time>0){
+		while((time>0)&&(overflow==false)){
 			position = particle.getPosition();
 			posarray = getPositionArray(position);
 			tri = particle.getTriangle();
@@ -41,31 +44,41 @@ public class MovementStrategy {
 			intersection = false;
 			i = 0;
 			while((intersection == false)&&(i<3)){
-				a = getVertexLocArray(vlist,i%3);
+				a = getVertexLocArray(vlist,i);
 				b = getVertexLocArray(vlist,(i+1)%3);
 		    	lambda = getIntersection(a,b,posarray,vecarray);
+		    	System.out.println(lambda);
 				if((lambda<=1)&&(lambda>=0)){
-					intersection = true;
 					intersectionpoint = getIntersectionPoint(a,b,lambda);
+						intersection = true;
 				}
 				else{
 					i++;
 				}
 			}
+			if(intersection==false){
+				particle.setMovement(false);
+				overflow=true;
+			}
 			distance = getDistance(posarray,intersectionpoint);
 			triangletime = distance/velocity;
+			
 			if(triangletime>=time){
 				particle.setPosition(posarray[0]+ vecarray[0]*time, posarray[1]+vecarray[1]*time);
 				time = 0;
-			}
+			}	
 			else{
 				particle.setTriangle(getNextTriangle(intersectionpoint,vecarray,eps));
+				counter++;
+				if(counter>=200){
+					particle.setMovement(false);
+					overflow = true;
+				}
 				particle.setPosition(intersectionpoint[0], intersectionpoint[1]);
-				time = time - triangletime;
+				time = time - triangletime;		
 			}			
-		}	
+		}			
 	}
-	
 	private Triangle getNextTriangle(double[] intersectionpoint, double[] vecarray, double eps){
 		return triangles.getTriangle(intersectionpoint[0]+eps*vecarray[0], intersectionpoint[1]+eps*vecarray[1]);
 	}
@@ -73,8 +86,9 @@ public class MovementStrategy {
 		double[] vecarray = {vec.x, vec.y};
 		return vecarray;
 	}
+	
 	private double getDistance(double[]a, double[]b){
-		return Math.sqrt(Math.pow(a[0]-b[0],2)+Math.pow(a[1]-b[2],2));
+		return Math.sqrt(Math.pow(a[0]-b[0],2)+Math.pow(a[1]-b[1],2));
 	}
 	
 	private double[] getPositionArray(Vector2d position){
