@@ -10,14 +10,17 @@ public class Particle {
 	private MovementStrategy strategy;
 	private Triangle triangle;
 
-	public Particle(double x, double y, Triangle triangle) {
+	public Particle(double x, double y, Triangle triangle, MovementStrategy strategy) {
 		this.triangle = triangle;
 		this.position = new Vector2d(x, y);
-		this.strategy = new MovementStrategy();
+		this.strategy = strategy;
 	}
 
 	public Triangle getTriangle() {
 		return triangle;
+	}
+	public void setPosition(double x, double y){
+		this.position.set(x,y);
 	}
 
 	public void setTriangle(Triangle triangle) {
