@@ -38,8 +38,28 @@ public class VectorFieldGenerator {
 		}
 	}
 
-	private Vector2d getGradient(Triangle triangle) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Vector2d getGradient(Triangle triangle) {
+		VertexList vertices = triangle.getVertices();
+		//Vector2d grad = null;
+		Vector2d grad = new Vector2d(1,1);
+		double lengthAB = Math.sqrt(Math.pow(vertices.get(1).getX()
+				- vertices.get(0).getX(), 2)
+				+ Math.pow(vertices.get(1).getY() - vertices.get(0).getY(), 2));
+		double lengthAC = Math.sqrt(Math.pow(vertices.get(2).getX()
+				- vertices.get(0).getX(), 2)
+				+ Math.pow(vertices.get(2).getY() - vertices.get(0).getY(), 2));
+		grad.x = (-vertices.get(1).getFunctionValue()
+				+ vertices.get(0).getFunctionValue()) / lengthAB;
+		grad.y = (-vertices.get(2).getFunctionValue()
+				+ vertices.get(0).getFunctionValue()) / lengthAC;
+		return grad;
+	}
+	
+	public Vector2d rotateGradient(Triangle triangle){
+		Vector2d vec = triangle.getFieldVector();
+		double temp=vec.x;
+		vec.x=-vec.y;
+		vec.y=temp;
+		return vec;
 	}
 }
