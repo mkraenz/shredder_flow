@@ -11,6 +11,9 @@ public class MovementStrategyTest {
 	private Vertex vertex1;
 	private Vertex vertex2;
 	private Vertex vertex3;
+	private TriangleList triangles;
+	private Triangle leftTriangle;
+	private Triangle rightTriangle;
 
 	@Before
 	public void setUp() throws Exception {
@@ -18,6 +21,11 @@ public class MovementStrategyTest {
 		vertex1 = new Vertex(0, -1);
 		vertex2 = new Vertex(0, 1);
 		vertex3 = new Vertex(1, 0);
+		leftTriangle = createTriangle(vertex0, vertex1, vertex2);
+		rightTriangle = createTriangle(vertex1, vertex2, vertex3);
+		triangles = new TriangleList();
+		triangles.add(leftTriangle);
+		triangles.add(rightTriangle);
 	}
 
 	@Test
@@ -37,46 +45,59 @@ public class MovementStrategyTest {
 
 		bigTriangle.getFieldVector().set(800.324, 123.42);
 		particle.update(1);
-		assertEquals(800.324, particle.getX(), 0);
-		assertEquals(123.42, particle.getY(), 0);
+		assertPositionEquals(particle, 800.324, 123.42);
 	}
 
 	@Test
 	public void testParticleMoveOverTwoTrianglesWithoutTouchingEdge()
 			throws Exception {
-		Triangle leftTriangle = createTriangle(vertex0, vertex1, vertex2);
-		Triangle rightTriangle = createTriangle(vertex1, vertex2, vertex3);
-
-		TriangleList triangles = new TriangleList();
-		triangles.add(leftTriangle);
-		triangles.add(rightTriangle);
-
 		leftTriangle.getFieldVector().set(1, 0);
-		rightTriangle.getFieldVector().set(1.0/2,0);
+		rightTriangle.getFieldVector().set(1.0 / 2, 0);
 
 		Particle particle = new Particle(-1.0 / 2, 0, leftTriangle,
 				new MovementStrategy(triangles));
 
-		particle.update(1.0 / 4);
-		assertEquals(-1.0 / 4, particle.getX(), 0);
-		assertEquals(0, particle.getY(), 0);
+		updateThreeTimesAndAssert(leftTriangle, particle);
+		updateAndAssert(rightTriangle, particle, 1.0 / 2, 1.0 / 4, 0);
+	}
+
+	@Test
+	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectors()
+			throws Exception {
+		leftTriangle.getFieldVector().set(1, 0);
+		rightTriangle.getFieldVector().set(-1, 0);
+
+		Particle particle = new Particle(-1.0 / 2, 0, leftTriangle,
+				new MovementStrategy(triangles));
+
+		updateThreeTimesAndAssert(leftTriangle, particle);
+		updateAndAssert(rightTriangle, particle, 1.0 / 2, 0, 0);
+
+		for (int i = 0; i < 1000; i++) {
+			particle.update(1);
+			assertPositionEquals(particle, 0, 0);
+		}
+		assertPositionEquals(particle, 0, 0);
+	}
+
+	private void assertPositionEquals(Particle particle, double expectedX,
+			double expectedY) {
+		assertEquals(expectedX, particle.getX(), 0);
+		assertEquals(expectedY, particle.getY(), 0);
+	}
+
+	private void updateThreeTimesAndAssert(Triangle leftTriangle,
+			Particle particle) {
+		updateAndAssert(leftTriangle, particle, 1.0 / 4, -1.0 / 4, 0);
+		updateAndAssert(leftTriangle, particle, 0, -1.0 / 4, 0);
+		updateAndAssert(leftTriangle, particle, 1.0 / 4, 0, 0);
+	}
+
+	private void updateAndAssert(Triangle leftTriangle, Particle particle,
+			double deltaT, double expectedX, int expectedY) {
+		particle.update(deltaT);
+		assertPositionEquals(particle, expectedX, expectedY);
 		assertEquals(leftTriangle, particle.getTriangle());
-
-		particle.update(0);
-		assertEquals(-1.0 / 4, particle.getX(), 0);
-		assertEquals(0, particle.getY(), 0);
-		assertEquals(leftTriangle, particle.getTriangle());
-
-		particle.update(1.0 / 4);
-		assertEquals(0, particle.getX(), 0);
-		assertEquals(0, particle.getY(), 0);
-		assertEquals(leftTriangle, particle.getTriangle());
-
-		particle.update(1.0 / 2);
-		assertEquals(rightTriangle, particle.getTriangle());
-		assertEquals(1.0 / 4, particle.getX(), 0);
-		assertEquals(0, particle.getY(), 0);
-
 	}
 
 	private Triangle createTriangle(Vertex vertex0, Vertex vertex1,
