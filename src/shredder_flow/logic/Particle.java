@@ -1,5 +1,8 @@
 package shredder_flow.logic;
 
+import java.awt.Point;
+
+import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 import shredder_flow.logic.Triangle;
@@ -49,5 +52,8 @@ public class Particle {
 	
 	public Vector2d getPosition(){
 		return position;
+	}
+	public Point2d getPositionAsPoint2d(){
+		return new Point2d(position.x, position.y);
 	}
 }
