@@ -13,21 +13,27 @@ public class MovementStrategy {
 		this.triangles = triangles;
 	}
 
-	public void setNextPositionAndTriangle(double deltaT, Particle particle) {
+	public void setNextPositionAndTriangle(double timeToMove, Particle particle) {
 		triangleJumpsInThisUpdate = 100;
-		performStepInsideOneTriangle(deltaT, particle);
+		performStepInsideOneTriangle(timeToMove, particle);
 	}
 
-	private void performStepInsideOneTriangle(double deltaT, Particle particle) {
+	/**
+	 * Recursive method
+	 * 
+	 * @param timeLeft
+	 * @param particle
+	 */
+	private void performStepInsideOneTriangle(double timeLeft, Particle particle) {
 		Point2d pos = particle.getPositionAsPoint2d();
 		Triangle triangle = particle.getTriangle();
 		Vector2d vec = triangle.getFieldVector();
-		double newPosX = pos.x + deltaT * vec.x;
-		double newPosY = pos.y + deltaT * vec.y;
+		double newPosX = pos.x + timeLeft * vec.x;
+		double newPosY = pos.y + timeLeft * vec.y;
 		if (triangle.isInTriangle(newPosX, newPosY)) {
 			particle.setPosition(newPosX, newPosY);
 		} else {
-			performTriangleJump(deltaT, particle, pos, triangle, vec);
+			performTriangleJump(timeLeft, particle, pos, triangle, vec);
 		}
 	}
 
@@ -39,17 +45,22 @@ public class MovementStrategy {
 		particle.setPosition(intersection.x, intersection.y);
 		Triangle newTriangle = getNextTriangleHeuristic(intersection,
 				triangle.getFieldVector());
-		double timeLeft = deltaT - timeUntilEdgeHit;
 		if (newTriangle != null) {
-			if (triangleJumpsInThisUpdate < 0) {
-				particle.setReceivesUpdates(false);
-			} else {
-				triangleJumpsInThisUpdate--;
-				particle.setTriangle(newTriangle);
-				performStepInsideOneTriangle(timeLeft, particle);
-			}
+			initNextMoveInNewTriangleOrStopUpdates(particle, newTriangle,
+					deltaT - timeUntilEdgeHit);
 		} else {
 			particle.setReceivesUpdates(false);
+		}
+	}
+
+	private void initNextMoveInNewTriangleOrStopUpdates(Particle particle,
+			Triangle newTriangle, double timeLeft) {
+		if (triangleJumpsInThisUpdate < 0) {
+			particle.setReceivesUpdates(false);
+		} else {
+			triangleJumpsInThisUpdate--;
+			particle.setTriangle(newTriangle);
+			performStepInsideOneTriangle(timeLeft, particle);
 		}
 	}
 
