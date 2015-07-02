@@ -52,6 +52,7 @@ public class MovementStrategyTest {
 		triangles.add(rightTriangle);
 
 		leftTriangle.getFieldVector().set(1, 0);
+		rightTriangle.getFieldVector().set(1.0/2, 0);
 
 		Particle particle = new Particle(-1.0 / 2, 0, leftTriangle,
 				new MovementStrategy(triangles));
@@ -71,7 +72,7 @@ public class MovementStrategyTest {
 		assertEquals(0, particle.getY(), 0);
 		assertEquals(leftTriangle, particle.getTriangle());
 
-		particle.update(1.0 / 4);
+		particle.update(1.0 / 2);
 		assertEquals(1.0 / 4, particle.getX(), 0);
 		assertEquals(0, particle.getY(), 0);
 		assertEquals(rightTriangle, particle.getTriangle());
