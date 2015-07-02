@@ -41,7 +41,7 @@ public class VectorFieldGenerator {
 	}
 
 	/*
-	 * Builds gradient with
+	 * Builds gradient with method from
 	 * http://dgd.service.tu-berlin.de/wordpress/vismathws10
 	 * /2012/10/17/gradient-of-scalar-functions/.
 	 * 
