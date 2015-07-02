@@ -38,29 +38,42 @@ public class VectorFieldGeneratorTest {
 		assertInputIntegrity(0, 1, 0);
 		FieldVector fieldVector = unitTriangle.getFieldVector();
 
-		assertEquals(-1, fieldVector.getX(), 0);
+		assertEquals(1, fieldVector.getX(), 0);
 		assertEquals(0, fieldVector.getY(), 0);
 	}
 
 	/**
-	 * Check that none of the function values have been modified by the method call.
+	 * Check that none of the function values have been modified by the method
+	 * call.
 	 */
-	private void assertInputIntegrity(
-			double expectedValueForVertex1, double expectedValueForVertex2,
-			double expectedValueForVertex3) {
+	private void assertInputIntegrity(double expectedValueForVertex1,
+			double expectedValueForVertex2, double expectedValueForVertex3) {
 		assertEquals(expectedValueForVertex1, vertex1.getFunctionValue(), 0);
 		assertEquals(expectedValueForVertex2, vertex2.getFunctionValue(), 0);
 		assertEquals(expectedValueForVertex3, vertex3.getFunctionValue(), 0);
 	}
 
 	@Test
-	public void testGradientVectorFieldTwoVerticesGradientInNegYDir() throws Exception {
+	public void testGradientVectorFieldTwoVerticesGradientInNegYDir()
+			throws Exception {
 		vertex3.setFunctionValue(1);
 		generator.generateGradiantField();
 		assertInputIntegrity(0, 0, 1);
 		FieldVector fieldVector = unitTriangle.getFieldVector();
 
 		assertEquals(0, fieldVector.getX(), 0);
+		assertEquals(1, fieldVector.getY(), 0);
+	}
+
+	@Test
+	public void testGradientVectorFieldTwoVerticesFunctionIsOneInPointZero()
+			throws Exception {
+		vertex1.setFunctionValue(1);
+		generator.generateGradiantField();
+		assertInputIntegrity(1, 0, 0);
+		FieldVector fieldVector = unitTriangle.getFieldVector();
+
+		assertEquals(-1, fieldVector.getX(), 0);
 		assertEquals(-1, fieldVector.getY(), 0);
 	}
 }
