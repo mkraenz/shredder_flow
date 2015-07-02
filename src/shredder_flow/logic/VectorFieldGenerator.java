@@ -39,8 +39,8 @@ public class VectorFieldGenerator {
 			triangleVec.set(vec.x, vec.y);
 		}
 	}
-	
-	public void generateSymplecticVectorField(){
+
+	public void generateSymplecticVectorField() {
 		for (Triangle triangle : triangles) {
 			Vector2d vec = getGradient(triangle);
 			FieldVector triangleVec = triangle.getFieldVector();
@@ -81,8 +81,46 @@ public class VectorFieldGenerator {
 		vec.y = temp;
 		return vec;
 	}
-	
+
 	private Vector2d rotatePositivelyBy90Degree(Vector2d vec) {
 		return new Vector2d(-vec.y, vec.x);
+	}
+
+	public void generateAlmostEverywhereZeroFunction() {
+		int i = 0;
+		for (; i < triangles.size(); i++) {
+			if (triangles.getNumberOfTriangle(triangles.get(i).getVertices()
+					.get(0).getX(), triangles.get(i).getVertices().get(0)
+					.getY()) > 2) {
+				triangles.get(i).getVertices().get(0).setFunctionValue(1);
+				triangles.get(1).getVertices().get(1).setFunctionValue(0);
+				triangles.get(1).getVertices().get(2).setFunctionValue(0);
+				break;
+			} else {
+				triangles.get(i).getVertices().get(0).setFunctionValue(0);
+			}
+			if (triangles.getNumberOfTriangle(triangles.get(i).getVertices()
+					.get(1).getX(), triangles.get(i).getVertices().get(1)
+					.getY()) > 2) {
+				triangles.get(i).getVertices().get(1).setFunctionValue(1);
+				triangles.get(1).getVertices().get(2).setFunctionValue(0);
+				break;
+			} else {
+				triangles.get(1).getVertices().get(1).setFunctionValue(0);
+			}
+			if (triangles.getNumberOfTriangle(triangles.get(i).getVertices()
+					.get(2).getX(), triangles.get(i).getVertices().get(2)
+					.getY()) > 2) {
+				triangles.get(i).getVertices().get(0).setFunctionValue(1);
+				break;
+			} else {
+				triangles.get(1).getVertices().get(2).setFunctionValue(0);
+			}
 		}
+		for (; i < triangles.size(); i++) {
+			triangles.get(i).getVertices().get(0).setFunctionValue(0);
+			triangles.get(i).getVertices().get(1).setFunctionValue(0);
+			triangles.get(i).getVertices().get(2).setFunctionValue(0);
+		}
+	}
 }
