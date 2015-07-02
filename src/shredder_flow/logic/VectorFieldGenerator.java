@@ -40,10 +40,10 @@ public class VectorFieldGenerator {
 		}
 	}
 
-	/**
-	 * Builds the gradient in the face. It's done this way:
-	 * http://dgd.service.tu
-	 * -berlin.de/wordpress/vismathws10/2012/10/17/gradient-of-scalar-functions/
+	/*
+	 * Builds gradient with
+	 * http://dgd.service.tu-berlin.de/wordpress/vismathws10
+	 * /2012/10/17/gradient-of-scalar-functions/.
 	 * 
 	 * @param triangle
 	 */
