@@ -23,7 +23,7 @@ public class ParticleCreator {
 	 * Uniform distribution around zero in a square of side length 1.
 	 */
 	public void addRandomParticleCloud() {
-		int particleCount = 100;
+		int particleCount = 1;
 		int highestRandomValue = 100;
 		double xShift = -0.5;
 		double yShift = -0.5;
