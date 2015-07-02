@@ -40,6 +40,14 @@ public class MovementStrategy {
 	private void performTriangleJump(double deltaT, Particle particle,
 			Point2d pos, Triangle triangle, Vector2d vec) {
 		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
+		if (intersection == null) {
+			// TODO: this should never be null. We are dealing with triangles
+			// and every line through a point inside that triangle must
+			// intersect the triangle in positive vector direction.
+			// Unfortunately, currently it does become null sometimes.
+			particle.setReceivesUpdates(false);
+			return;
+		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
 				intersection);
 		particle.setPosition(intersection.x, intersection.y);
