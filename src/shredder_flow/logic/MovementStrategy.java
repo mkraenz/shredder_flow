@@ -130,45 +130,4 @@ public class MovementStrategy {
 		double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
 		return new Point2d(pxNumerator / denominator, pyNumerator / denominator);
 	}
-
-	private Triangle getNextTriangle(double[] intersectionpoint,
-			double[] vecarray, double eps) {
-		return triangles.getTriangle(intersectionpoint[0] + eps * vecarray[0],
-				intersectionpoint[1] + eps * vecarray[1]);
-	}
-
-	private double[] getFieldVectorArray(FieldVector vec) {
-		double[] vecarray = { vec.x, vec.y };
-		return vecarray;
-	}
-
-	private double getDistance(double[] a, double[] b) {
-		return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2));
-	}
-
-	private double[] getPositionArray(Vector2d position) {
-		double[] pos = { position.x, position.y };
-		return pos;
-	}
-
-	private double getIntersection(double[] a, double[] b, double[] p,
-			double[] v) {
-		return (a[0] * v[1] - a[1] * v[0] - p[0] * v[1] + p[1] * v[0])
-				/ (v[0] * (b[1] - a[1]) - v[1] * (b[0] - a[0]));
-	}
-
-	private double[] getIntersectionPoint(double[] a, double[] b, double lambda) {
-		double[] point = new double[2];
-		point[0] = a[0] + lambda * (b[0] - a[0]);
-		point[1] = a[1] + lambda * (b[1] - a[1]);
-		return point;
-	}
-
-	private double[] getVertexLocArray(VertexList vertices, int index) {
-		double[] locarray = new double[2];
-		Vertex ver = vertices.get(index);
-		locarray[0] = ver.getX();
-		locarray[1] = ver.getY();
-		return locarray;
-	}
 }
