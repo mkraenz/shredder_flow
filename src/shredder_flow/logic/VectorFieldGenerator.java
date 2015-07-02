@@ -40,19 +40,26 @@ public class VectorFieldGenerator {
 		}
 	}
 
-	protected Vector2d getGradient(Triangle triangle) {
+	/**
+	 * Builds the gradient in the face. It's done this way:
+	 * http://dgd.service.tu
+	 * -berlin.de/wordpress/vismathws10/2012/10/17/gradient-of-scalar-functions/
+	 * 
+	 * @param triangle
+	 */
+	private Vector2d getGradient(Triangle triangle) {
 		VertexList vertices = triangle.getVertices();
 		Vector2d grad = new Vector2d(1, 1);
-		double e_ab1=vertices.get(1).getX() - vertices.get(0).getX();
-		double e_ab2=vertices.get(1).getY() - vertices.get(0).getY();
-		double e_bc1=vertices.get(2).getX() - vertices.get(1).getX();
-		double e_bc2=vertices.get(2).getY() - vertices.get(1).getY();
-		double temp = e_ab1*e_bc2;
+		double e_ab1 = vertices.get(1).getX() - vertices.get(0).getX();
+		double e_ab2 = vertices.get(1).getY() - vertices.get(0).getY();
+		double e_bc1 = vertices.get(2).getX() - vertices.get(1).getX();
+		double e_bc2 = vertices.get(2).getY() - vertices.get(1).getY();
+		double temp = e_ab1 * e_bc2;
 		grad.y = (vertices.get(2).getFunctionValue() / e_bc2
 				- vertices.get(1).getFunctionValue() / e_bc2
-				- vertices.get(1).getFunctionValue()*e_bc1 / temp 
-				+ vertices.get(0).getFunctionValue()*e_bc1 / temp)
-				/ (1 - (e_ab2*e_bc1 / temp));
+				- vertices.get(1).getFunctionValue() * e_bc1 / temp + vertices
+				.get(0).getFunctionValue() * e_bc1 / temp)
+				/ (1 - (e_ab2 * e_bc1 / temp));
 		grad.x = (vertices.get(1).getFunctionValue()
 				- vertices.get(0).getFunctionValue() - grad.y * e_ab2)
 				/ e_ab1;
