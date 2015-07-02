@@ -8,32 +8,34 @@ public class Particle {
 	private Vector2d position;
 	private MovementStrategy strategy;
 	private Triangle triangle;
-	private boolean movement;
+	private boolean receivesUpdates;
 
-	public Particle(double x, double y, Triangle triangle, MovementStrategy strategy) {
+	public Particle(double x, double y, Triangle triangle,
+			MovementStrategy strategy) {
 		this.triangle = triangle;
 		this.position = new Vector2d(x, y);
 		this.strategy = strategy;
-		this.movement=true;
+		this.receivesUpdates = true;
 	}
 
 	public Triangle getTriangle() {
 		return triangle;
 	}
-	public void setPosition(double x, double y){
-		this.position.set(x,y);
+
+	public void setPosition(double x, double y) {
+		this.position.set(x, y);
 	}
-	
-	public void setMovement(boolean movement){
-		this.movement=movement;
+
+	public void setReceivesUpdates(boolean movement) {
+		this.receivesUpdates = movement;
 	}
-	
+
 	public void setTriangle(Triangle triangle) {
 		this.triangle = triangle;
 	}
 
 	public void update(double deltaT) {
-		if(movement==true){
+		if (receivesUpdates == true) {
 			strategy.setNextPositionAndTriangle(deltaT, this);
 		}
 	}
@@ -45,11 +47,12 @@ public class Particle {
 	public double getY() {
 		return position.y;
 	}
-	
-	public Vector2d getPosition(){
+
+	public Vector2d getPosition() {
 		return position;
 	}
-	public Point2d getPositionAsPoint2d(){
+
+	public Point2d getPositionAsPoint2d() {
 		return new Point2d(position.x, position.y);
 	}
 }

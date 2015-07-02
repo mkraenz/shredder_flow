@@ -7,47 +7,49 @@ public class MovementStrategy {
 
 	private TriangleList triangles;
 	private final double EPS = 0.00001;
-	private int edgeJumpsInThisUpdate;
+	private int triangleJumpsInThisUpdate;
 
 	public MovementStrategy(TriangleList triangles) {
 		this.triangles = triangles;
 	}
 
 	public void setNextPositionAndTriangle(double deltaT, Particle particle) {
-		edgeJumpsInThisUpdate = 100;
-		setNextPositionAndTriangleLogic(deltaT, particle);
+		triangleJumpsInThisUpdate = 100;
+		performStepInsideOneTriangle(deltaT, particle);
 	}
 
-	private void setNextPositionAndTriangleLogic(double deltaT,
-			Particle particle) {
-		// TODO think of good name
+	private void performStepInsideOneTriangle(double deltaT, Particle particle) {
 		Point2d pos = particle.getPositionAsPoint2d();
 		Triangle triangle = particle.getTriangle();
 		Vector2d vec = triangle.getFieldVector();
-
-		double newp1 = pos.x + deltaT * vec.x;
-		double newp2 = pos.y + deltaT * vec.y;
-		if (triangle.isInTriangle(newp1, newp2)) {
-			particle.setPosition(newp1, newp2);
+		double newPosX = pos.x + deltaT * vec.x;
+		double newPosY = pos.y + deltaT * vec.y;
+		if (triangle.isInTriangle(newPosX, newPosY)) {
+			particle.setPosition(newPosX, newPosY);
 		} else {
-			Point2d intersection = getIntersectionWithBoundary(pos, vec,
-					triangle);
-			double timeMoved = getTimeMovedInCurrentTriangle(pos, vec,
-					intersection);
-			particle.setPosition(intersection.x, intersection.y);
-			Triangle newTriangle = getNextTriangleHeuristic(intersection,
-					triangle.getFieldVector());
-			if (newTriangle != null) {
-				if (edgeJumpsInThisUpdate < 0) {
-					particle.setMovement(false);
-				} else {
-					edgeJumpsInThisUpdate--;
-					particle.setTriangle(newTriangle);
-					setNextPositionAndTriangleLogic(deltaT - timeMoved, particle);
-				}
+			performTriangleJump(deltaT, particle, pos, triangle, vec);
+		}
+	}
+
+	private void performTriangleJump(double deltaT, Particle particle,
+			Point2d pos, Triangle triangle, Vector2d vec) {
+		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
+		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
+				intersection);
+		particle.setPosition(intersection.x, intersection.y);
+		Triangle newTriangle = getNextTriangleHeuristic(intersection,
+				triangle.getFieldVector());
+		double timeLeft = deltaT - timeUntilEdgeHit;
+		if (newTriangle != null) {
+			if (triangleJumpsInThisUpdate < 0) {
+				particle.setReceivesUpdates(false);
 			} else {
-				particle.setMovement(false);
+				triangleJumpsInThisUpdate--;
+				particle.setTriangle(newTriangle);
+				performStepInsideOneTriangle(timeLeft, particle);
 			}
+		} else {
+			particle.setReceivesUpdates(false);
 		}
 	}
 
