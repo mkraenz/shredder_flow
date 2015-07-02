@@ -15,40 +15,50 @@ public class MovementStrategy {
 	}
 
 	public void setNextPositionAndTriangle(double deltaT, Particle particle) {
-		double p1 = particle.getX();
-		double p2 = particle.getY();
+		Point2d pos = particle.getPositionAsPoint2d();
 		Triangle triangle = particle.getTriangle();
-		double x1 = triangle.getFieldVector().getX();
-		double x2 = triangle.getFieldVector().getY();
-		
-		double newp1 = p1 + deltaT * x1;
-		double newp2 = p2 + deltaT * x2;
+		Vector2d vec = triangle.getFieldVector();
+
+		double newp1 = pos.x + deltaT * vec.x;
+		double newp2 = pos.y + deltaT * vec.x;
 		if (triangle.isInTriangle(newp1, newp2)) {
 			particle.setPosition(newp1, newp2);
 		} else {
-			Point2d intersection = getIntersectionWithBoundary(p1, p2, x1, x2,
+			Point2d intersection = getIntersectionWithBoundary(pos, vec,
 					triangle);
 			particle.setPosition(intersection.x, intersection.y);
-			double timeMoved = getTimeMovedInCurrentTriangle(p1, p2, x1, x2,
+			double timeMoved = getTimeMovedInCurrentTriangle(pos, vec,
 					intersection);
 			Triangle newTriangle = getNextTriangleHeuristic(intersection,
 					triangle.getFieldVector());
 			if (newTriangle != null) {
-				if(timeMoved < MINIMAL_TIME_MOVED){
+				if (timeMoved < MINIMAL_TIME_MOVED) {
 					// instead of using a counter for edge jumps
 					particle.setMovement(false);
+				} else {
+					particle.setTriangle(newTriangle);
+					setNextPositionAndTriangle(deltaT - timeMoved, particle);
 				}
-				particle.setTriangle(newTriangle);
-				setNextPositionAndTriangle(deltaT - timeMoved, particle);
 			} else {
 				particle.setMovement(false);
 			}
 		}
 	}
 
-	private double getTimeMovedInCurrentTriangle(double posX, double posY,
-			double vecX, double vecY, Point2d intersection) {
-		return (intersection.x - posX) / vecX;
+	private double getTimeMovedInCurrentTriangle(Point2d base, Vector2d vec,
+			Point2d intersection) {
+		return getCoefficient(base, vec, intersection);
+	}
+
+	/**
+	 * Method assumes that the targetPosition lies on the line spanned by the
+	 * vector based at given base.
+	 * 
+	 * @return coefficient lambda of base + lambda * vec = target
+	 */
+	private double getCoefficient(Point2d base, Vector2d vec,
+			Point2d targetPosition) {
+		return (targetPosition.x - base.x) / vec.x;
 	}
 
 	private Triangle getNextTriangleHeuristic(Point2d p, Vector2d dir) {
@@ -57,10 +67,47 @@ public class MovementStrategy {
 		return triangle;
 	}
 
-	private Point2d getIntersectionWithBoundary(double posX, double posY,
-			double vecX, double vecY, Triangle triangle) {
-		// TODO Auto-generated method stub
-		return new Point2d();
+	private Point2d getIntersectionWithBoundary(Point2d position,
+			Vector2d vector, Triangle triangle) {
+		Point2d vertex1 = triangle.getVertices().get(0).getPosition();
+		Point2d vertex2 = triangle.getVertices().get(1).getPosition();
+		Point2d vertex3 = triangle.getVertices().get(2).getPosition();
+		Point2d positionPlusEpsilon = new Point2d(position.x + vector.x,
+				position.y + vector.y);
+
+		Point2d intersectionWithEdge12 = intersectToLines(vertex1, vertex2,
+				position, positionPlusEpsilon);
+		Point2d intersectionWithEdge21 = intersectToLines(vertex2, vertex3,
+				position, positionPlusEpsilon);
+		Point2d intersectionWithEdge31 = intersectToLines(vertex3, vertex1,
+				position, positionPlusEpsilon);
+
+		return new Point2d(0, 0);
+	}
+
+	/**
+	 * See https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
+	 * 
+	 * @return intersection point of the two lines, spanned by given points
+	 */
+	private Point2d intersectToLines(Point2d point1OnLine1,
+			Point2d point2OnLine1, Point2d point1OnLine2, Point2d point2OnLine2) {
+		double x1 = point1OnLine1.x;
+		double x2 = point2OnLine1.x;
+		double x3 = point1OnLine2.x;
+		double x4 = point2OnLine2.x;
+
+		double y1 = point1OnLine1.y;
+		double y2 = point2OnLine1.y;
+		double y3 = point1OnLine2.y;
+		double y4 = point2OnLine2.y;
+
+		double pxNumerator = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2)
+				* (x3 * y4 - y3 * x4);
+		double pyNumerator = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2)
+				* (x3 * y4 - y3 * x4);
+		double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+		return new Point2d(pxNumerator / denominator, pyNumerator / denominator);
 	}
 
 	private Triangle getNextTriangle(double[] intersectionpoint,
