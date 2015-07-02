@@ -39,6 +39,14 @@ public class VectorFieldGenerator {
 			triangleVec.set(vec.x, vec.y);
 		}
 	}
+	
+	public void generateSymplecticVectorField(){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = getGradient(triangle);
+			FieldVector triangleVec = triangle.getFieldVector();
+			triangleVec.set(-vec.y, vec.x);
+		}
+	}
 
 	/*
 	 * Builds gradient with method from
@@ -73,4 +81,8 @@ public class VectorFieldGenerator {
 		vec.y = temp;
 		return vec;
 	}
+	
+	private Vector2d rotatePositivelyBy90Degree(Vector2d vec) {
+		return new Vector2d(-vec.y, vec.x);
+		}
 }
