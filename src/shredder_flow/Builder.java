@@ -45,23 +45,12 @@ public class Builder {
 		setFunctionGeneratorPlugin(viewer, vertices);
 		setVectorFieldGeneratorPlugin(viewer, triangles);
 		
-		setParticlePlugin(viewer, particles, triangles);
-		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles);
+		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles, triangles);
 	}
 
 	private void setParticleUpdaterPlugin(Java2DViewer viewer,
-			int UPDATES_PER_SECOND, ParticleList particles) {
-		Timer updateTimer = new Timer(0, null); // TODO maybe bind the timer to
-												// the viewers timer
-		ParticleUpdater particleUpdater = new ParticleUpdater(particles,
-				UPDATES_PER_SECOND, updateTimer);
-		ParticleUpdateInvoker particleUpdateInvoker = new ParticleUpdateInvoker(
-				particleUpdater);
-		viewer.registerPlugin(particleUpdateInvoker);
-	}
+			int UPDATES_PER_SECOND, ParticleList particles, TriangleList triangles) {
 
-	private void setParticlePlugin(Java2DViewer viewer, ParticleList particles,
-			TriangleList triangles) {
 		ParticlePlugin particlePlugin = new ParticlePlugin(new ParticleCreator(
 				particles, triangles), particles);
 		viewer.registerPlugin(particlePlugin);
@@ -69,6 +58,15 @@ public class Builder {
 		ParticleAdderPanel particleAdder = new ParticleAdderPanel(new ParticleCreator(
 				particles, triangles), particlePlugin);
 		viewer.registerPlugin(particleAdder);
+		
+		Timer updateTimer = new Timer(0, null); // TODO maybe bind the timer to
+												// the viewers timer
+		ParticleUpdater particleUpdater = new ParticleUpdater(particles,
+				UPDATES_PER_SECOND, updateTimer, particlePlugin);
+		ParticleUpdateInvoker particleUpdateInvoker = new ParticleUpdateInvoker(
+				particleUpdater);
+		viewer.registerPlugin(particleUpdateInvoker);
+		
 	}
 
 	private void setVectorFieldGeneratorPlugin(Java2DViewer viewer,
@@ -105,4 +103,5 @@ public class Builder {
 		builder.buildAndRegister(viewer);
 		viewer.startup();
 	}
+
 }
