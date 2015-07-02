@@ -38,7 +38,7 @@ public class VectorFieldGeneratorTest {
 		assertInputIntegrity(0, 1, 0);
 		FieldVector fieldVector = unitTriangle.getFieldVector();
 
-		assertEquals(-1, fieldVector.getX(), 0);
+		assertEquals(1, fieldVector.getX(), 0);
 		assertEquals(0, fieldVector.getY(), 0);
 	}
 
@@ -61,6 +61,6 @@ public class VectorFieldGeneratorTest {
 		FieldVector fieldVector = unitTriangle.getFieldVector();
 
 		assertEquals(0, fieldVector.getX(), 0);
-		assertEquals(-1, fieldVector.getY(), 0);
+		assertEquals(1, fieldVector.getY(), 0);
 	}
 }

@@ -27,10 +27,12 @@ public class VectorFieldGenerator {
 		Random random = new Random();
 		for (Triangle triangle : triangles) {
 			FieldVector vector = triangle.getFieldVector();
-			vector.set(random.nextInt(highestRandomValue)*scale, random.nextInt(highestRandomValue)*scale);
+			vector.set(random.nextInt(highestRandomValue) * scale,
+					random.nextInt(highestRandomValue) * scale);
 		}
 	}
-	public void generateGradiantField(){
+
+	public void generateGradiantField() {
 		for (Triangle triangle : triangles) {
 			Vector2d vec = getGradient(triangle);
 			FieldVector triangleVec = triangle.getFieldVector();
@@ -40,26 +42,27 @@ public class VectorFieldGenerator {
 
 	protected Vector2d getGradient(Triangle triangle) {
 		VertexList vertices = triangle.getVertices();
-		//Vector2d grad = null;
-		Vector2d grad = new Vector2d(1,1);
-		double lengthAB = Math.sqrt(Math.pow(vertices.get(1).getX()
-				- vertices.get(0).getX(), 2)
-				+ Math.pow(vertices.get(1).getY() - vertices.get(0).getY(), 2));
-		double lengthAC = Math.sqrt(Math.pow(vertices.get(2).getX()
-				- vertices.get(0).getX(), 2)
-				+ Math.pow(vertices.get(2).getY() - vertices.get(0).getY(), 2));
-		grad.x = (-vertices.get(1).getFunctionValue()
-				+ vertices.get(0).getFunctionValue()) / lengthAB;
-		grad.y = (-vertices.get(2).getFunctionValue()
-				+ vertices.get(0).getFunctionValue()) / lengthAC;
+		Vector2d grad = new Vector2d(1, 1);
+		double temp = (vertices.get(1).getX() - vertices.get(0).getX())
+				* (vertices.get(2).getY() - vertices.get(1).getY());
+		double temp2 = (vertices.get(2).getY() - vertices.get(1).getY());
+		grad.y = (1 - (vertices.get(1).getY() - vertices.get(0).getY()) / temp)
+				* (vertices.get(2).getFunctionValue() / temp2
+						- vertices.get(1).getFunctionValue() / temp2
+						- vertices.get(1).getFunctionValue() / temp + vertices
+						.get(0).getFunctionValue() / temp);
+		grad.x = (vertices.get(1).getFunctionValue()
+				- vertices.get(0).getFunctionValue() - grad.y
+				* (vertices.get(1).getY() - vertices.get(0).getY()))
+				/ (vertices.get(1).getX() - vertices.get(0).getX());
 		return grad;
 	}
-	
-	public Vector2d rotateGradient(Triangle triangle){
+
+	public Vector2d rotateGradient(Triangle triangle) {
 		Vector2d vec = triangle.getFieldVector();
-		double temp=vec.x;
-		vec.x=-vec.y;
-		vec.y=temp;
+		double temp = vec.x;
+		vec.x = -vec.y;
+		vec.y = temp;
 		return vec;
 	}
 }
