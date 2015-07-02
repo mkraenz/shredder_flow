@@ -1,5 +1,11 @@
 package shredder_flow.logic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
@@ -8,36 +14,42 @@ public class MovementStrategy {
 	private static final double MINIMAL_TIME_MOVED = 0.0000001;
 	private TriangleList triangles;
 	private final double EPS = 0.00001;
-	private int leftEdgeJumps = 200;
+	private int edgeJumpsInThisUpdate;
 
 	public MovementStrategy(TriangleList triangles) {
 		this.triangles = triangles;
 	}
 
 	public void setNextPositionAndTriangle(double deltaT, Particle particle) {
+		edgeJumpsInThisUpdate = 100;
+		setNextPositionAndTriangleLogic(deltaT, particle);
+	}
+
+	private void setNextPositionAndTriangleLogic(double deltaT,
+			Particle particle) {
 		Point2d pos = particle.getPositionAsPoint2d();
 		Triangle triangle = particle.getTriangle();
 		Vector2d vec = triangle.getFieldVector();
 
 		double newp1 = pos.x + deltaT * vec.x;
-		double newp2 = pos.y + deltaT * vec.x;
+		double newp2 = pos.y + deltaT * vec.y;
 		if (triangle.isInTriangle(newp1, newp2)) {
 			particle.setPosition(newp1, newp2);
 		} else {
 			Point2d intersection = getIntersectionWithBoundary(pos, vec,
 					triangle);
-			particle.setPosition(intersection.x, intersection.y);
 			double timeMoved = getTimeMovedInCurrentTriangle(pos, vec,
 					intersection);
+			particle.setPosition(intersection.x, intersection.y);
 			Triangle newTriangle = getNextTriangleHeuristic(intersection,
 					triangle.getFieldVector());
 			if (newTriangle != null) {
-				if (timeMoved < MINIMAL_TIME_MOVED) {
-					// instead of using a counter for edge jumps
+				if (edgeJumpsInThisUpdate < 0) {
 					particle.setMovement(false);
 				} else {
+					edgeJumpsInThisUpdate--;
 					particle.setTriangle(newTriangle);
-					setNextPositionAndTriangle(deltaT - timeMoved, particle);
+					setNextPositionAndTriangleLogic(deltaT - timeMoved, particle);
 				}
 			} else {
 				particle.setMovement(false);
@@ -62,27 +74,36 @@ public class MovementStrategy {
 	}
 
 	private Triangle getNextTriangleHeuristic(Point2d p, Vector2d dir) {
-		Triangle triangle = triangles.getTriangle(p.x + Math.signum(dir.x)
-				* EPS, p.y + Math.signum(dir.y) * EPS);
+		double y = p.y + Math.signum(dir.y) * EPS;
+		double x = p.x + Math.signum(dir.x) * EPS;
+		Triangle triangle = triangles.getTriangle(x, y);
 		return triangle;
 	}
 
 	private Point2d getIntersectionWithBoundary(Point2d position,
 			Vector2d vector, Triangle triangle) {
-		Point2d vertex1 = triangle.getVertices().get(0).getPosition();
-		Point2d vertex2 = triangle.getVertices().get(1).getPosition();
-		Point2d vertex3 = triangle.getVertices().get(2).getPosition();
 		Point2d positionPlusEpsilon = new Point2d(position.x + vector.x,
 				position.y + vector.y);
-
-		Point2d intersectionWithEdge12 = intersectToLines(vertex1, vertex2,
-				position, positionPlusEpsilon);
-		Point2d intersectionWithEdge21 = intersectToLines(vertex2, vertex3,
-				position, positionPlusEpsilon);
-		Point2d intersectionWithEdge31 = intersectToLines(vertex3, vertex1,
-				position, positionPlusEpsilon);
-
-		return new Point2d(0, 0);
+		double minCoefficient = Double.MAX_VALUE;
+		Point2d intersection = null;
+		for (int i = 0; i < triangle.getVertices().size(); i++) {
+			Point2d vertexA = triangle.getVertices()
+					.get(i % triangle.getVertices().size()).getPosition();
+			Point2d vertexB = triangle.getVertices()
+					.get((1 + 1) % triangle.getVertices().size()).getPosition();
+			Point2d intersectionWithEdge = intersectToLines(vertexA, vertexB,
+					position, positionPlusEpsilon);
+			double coefficient = getCoefficient(position, vector,
+					intersectionWithEdge);
+			if (coefficient >= 0 && coefficient < minCoefficient) {
+				minCoefficient = coefficient;
+				intersection = intersectionWithEdge;
+			}
+		}
+		if(intersection == null){
+			System.out.println();
+		}
+		return intersection;
 	}
 
 	/**

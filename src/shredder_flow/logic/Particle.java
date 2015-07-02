@@ -1,11 +1,7 @@
 package shredder_flow.logic;
 
-import java.awt.Point;
-
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
-
-import shredder_flow.logic.Triangle;
 
 public class Particle {
 
