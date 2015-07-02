@@ -5,8 +5,10 @@ import javax.vecmath.Vector2d;
 
 public class MovementStrategy {
 
+	private static final double MINIMAL_TIME_MOVED = 0.0000001;
 	private TriangleList triangles;
 	private final double EPS = 0.00001;
+	private int leftEdgeJumps = 200;
 
 	public MovementStrategy(TriangleList triangles) {
 		this.triangles = triangles;
@@ -32,6 +34,10 @@ public class MovementStrategy {
 			Triangle newTriangle = getNextTriangleHeuristic(intersection,
 					triangle.getFieldVector());
 			if (newTriangle != null) {
+				if(timeMoved < MINIMAL_TIME_MOVED){
+					// instead of using a counter for edge jumps
+					particle.setMovement(false);
+				}
 				particle.setTriangle(newTriangle);
 				setNextPositionAndTriangle(deltaT - timeMoved, particle);
 			} else {
