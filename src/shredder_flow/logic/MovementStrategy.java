@@ -1,17 +1,10 @@
 package shredder_flow.logic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 public class MovementStrategy {
 
-	private static final double MINIMAL_TIME_MOVED = 0.0000001;
 	private TriangleList triangles;
 	private final double EPS = 0.00001;
 	private int edgeJumpsInThisUpdate;
@@ -27,6 +20,7 @@ public class MovementStrategy {
 
 	private void setNextPositionAndTriangleLogic(double deltaT,
 			Particle particle) {
+		// TODO think of good name
 		Point2d pos = particle.getPositionAsPoint2d();
 		Triangle triangle = particle.getTriangle();
 		Vector2d vec = triangle.getFieldVector();
@@ -86,22 +80,22 @@ public class MovementStrategy {
 				position.y + vector.y);
 		double minCoefficient = Double.MAX_VALUE;
 		Point2d intersection = null;
+
 		for (int i = 0; i < triangle.getVertices().size(); i++) {
 			Point2d vertexA = triangle.getVertices()
 					.get(i % triangle.getVertices().size()).getPosition();
 			Point2d vertexB = triangle.getVertices()
-					.get((1 + 1) % triangle.getVertices().size()).getPosition();
+					.get((i + 1) % triangle.getVertices().size()).getPosition();
 			Point2d intersectionWithEdge = intersectToLines(vertexA, vertexB,
 					position, positionPlusEpsilon);
+
 			double coefficient = getCoefficient(position, vector,
 					intersectionWithEdge);
+
 			if (coefficient >= 0 && coefficient < minCoefficient) {
 				minCoefficient = coefficient;
 				intersection = intersectionWithEdge;
 			}
-		}
-		if(intersection == null){
-			System.out.println();
 		}
 		return intersection;
 	}
