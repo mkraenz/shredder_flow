@@ -25,7 +25,7 @@ public class VectorFieldGenerator {
 		Random random = new Random();
 		for (Triangle triangle : triangles) {
 			FieldVector vector = triangle.getFieldVector();
-			vector.set(random.nextInt(highestRandomValue)*scale,random.nextInt(highestRandomValue)*scale);
+			vector.set(random.nextInt(highestRandomValue)*scale*Math.pow(-1, random.nextInt(highestRandomValue)) ,random.nextInt(highestRandomValue)*scale*Math.pow(-1, random.nextInt(highestRandomValue)));
 		}
 	}
 }
