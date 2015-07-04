@@ -48,7 +48,7 @@ public class VectorFieldGenerator {
 		}
 	}
 
-	/*
+	/**
 	 * Builds gradient with method from
 	 * http://dgd.service.tu-berlin.de/wordpress/vismathws10
 	 * /2012/10/17/gradient-of-scalar-functions/.
@@ -72,43 +72,5 @@ public class VectorFieldGenerator {
 				- vertices.get(0).getFunctionValue() - grad.y * e_ab2)
 				/ e_ab1;
 		return grad;
-	}
-
-	public void generateAlmostEverywhereZeroFunction() {
-		int i = 0;
-		for (; i < triangles.size(); i++) {
-			if (triangles.getNumberOfTriangle(triangles.get(i).getVertices()
-					.get(0).getX(), triangles.get(i).getVertices().get(0)
-					.getY()) > 2) {
-				triangles.get(i).getVertices().get(0).setFunctionValue(1);
-				triangles.get(1).getVertices().get(1).setFunctionValue(0);
-				triangles.get(1).getVertices().get(2).setFunctionValue(0);
-				break;
-			} else {
-				triangles.get(i).getVertices().get(0).setFunctionValue(0);
-			}
-			if (triangles.getNumberOfTriangle(triangles.get(i).getVertices()
-					.get(1).getX(), triangles.get(i).getVertices().get(1)
-					.getY()) > 2) {
-				triangles.get(i).getVertices().get(1).setFunctionValue(1);
-				triangles.get(1).getVertices().get(2).setFunctionValue(0);
-				break;
-			} else {
-				triangles.get(1).getVertices().get(1).setFunctionValue(0);
-			}
-			if (triangles.getNumberOfTriangle(triangles.get(i).getVertices()
-					.get(2).getX(), triangles.get(i).getVertices().get(2)
-					.getY()) > 2) {
-				triangles.get(i).getVertices().get(0).setFunctionValue(1);
-				break;
-			} else {
-				triangles.get(1).getVertices().get(2).setFunctionValue(0);
-			}
-		}
-		for (; i < triangles.size(); i++) {
-			triangles.get(i).getVertices().get(0).setFunctionValue(0);
-			triangles.get(i).getVertices().get(1).setFunctionValue(0);
-			triangles.get(i).getVertices().get(2).setFunctionValue(0);
-		}
 	}
 }

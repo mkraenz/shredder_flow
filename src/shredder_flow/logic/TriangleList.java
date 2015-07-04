@@ -23,15 +23,4 @@ public class TriangleList extends ArrayList<Triangle> {
 		}
 		return null;
 	}
-
-	public int getNumberOfTriangle(double x, double y) {
-		int counter = 0;
-		for (Triangle triangle : this) {
-			if (triangle.isInTriangle(x, y)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-
 }
