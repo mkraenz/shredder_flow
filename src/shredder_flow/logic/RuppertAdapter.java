@@ -7,7 +7,7 @@ public class RuppertAdapter {
 	private TriangulationVertexList vertices;
 	private TriangleList triangles;
 	private int maximalTriangleNumber = -1;
-	private int minimalAngleConstraint = 10;
+	private int minimalAngleConstraint = 30;
 
 	/**
 	 * Constructor

@@ -5,20 +5,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
+import shredder_flow.view.ParticlePlugin;
+
 public class ParticleUpdater implements ActionListener {
 
 	private ParticleList particles;
 	private double fastForwardFactor;
 	private int updatesPerSecond;
 	private Timer updateTimer;
+	private ParticlePlugin drawer;
 
 	public ParticleUpdater(ParticleList particles, int updatesPerSecond,
-			Timer updateTimer) {
+			Timer updateTimer, ParticlePlugin drawer) {
 		this.setFastForwardFactor(1);
 		this.particles = particles;
 		this.updatesPerSecond = updatesPerSecond;
 		this.updateTimer = updateTimer;
 		configureTimer();
+		this.drawer = drawer;
 	}
 
 	private void configureTimer() {
@@ -30,6 +34,7 @@ public class ParticleUpdater implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		particles.update(fastForwardFactor * updatesPerSecond);
+		drawer.draw();
 	}
 
 	public void setParticles(ParticleList particles) {

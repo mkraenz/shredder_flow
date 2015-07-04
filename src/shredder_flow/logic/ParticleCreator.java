@@ -15,7 +15,7 @@ public class ParticleCreator {
 	public void addParticle(double x, double y) {
 		Triangle triangleContainingPosition = triangles.getTriangle(x, y);
 		if (triangleContainingPosition != null) {
-			particles.add(new Particle(x, y, triangleContainingPosition));
+			particles.add(new Particle(x, y, triangleContainingPosition, new MovementStrategy(triangles)));
 		}
 	}
 
@@ -33,5 +33,9 @@ public class ParticleCreator {
 			addParticle(random.nextInt(highestRandomValue) * scale + xShift,
 					random.nextInt(highestRandomValue) * scale + yShift);
 		}
+	}
+	
+	public void clearParticleList(){
+		particles.clear();
 	}
 }

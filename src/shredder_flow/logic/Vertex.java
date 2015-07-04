@@ -1,5 +1,6 @@
 package shredder_flow.logic;
 
+import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 public class Vertex {
@@ -19,6 +20,12 @@ public class Vertex {
 
 	public double getX() {
 		return position.x;
+	}
+	/**
+	 * @return new instance representing the position of the vertex.
+	 */
+	public Point2d getPosition(){
+		return new Point2d(position.x, position.y);
 	}
 
 	public double getFunctionValue() {
