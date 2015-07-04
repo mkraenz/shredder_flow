@@ -74,18 +74,6 @@ public class VectorFieldGenerator {
 		return grad;
 	}
 
-	public Vector2d rotateGradient(Triangle triangle) {
-		Vector2d vec = triangle.getFieldVector();
-		double temp = vec.x;
-		vec.x = -vec.y;
-		vec.y = temp;
-		return vec;
-	}
-
-	private Vector2d rotatePositivelyBy90Degree(Vector2d vec) {
-		return new Vector2d(-vec.y, vec.x);
-	}
-
 	public void generateAlmostEverywhereZeroFunction() {
 		int i = 0;
 		for (; i < triangles.size(); i++) {
