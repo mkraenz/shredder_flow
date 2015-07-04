@@ -2,6 +2,7 @@ package shredder_flow.logic;
 
 import java.util.Random;
 
+import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 public class VectorFieldGenerator {
@@ -56,21 +57,14 @@ public class VectorFieldGenerator {
 	 * @param triangle
 	 */
 	private Vector2d getGradient(Triangle triangle) {
-		VertexList vertices = triangle.getVertices();
-		Vector2d grad = new Vector2d(1, 1);
-		double e_ab1 = vertices.get(1).getX() - vertices.get(0).getX();
-		double e_ab2 = vertices.get(1).getY() - vertices.get(0).getY();
-		double e_bc1 = vertices.get(2).getX() - vertices.get(1).getX();
-		double e_bc2 = vertices.get(2).getY() - vertices.get(1).getY();
-		double temp = e_ab1 * e_bc2;
-		grad.y = (vertices.get(2).getFunctionValue() / e_bc2
-				- vertices.get(1).getFunctionValue() / e_bc2
-				- vertices.get(1).getFunctionValue() * e_bc1 / temp + vertices
-				.get(0).getFunctionValue() * e_bc1 / temp)
-				/ (1 - (e_ab2 * e_bc1 / temp));
-		grad.x = (vertices.get(1).getFunctionValue()
-				- vertices.get(0).getFunctionValue() - grad.y * e_ab2)
-				/ e_ab1;
-		return grad;
+		Point2d v1 = triangle.getVertices().get(0).getPosition();
+		Point2d v2 = triangle.getVertices().get(1).getPosition();
+		Point2d v3 = triangle.getVertices().get(2).getPosition();
+		double f1 = triangle.getVertices().get(0).getFunctionValue();
+		double f2 = triangle.getVertices().get(1).getFunctionValue();
+		double f3 = triangle.getVertices().get(2).getFunctionValue();
+		double gradX = 0; // TODO write the correct formula here
+		double gradY = 0;// TODO write the correct formula here
+		return new Vector2d(gradX, gradY);
 	}
 }
