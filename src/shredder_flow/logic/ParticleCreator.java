@@ -34,4 +34,8 @@ public class ParticleCreator {
 					random.nextInt(highestRandomValue) * scale + yShift);
 		}
 	}
+	
+	public void clearParticleList(){
+		particles.clear();
+	}
 }
