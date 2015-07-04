@@ -5,13 +5,18 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
 import shredder_flow.logic.VectorFieldGenerator;
 
 public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
+	private static final String SYMPLECTIC_FIELD = "Symplectic Field";
+	private static final String RANDOM_FIELD = "Random Field";
+	private static final String GRADIENT_FIELD = "Gradient Field";
 	private VectorFieldGenerator generator;
+	private JComboBox<String> fieldComboBox;
 
 	public VectorFieldGeneratorInvoker(VectorFieldGenerator generator) {
 		this.generator = generator;
@@ -31,11 +36,34 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		final int ROWS = 2;
 		final int COLUMNS = 2;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
-		addRandomVectorFieldButton();
+		addFunctionSelectBox();
+		addButton(new ApplyFunctionAction(), "Apply");
 	}
 	
-	private void addRandomVectorFieldButton() {
-		addButton(new RandomVectorFieldAction(), "Random VectorField");
+	private void addFunctionSelectBox() {
+		fieldComboBox = new JComboBox<String>();
+		shrinkPanel.add(fieldComboBox);
+		
+		fieldComboBox.addItem(RANDOM_FIELD);
+		fieldComboBox.addItem(GRADIENT_FIELD);
+		fieldComboBox.addItem(SYMPLECTIC_FIELD);
+	}
+	
+	class ApplyFunctionAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(fieldComboBox.getSelectedItem() == RANDOM_FIELD){
+				generator.generateRandomVectorField();
+			}
+			if(fieldComboBox.getSelectedItem() == GRADIENT_FIELD){
+				generator.generateGradiantField();
+			}
+			if(fieldComboBox.getSelectedItem() == SYMPLECTIC_FIELD){
+				generator.generateSymplecticVectorField();
+			}
+		}
 	}
 
 	private void addButton(AbstractAction action, String caption) {
