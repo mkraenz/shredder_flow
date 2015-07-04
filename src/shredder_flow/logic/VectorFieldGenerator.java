@@ -82,7 +82,4 @@ public class VectorFieldGenerator {
 		return vec;
 	}
 	
-	private Vector2d rotatePositivelyBy90Degree(Vector2d vec) {
-		return new Vector2d(-vec.y, vec.x);
-		}
 }
