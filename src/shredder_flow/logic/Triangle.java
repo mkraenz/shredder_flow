@@ -151,4 +151,25 @@ public class Triangle {
 			return false;
 		}
 	}
+	
+	public boolean isBoundaryTriangle() {
+		Vertex a = this.getVertices().get(0);
+		Vertex b = this.getVertices().get(1);
+		Vertex c = this.getVertices().get(2);
+
+		Vertex ab = new Vertex((a.getX() + b.getX()) / 2,
+				(a.getY() + b.getY()) / 2);
+		Vertex bc = new Vertex((c.getX() + b.getX()) / 2,
+				(c.getY() + b.getY()) / 2);
+		Vertex ca = new Vertex((a.getX() + c.getX()) / 2,
+				(a.getY() + c.getY()) / 2);
+
+		if (!getNeighbor(ab.getX(), ab.getY()).equals(null)
+				&& !getNeighbor(bc.getX(), bc.getY()).equals(null)
+				&& !getNeighbor(ca.getX(), ca.getY()).equals(null)) {
+			return true;
+		}
+
+		return false;
+	}
 }
