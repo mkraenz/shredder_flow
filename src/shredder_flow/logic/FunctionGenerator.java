@@ -28,4 +28,11 @@ public class FunctionGenerator {
 		}
 
 	}
+	
+	public void generateHandwrittenFuction(double alpha, double xUp, double yUp, double constant){
+		for (Vertex vertex : vertices) {
+			double value =alpha*Math.pow(vertex.getX(), xUp)*Math.pow(vertex.getY(), yUp)+constant;
+			vertex.setFunctionValue(value);
+		}
+	}
 }
