@@ -28,10 +28,12 @@ public class FunctionGenerator {
 		}
 
 	}
-	
-	public void generateHandwrittenFuction(double alpha, double xUp, double yUp, double constant){
+
+	public void generateHandwrittenFuction(double alpha, double xUp,
+			double yUp, double constant) {
 		for (Vertex vertex : vertices) {
-			double value =alpha*Math.pow(vertex.getX(), xUp)*Math.pow(vertex.getY(), yUp)+constant;
+			double value = alpha * Math.pow(vertex.getX(), xUp)
+					* Math.pow(vertex.getY(), yUp) + constant;
 			vertex.setFunctionValue(value);
 		}
 	}
@@ -39,7 +41,20 @@ public class FunctionGenerator {
 	public void generateHandwrittenFuctionSum(double alpha, double xUp,
 			double beta, double yUp, double constant) {
 		for (Vertex vertex : vertices) {
-			double value =alpha*Math.pow(vertex.getX(), xUp)+beta*Math.pow(vertex.getY(), yUp)+constant;
+			double value = alpha * Math.pow(vertex.getX(), xUp) + beta
+					* Math.pow(vertex.getY(), yUp) + constant;
+			vertex.setFunctionValue(value);
+		}
+	}
+
+	public void generateWhirlpool() {
+		for (Vertex vertex : vertices) {
+			double value = -vertex.getY()
+					/ (Math.sqrt(Math.pow(vertex.getX(), 2)
+							+ Math.pow(vertex.getY(), 2)))
+					+ vertex.getX()
+					/ (Math.sqrt(Math.pow(vertex.getX(), 2)
+							+ Math.pow(vertex.getY(), 2)));
 			vertex.setFunctionValue(value);
 		}
 	}

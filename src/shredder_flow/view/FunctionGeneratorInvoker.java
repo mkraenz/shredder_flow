@@ -19,6 +19,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String RANDOM_VALUES = "Random Values";
 	private static final String HANDWRITTEN_FUNCTION = "Handwritten Function";
 	private static final String HANDWRITTEN_FUNCTION_SUM = "Handwritten Function Sum";
+	private static final String WHIRPOOL = "Whirlpool Function";
 	private FunctionGenerator generator;
 	private JComboBox<String> functionsComboBox;
 	private JTextField alphaTextField;
@@ -28,6 +29,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private JTextField betaTextField;
 	private JPanel handwrittenFunctionPannel;
 	private JPanel handwrittenFunctionPannelSum;
+	private JPanel whirpoolPanel;
 	private JButton button;
 
 	public FunctionGeneratorInvoker(FunctionGenerator generator) {
@@ -60,6 +62,9 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(handwrittenFunctionPannelSum);
 		handwrittenFunctionPannelSum.setMaximumSize(new Dimension(shrinkPanel
 				.getWidth() - 5, shrinkPanel.getHeight() - 5));
+		whirpoolPanel = new JPanel();
+		whirpoolPanel.setMaximumSize(new Dimension(shrinkPanel
+				.getWidth() - 5, shrinkPanel.getHeight() - 5));
 	}
 
 	private void addFunctionSelectBox() {
@@ -68,9 +73,40 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		functionsComboBox.addItem(RANDOM_VALUES);
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
+		functionsComboBox.addItem(WHIRPOOL);
 		shrinkPanel.add(functionsComboBox);
 	}
 
+	private void addGuiElementsWhirpool() {
+		shrinkPanel.removeAll();
+		final int ROWS = 4;
+		final int COLUMNS = 1;
+		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
+		addFunctionSelectBoxWhirpool();
+		addButton(new ApplyFunctionActionWhirpool(), "Apply");
+		handwrittenFunctionPannel = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannel);
+		handwrittenFunctionPannel.setMaximumSize(new Dimension(
+				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
+		handwrittenFunctionPannelSum = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannelSum);
+		handwrittenFunctionPannelSum.setMaximumSize(new Dimension(shrinkPanel
+				.getWidth() - 5, shrinkPanel.getHeight() - 5));
+		whirpoolPanel = new JPanel();
+		whirpoolPanel.setMaximumSize(new Dimension(shrinkPanel
+				.getWidth() - 5, shrinkPanel.getHeight() - 5));
+	}
+
+	private void addFunctionSelectBoxWhirpool() {
+		functionsComboBox = new JComboBox<String>();
+		// functionsComboBox.removeAll();
+		functionsComboBox.addItem(WHIRPOOL);
+		functionsComboBox.addItem(RANDOM_VALUES);
+		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
+		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
+		shrinkPanel.add(functionsComboBox);
+	}
+	
 	private void addGuiElementsFunction() {
 		shrinkPanel.removeAll();
 		final int ROWS = 4;
@@ -94,6 +130,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
 		functionsComboBox.addItem(RANDOM_VALUES);
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
+		functionsComboBox.addItem(WHIRPOOL);
 		shrinkPanel.add(functionsComboBox);
 	}
 
@@ -119,6 +156,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
 		functionsComboBox.addItem(RANDOM_VALUES);
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
+		functionsComboBox.addItem(WHIRPOOL);
 		shrinkPanel.add(functionsComboBox);
 	}
 
@@ -269,7 +307,9 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				shrinkPanel.remove(button);
 				buildFunctionWithSum();
 			}
-
+			if (functionsComboBox.getSelectedItem() == WHIRPOOL) {
+				addGuiElementsWhirpool();
+			} 
 		}
 	}
 
@@ -292,6 +332,9 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				shrinkPanel.remove(button);
 				buildFunctionWithSum();
 			}
+			if (functionsComboBox.getSelectedItem() == WHIRPOOL) {
+				addGuiElementsWhirpool();
+			} 
 		}
 
 	}
@@ -315,9 +358,36 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				shrinkPanel.remove(button);
 				buildFunctionWithSum();
 			}
+			if (functionsComboBox.getSelectedItem() == WHIRPOOL) {
+				addGuiElementsWhirpool();
+			} 
 
 		}
 
 	}
 
+	class ApplyFunctionActionWhirpool extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (functionsComboBox.getSelectedItem() == RANDOM_VALUES) {
+				addGuiElements();
+			}
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
+				shrinkPanel.remove(button);
+				buildFunction();
+			}
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
+				shrinkPanel.remove(button);
+				buildFunctionWithSum();
+			}
+			if (functionsComboBox.getSelectedItem() == WHIRPOOL) {
+				shrinkPanel.remove(button);
+				generator.generateWhirlpool();
+				addGuiElementsWhirpool();
+			} 
+		}
+	
+	}
 }
