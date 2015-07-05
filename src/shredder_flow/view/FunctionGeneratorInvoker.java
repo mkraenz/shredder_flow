@@ -26,8 +26,8 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private JTextField yExponentTextField;
 	private JTextField constantTextField;
 	private JTextField betaTextField;
-	private JPanel HandrittenFctPannel;
-	private JPanel HandrittenFctPannelSum;
+	private JPanel handwrittenFunctionPannel;
+	private JPanel handwrittenFunctionPannelSum;
 	private JButton button;
 
 	public FunctionGeneratorInvoker(FunctionGenerator generator) {
@@ -52,13 +52,13 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addFunctionSelectBox();
 		addButton(new ApplyFunctionAction(), "Apply");
-		HandrittenFctPannel = new JPanel();
-		shrinkPanel.add(HandrittenFctPannel);
-		HandrittenFctPannel.setMaximumSize(new Dimension(
+		handwrittenFunctionPannel = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannel);
+		handwrittenFunctionPannel.setMaximumSize(new Dimension(
 				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
-		HandrittenFctPannelSum = new JPanel();
-		shrinkPanel.add(HandrittenFctPannelSum);
-		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel
+		handwrittenFunctionPannelSum = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannelSum);
+		handwrittenFunctionPannelSum.setMaximumSize(new Dimension(shrinkPanel
 				.getWidth() - 5, shrinkPanel.getHeight() - 5));
 	}
 
@@ -78,13 +78,13 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addFunctionSelectBoxFunction();
 		addButton(new ApplyFunctionAction(), "Apply");
-		HandrittenFctPannel = new JPanel();
-		shrinkPanel.add(HandrittenFctPannel);
-		HandrittenFctPannel.setMaximumSize(new Dimension(
+		handwrittenFunctionPannel = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannel);
+		handwrittenFunctionPannel.setMaximumSize(new Dimension(
 				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
-		HandrittenFctPannelSum = new JPanel();
-		shrinkPanel.add(HandrittenFctPannelSum);
-		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel
+		handwrittenFunctionPannelSum = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannelSum);
+		handwrittenFunctionPannelSum.setMaximumSize(new Dimension(shrinkPanel
 				.getWidth() - 5, shrinkPanel.getHeight() - 5));
 	}
 
@@ -104,13 +104,13 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addFunctionSelectBoxFunctionSum();
 		addButton(new ApplyFunctionAction(), "Apply");
-		HandrittenFctPannel = new JPanel();
-		shrinkPanel.add(HandrittenFctPannel);
-		HandrittenFctPannel.setMaximumSize(new Dimension(
+		handwrittenFunctionPannel = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannel);
+		handwrittenFunctionPannel.setMaximumSize(new Dimension(
 				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
-		HandrittenFctPannelSum = new JPanel();
-		shrinkPanel.add(HandrittenFctPannelSum);
-		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel
+		handwrittenFunctionPannelSum = new JPanel();
+		shrinkPanel.add(handwrittenFunctionPannelSum);
+		handwrittenFunctionPannelSum.setMaximumSize(new Dimension(shrinkPanel
 				.getWidth() - 5, shrinkPanel.getHeight() - 5));
 	}
 
@@ -131,52 +131,52 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 	private void buildFunction() {
 
-		HandrittenFctPannel.removeAll();
-		HandrittenFctPannelSum.removeAll();
+		handwrittenFunctionPannel.removeAll();
+		handwrittenFunctionPannelSum.removeAll();
 
-		HandrittenFctPannel.add(new JLabel("f(x,y)="));
+		handwrittenFunctionPannel.add(new JLabel("f(x,y)="));
 		alphaTextField = new JTextField("1.0");
-		HandrittenFctPannel.add(alphaTextField);
+		handwrittenFunctionPannel.add(alphaTextField);
 
-		HandrittenFctPannel.add(new JLabel("*x^"));
+		handwrittenFunctionPannel.add(new JLabel("*x^"));
 		xExponentTextField = new JTextField("1.0");
-		HandrittenFctPannel.add(xExponentTextField);
+		handwrittenFunctionPannel.add(xExponentTextField);
 
-		HandrittenFctPannel.add(new JLabel("*y^"));
+		handwrittenFunctionPannel.add(new JLabel("*y^"));
 		yExponentTextField = new JTextField("1.0");
-		HandrittenFctPannel.add(yExponentTextField);
+		handwrittenFunctionPannel.add(yExponentTextField);
 
-		HandrittenFctPannel.add(new JLabel("+"));
+		handwrittenFunctionPannel.add(new JLabel("+"));
 		constantTextField = new JTextField("1.0");
-		HandrittenFctPannel.add(constantTextField);
+		handwrittenFunctionPannel.add(constantTextField);
 
 		addButton(new BuildFunctionAction(), "Apply");
 	}
 
 	private void buildFunctionWithSum() {
 
-		HandrittenFctPannel.removeAll();
-		HandrittenFctPannelSum.removeAll();
+		handwrittenFunctionPannel.removeAll();
+		handwrittenFunctionPannelSum.removeAll();
 
-		HandrittenFctPannelSum.add(new JLabel("f(x,y)="));
+		handwrittenFunctionPannelSum.add(new JLabel("f(x,y)="));
 		alphaTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(alphaTextField);
+		handwrittenFunctionPannelSum.add(alphaTextField);
 
-		HandrittenFctPannelSum.add(new JLabel("*x^"));
+		handwrittenFunctionPannelSum.add(new JLabel("*x^"));
 		xExponentTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(xExponentTextField);
+		handwrittenFunctionPannelSum.add(xExponentTextField);
 
-		HandrittenFctPannelSum.add(new JLabel("+"));
+		handwrittenFunctionPannelSum.add(new JLabel("+"));
 		betaTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(betaTextField);
+		handwrittenFunctionPannelSum.add(betaTextField);
 
-		HandrittenFctPannelSum.add(new JLabel("*y^"));
+		handwrittenFunctionPannelSum.add(new JLabel("*y^"));
 		yExponentTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(yExponentTextField);
+		handwrittenFunctionPannelSum.add(yExponentTextField);
 
-		HandrittenFctPannelSum.add(new JLabel("+"));
+		handwrittenFunctionPannelSum.add(new JLabel("+"));
 		constantTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(constantTextField);
+		handwrittenFunctionPannelSum.add(constantTextField);
 
 		addButton(new BuildFunctionSumAction(), "Apply");
 	}
