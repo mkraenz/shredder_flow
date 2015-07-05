@@ -54,21 +54,22 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(triangulateButton);
 		triangulateButton.setText("Triangulate");
 	}
-	
-	private void addTriangleOptButton(){
+
+	private void addTriangleOptButton() {
 		maxTriangleTextField = new JTextField("-1");
 		minAngleOfTriangleTextField = new JTextField("30");
-		
+
 		shrinkPanel.add(new JLabel("Max Number of Triangle:"));
 		shrinkPanel.add(maxTriangleTextField);
 		shrinkPanel.add(new JLabel("Min Angle of Triangles:"));
 		shrinkPanel.add(minAngleOfTriangleTextField);
 		addButton(new SetMaxTriangleAction(), "Set new max number of triangle");
-		addButton(new SetMinAngleTriangleAction(), "Set new min angle for triangle");
+		addButton(new SetMinAngleTriangleAction(),
+				"Set new min angle for triangle");
 		addButton(new ResetMaxTriangleAction(), "Reset max number of triangle");
 		addButton(new ResetMinAngleAction(), "Reset min angle of triangle");
 	}
-	
+
 	private void addButton(AbstractAction action, String caption) {
 		final JButton button = new JButton();
 		button.setAction(action);
@@ -105,55 +106,57 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 		model.getVertices().clear();
 		model.getTriangles().clear();
 	}
-	
+
 	class SetMaxTriangleAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				maximalTriangleNumber = Integer.parseInt(maxTriangleTextField.getText());
+				maximalTriangleNumber = Integer.parseInt(maxTriangleTextField
+						.getText());
 			} catch (Exception e2) {
 				System.out
 						.println("WARNING: Could not convert given maxTriangleNumber to integer.");
 			}
-			ruppertAdapter.setMaximalTriangleNumber(maximalTriangleNumber);			
+			ruppertAdapter.setMaximalTriangleNumber(maximalTriangleNumber);
 		}
 	}
-	
+
 	class SetMinAngleTriangleAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				minimalAngleConstraint = Integer.parseInt(minAngleOfTriangleTextField.getText());
+				minimalAngleConstraint = Integer
+						.parseInt(minAngleOfTriangleTextField.getText());
 			} catch (Exception e2) {
 				System.out
 						.println("WARNING: Could not convert given minTriangleAngleNumber to integer.");
 			}
-			ruppertAdapter.setMinimalAngleConstraint(minimalAngleConstraint);			
+			ruppertAdapter.setMinimalAngleConstraint(minimalAngleConstraint);
 		}
 	}
-	
+
 	class ResetMinAngleAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			ruppertAdapter.setMinimalAngleConstraint(30);			
+
+			ruppertAdapter.setMinimalAngleConstraint(30);
 		}
 	}
-	
+
 	class ResetMaxTriangleAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			ruppertAdapter.setMaximalTriangleNumber(-1);			
+
+			ruppertAdapter.setMaximalTriangleNumber(-1);
 		}
 	}
-	
+
 }
