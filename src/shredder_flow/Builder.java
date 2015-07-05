@@ -31,6 +31,9 @@ public class Builder {
 	 */
 	public void buildAndRegister(Java2DViewer viewer) {
 		int UPDATES_PER_SECOND = 60;
+		
+		Autoredrawer autoredrawer = new Autoredrawer();
+		Timer redrawTimer = new Timer(1000/UPDATES_PER_SECOND, autoredrawer);
 
 		ParticleList particles = new ParticleList();
 		TriangleList triangles = new TriangleList();
@@ -40,20 +43,21 @@ public class Builder {
 		viewer.registerPlugin(subdividedPolygonPlugin);
 		DraggablePolygon2DAdapter polygon2DAdapter = new DraggablePolygon2DAdapter(
 				subdividedPolygonPlugin);
-
-		setMeshRelatedPlugins(viewer, polygon2DAdapter, triangles, vertices);
+		setMeshRelatedPlugins(viewer, polygon2DAdapter, triangles, vertices, autoredrawer);
 		setFunctionGeneratorPlugin(viewer, vertices);
 		setVectorFieldGeneratorPlugin(viewer, triangles);
 		
-		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles, triangles);
+		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles, triangles, autoredrawer);
+		redrawTimer.start();
 	}
 
 	private void setParticleUpdaterPlugin(Java2DViewer viewer,
-			int UPDATES_PER_SECOND, ParticleList particles, TriangleList triangles) {
+			int UPDATES_PER_SECOND, ParticleList particles, TriangleList triangles, Autoredrawer autoredrawer) {
 
 		ParticlePlugin particlePlugin = new ParticlePlugin(new ParticleCreator(
 				particles, triangles), particles);
 		viewer.registerPlugin(particlePlugin);
+		autoredrawer.setParticleDrawer(particlePlugin);
 		
 		ParticleAdderPanel particleAdder = new ParticleAdderPanel(new ParticleCreator(
 				particles, triangles), particlePlugin);
@@ -62,7 +66,7 @@ public class Builder {
 		Timer updateTimer = new Timer(0, null); // TODO maybe bind the timer to
 												// the viewers timer
 		ParticleUpdater particleUpdater = new ParticleUpdater(particles,
-				UPDATES_PER_SECOND, updateTimer, particlePlugin);
+				UPDATES_PER_SECOND, updateTimer);
 		ParticleUpdateInvoker particleUpdateInvoker = new ParticleUpdateInvoker(
 				particleUpdater);
 		viewer.registerPlugin(particleUpdateInvoker);
@@ -85,14 +89,15 @@ public class Builder {
 
 	private void setMeshRelatedPlugins(Java2DViewer viewer,
 			DraggablePolygon2DAdapter polygon2DAdapter, TriangleList triangles,
-			TriangulationVertexList vertices) {
+			TriangulationVertexList vertices, Autoredrawer autoredrawer) {
 		MeshModel meshModel = new MeshModel(triangles, vertices);
 
 		MeshPlugin meshPlugin = new MeshPlugin(meshModel);
 		viewer.registerPlugin(meshPlugin);
+		autoredrawer.setMeshDrawer(meshPlugin);
 
 		TriangulationInvoker triangulationInvoker = new TriangulationInvoker(
-				meshModel, polygon2DAdapter, meshPlugin);
+				meshModel, polygon2DAdapter);
 		viewer.registerPlugin(triangulationInvoker);
 
 	}
