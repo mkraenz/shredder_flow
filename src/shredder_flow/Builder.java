@@ -63,8 +63,7 @@ public class Builder {
 				particles, triangles), particlePlugin);
 		viewer.registerPlugin(particleAdder);
 		
-		Timer updateTimer = new Timer(0, null); // TODO maybe bind the timer to
-												// the viewers timer
+		Timer updateTimer = new Timer(0, null);
 		ParticleUpdater particleUpdater = new ParticleUpdater(particles,
 				UPDATES_PER_SECOND, updateTimer);
 		ParticleUpdateInvoker particleUpdateInvoker = new ParticleUpdateInvoker(
