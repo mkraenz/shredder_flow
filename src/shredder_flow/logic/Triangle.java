@@ -151,4 +151,14 @@ public class Triangle {
 			return false;
 		}
 	}
+	
+	public Vector2d getMiddlePoint() {
+		Vector2d middle = new Vector2d(1, 1);
+		middle.set((this.getVertices().get(0).getX()
+				+ this.getVertices().get(1).getX() + this.getVertices().get(2)
+				.getX()) / 3, (this.getVertices().get(0).getY()
+				+ this.getVertices().get(1).getY() + this.getVertices().get(2)
+				.getY()) / 3);
+		return middle;
+	}
 }
