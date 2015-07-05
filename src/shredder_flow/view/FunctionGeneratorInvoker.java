@@ -22,18 +22,13 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private FunctionGenerator generator;
 	private JComboBox<String> functionsComboBox;
 	private JTextField alphaTextField;
-	private JTextField xUpTextField;
-	private JTextField yUpTextField;
+	private JTextField xExponentTextField;
+	private JTextField yExponentTextField;
 	private JTextField constantTextField;
 	private JTextField betaTextField;
-	private JLabel alphaLabel;
-	private JLabel xUpLabel;
-	private JLabel yUpLabel;
-	private JLabel betaLabel;
 	private JPanel HandrittenFctPannel;
 	private JPanel HandrittenFctPannelSum;
 	private JButton button;
-
 
 	public FunctionGeneratorInvoker(FunctionGenerator generator) {
 		this.generator = generator;
@@ -52,25 +47,78 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 	private void addGuiElements() {
 		shrinkPanel.removeAll();
-		final int ROWS = 3;
+		final int ROWS = 4;
 		final int COLUMNS = 1;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addFunctionSelectBox();
 		addButton(new ApplyFunctionAction(), "Apply");
 		HandrittenFctPannel = new JPanel();
 		shrinkPanel.add(HandrittenFctPannel);
-		HandrittenFctPannel.setMaximumSize(new Dimension(shrinkPanel.getWidth()-5,shrinkPanel.getHeight()-5));
+		HandrittenFctPannel.setMaximumSize(new Dimension(
+				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
 		HandrittenFctPannelSum = new JPanel();
 		shrinkPanel.add(HandrittenFctPannelSum);
-		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel.getWidth()-5,shrinkPanel.getHeight()-5));
+		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel
+				.getWidth() - 5, shrinkPanel.getHeight() - 5));
 	}
 
 	private void addFunctionSelectBox() {
 		functionsComboBox = new JComboBox<String>();
-//		functionsComboBox.removeAll();
+		// functionsComboBox.removeAll();
 		functionsComboBox.addItem(RANDOM_VALUES);
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
 		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
+		shrinkPanel.add(functionsComboBox);
+	}
+
+	private void addGuiElementsFunction() {
+		shrinkPanel.removeAll();
+		final int ROWS = 4;
+		final int COLUMNS = 1;
+		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
+		addFunctionSelectBoxFunction();
+		addButton(new ApplyFunctionAction(), "Apply");
+		HandrittenFctPannel = new JPanel();
+		shrinkPanel.add(HandrittenFctPannel);
+		HandrittenFctPannel.setMaximumSize(new Dimension(
+				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
+		HandrittenFctPannelSum = new JPanel();
+		shrinkPanel.add(HandrittenFctPannelSum);
+		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel
+				.getWidth() - 5, shrinkPanel.getHeight() - 5));
+	}
+
+	private void addFunctionSelectBoxFunction() {
+		functionsComboBox = new JComboBox<String>();
+		// functionsComboBox.removeAll();
+		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
+		functionsComboBox.addItem(RANDOM_VALUES);
+		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
+		shrinkPanel.add(functionsComboBox);
+	}
+
+	private void addGuiElementsFunctionSum() {
+		shrinkPanel.removeAll();
+		final int ROWS = 4;
+		final int COLUMNS = 1;
+		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
+		addFunctionSelectBoxFunctionSum();
+		addButton(new ApplyFunctionAction(), "Apply");
+		HandrittenFctPannel = new JPanel();
+		shrinkPanel.add(HandrittenFctPannel);
+		HandrittenFctPannel.setMaximumSize(new Dimension(
+				shrinkPanel.getWidth() - 5, shrinkPanel.getHeight() - 5));
+		HandrittenFctPannelSum = new JPanel();
+		shrinkPanel.add(HandrittenFctPannelSum);
+		HandrittenFctPannelSum.setMaximumSize(new Dimension(shrinkPanel
+				.getWidth() - 5, shrinkPanel.getHeight() - 5));
+	}
+
+	private void addFunctionSelectBoxFunctionSum() {
+		functionsComboBox = new JComboBox<String>();
+		functionsComboBox.addItem(HANDWRITTEN_FUNCTION_SUM);
+		functionsComboBox.addItem(RANDOM_VALUES);
+		functionsComboBox.addItem(HANDWRITTEN_FUNCTION);
 		shrinkPanel.add(functionsComboBox);
 	}
 
@@ -81,65 +129,63 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		button.setText(caption);
 	}
 
-	private void buildFunction(){
-		
-		
+	private void buildFunction() {
+
 		HandrittenFctPannel.removeAll();
 		HandrittenFctPannelSum.removeAll();
 
-		
-		HandrittenFctPannel.add(new JLabel("alpha:"));
+		HandrittenFctPannel.add(new JLabel("f(x,y)="));
 		alphaTextField = new JTextField("1.0");
 		HandrittenFctPannel.add(alphaTextField);
-		
-		HandrittenFctPannel.add(new JLabel("xUp:"));
-		xUpTextField = new JTextField("1.0");
-		HandrittenFctPannel.add(xUpTextField);
-		
-		HandrittenFctPannel.add(new JLabel("yUp:"));
-		yUpTextField = new JTextField("1.0");
-		HandrittenFctPannel.add(yUpTextField);
-		
-		HandrittenFctPannel.add(new JLabel("constant:"));
+
+		HandrittenFctPannel.add(new JLabel("*x^"));
+		xExponentTextField = new JTextField("1.0");
+		HandrittenFctPannel.add(xExponentTextField);
+
+		HandrittenFctPannel.add(new JLabel("*y^"));
+		yExponentTextField = new JTextField("1.0");
+		HandrittenFctPannel.add(yExponentTextField);
+
+		HandrittenFctPannel.add(new JLabel("+"));
 		constantTextField = new JTextField("1.0");
 		HandrittenFctPannel.add(constantTextField);
-		
-		addButton(new BuildFunctio(), "BuildFunction in Form: alpha*X^xUp*Y^yUp+constant");
+
+		addButton(new BuildFunctionAction(), "Apply");
 	}
-	
-private void buildFunctionWithSum(){
-		
+
+	private void buildFunctionWithSum() {
+
 		HandrittenFctPannel.removeAll();
 		HandrittenFctPannelSum.removeAll();
-		
-		HandrittenFctPannelSum.add(new JLabel("alpha:"));
+
+		HandrittenFctPannelSum.add(new JLabel("f(x,y)="));
 		alphaTextField = new JTextField("1.0");
 		HandrittenFctPannelSum.add(alphaTextField);
-		
-		HandrittenFctPannelSum.add(new JLabel("xUp:"));
-		xUpTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(xUpTextField);
-		
-		HandrittenFctPannelSum.add(new JLabel("beta:"));
+
+		HandrittenFctPannelSum.add(new JLabel("*x^"));
+		xExponentTextField = new JTextField("1.0");
+		HandrittenFctPannelSum.add(xExponentTextField);
+
+		HandrittenFctPannelSum.add(new JLabel("+"));
 		betaTextField = new JTextField("1.0");
 		HandrittenFctPannelSum.add(betaTextField);
-		
-		HandrittenFctPannelSum.add(new JLabel("yUp:"));
-		yUpTextField = new JTextField("1.0");
-		HandrittenFctPannelSum.add(yUpTextField);
-		
-		HandrittenFctPannelSum.add(new JLabel("constant:"));
+
+		HandrittenFctPannelSum.add(new JLabel("*y^"));
+		yExponentTextField = new JTextField("1.0");
+		HandrittenFctPannelSum.add(yExponentTextField);
+
+		HandrittenFctPannelSum.add(new JLabel("+"));
 		constantTextField = new JTextField("1.0");
 		HandrittenFctPannelSum.add(constantTextField);
-		
-		addButton(new BuildFunctioSum(), "BuildFunction in Form: alpha*X^xUp+beta*Y^yUp+constant");
+
+		addButton(new BuildFunctionSumAction(), "Apply");
 	}
-	
+
 	private void performer() {
 		double alpha = 1;
 		double xUp = 1;
-		double yUp=1;
-		double constant=1;
+		double yUp = 1;
+		double constant = 1;
 		try {
 			alpha = Double.parseDouble(alphaTextField.getText());
 		} catch (Exception e2) {
@@ -147,13 +193,13 @@ private void buildFunctionWithSum(){
 					.println("WARNING: Could not convert given alpha to double.");
 		}
 		try {
-			xUp = Double.parseDouble(xUpTextField.getText());
+			xUp = Double.parseDouble(xExponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given xUp to double.");
 		}
 		try {
-			yUp = Double.parseDouble(yUpTextField.getText());
+			yUp = Double.parseDouble(yExponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given yUp to double.");
@@ -166,13 +212,13 @@ private void buildFunctionWithSum(){
 		}
 		generator.generateHandwrittenFuction(alpha, xUp, yUp, constant);
 	}
-	
+
 	private void performerSum() {
 		double alpha = 1;
 		double xUp = 1;
 		double beta = 1;
-		double yUp=1;
-		double constant=1;
+		double yUp = 1;
+		double constant = 1;
 		try {
 			alpha = Double.parseDouble(alphaTextField.getText());
 		} catch (Exception e2) {
@@ -180,7 +226,7 @@ private void buildFunctionWithSum(){
 					.println("WARNING: Could not convert given alpha to double.");
 		}
 		try {
-			xUp = Double.parseDouble(xUpTextField.getText());
+			xUp = Double.parseDouble(xExponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given xUp to double.");
@@ -192,7 +238,7 @@ private void buildFunctionWithSum(){
 					.println("WARNING: Could not convert given beta to double.");
 		}
 		try {
-			yUp = Double.parseDouble(yUpTextField.getText());
+			yUp = Double.parseDouble(yExponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given yUp to double.");
@@ -203,83 +249,75 @@ private void buildFunctionWithSum(){
 			System.out
 					.println("WARNING: Could not convert given constant to double.");
 		}
-		generator.generateHandwrittenFuctionSum(alpha, xUp, beta,yUp, constant);
+		generator
+				.generateHandwrittenFuctionSum(alpha, xUp, beta, yUp, constant);
 	}
-	
+
 	class ApplyFunctionAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(functionsComboBox.getSelectedItem() == RANDOM_VALUES){
+			if (functionsComboBox.getSelectedItem() == RANDOM_VALUES) {
 				generator.generateRandomFunction(-10, 10);
 			}
-			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION){
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
 				shrinkPanel.remove(button);
 				buildFunction();
 			}
-			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM){
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
 				shrinkPanel.remove(button);
 				buildFunctionWithSum();
 			}
 
 		}
 	}
-	class BuildFunctio extends AbstractAction {
+
+	class BuildFunctionAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
-//		@Override
+		// @Override
 		public void actionPerformed(ActionEvent e) {
-//			performer();
-//		}
-		if(functionsComboBox.getSelectedItem() == RANDOM_VALUES){
-			addGuiElements();		
+
+			if (functionsComboBox.getSelectedItem() == RANDOM_VALUES) {
+				addGuiElements();
 			}
-		if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION){
-//			shrinkPanel.remove(button);
-			performer();
-			shrinkPanel.remove(button);
-			buildFunction();
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
+				performer();
+				shrinkPanel.remove(button);
+				buildFunction();
 			}
-		if(functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM){
-			addGuiElements();
-			shrinkPanel.remove(button);
-			buildFunctionWithSum();		
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
+				addGuiElementsFunctionSum();
+				shrinkPanel.remove(button);
+				buildFunctionWithSum();
 			}
 		}
-		
+
 	}
-	
-	class BuildFunctioSum extends AbstractAction {
+
+	class BuildFunctionSumAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
-//		@Override
+		// @Override
 		public void actionPerformed(ActionEvent e) {
-//			performer();
-//		}
-		if(functionsComboBox.getSelectedItem() == RANDOM_VALUES){
-//			System.out.println(HandrittenFctPannel.equals(null));
-//			HandrittenFctPannelSum.removeAll();
-//			generator.generateRandomFunction(-10, 10);
-////			System.out.println("lol");
-			addGuiElements();		
+
+			if (functionsComboBox.getSelectedItem() == RANDOM_VALUES) {
+				addGuiElements();
 			}
-		if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION){
-			addGuiElements();
-			shrinkPanel.remove(button);
-////			performer();
-			shrinkPanel.remove(button);
-			buildFunction();
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
+				addGuiElementsFunction();
+				shrinkPanel.remove(button);
+				buildFunction();
 			}
-		if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM){
-//			shrinkPanel.remove(button);
-			performerSum();
-			shrinkPanel.remove(button);
-			buildFunctionWithSum();
+			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
+				performerSum();
+				shrinkPanel.remove(button);
+				buildFunctionWithSum();
 			}
-		
+
 		}
-		
+
 	}
-	
+
 }
