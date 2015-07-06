@@ -76,7 +76,6 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			reset();
 			invokeTriangulation();
 		}
 	}
@@ -92,7 +91,7 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 	}
 
 	public void invokeTriangulation() {
-		ruppertAdapter.setMinimalAngleConstraint(minimalAngleConstraint);
+		reset();
 		ruppertAdapter.triangulate(polygonAdapter.getBoundary());
 	}
 
