@@ -22,12 +22,14 @@ public class MeshPlugin extends Plugin {
 	private SceneComponent verticesSceneComponent;
 	private SceneComponent edgesSceneComponent;
 	private SceneComponent vectorsSceneComponent;
+	private boolean isDrawFieldVectors;
 
 	public MeshPlugin(MeshModel model) {
 		this.model = model;
 		this.verticesSceneComponent = new SceneComponent();
 		this.edgesSceneComponent = new SceneComponent();
 		this.vectorsSceneComponent = new SceneComponent();
+		this.isDrawFieldVectors = false;
 	}
 
 	public void draw() {
@@ -35,7 +37,9 @@ public class MeshPlugin extends Plugin {
 
 		drawVertices(verticesSceneComponent, model.getVertices());
 		drawEdges(edgesSceneComponent, model.getTriangles());
-		drawFieldVectors(vectorsSceneComponent, model.getTriangles());
+		if(isDrawFieldVectors()){
+			drawFieldVectors(vectorsSceneComponent, model.getTriangles());
+		}
 
 		verticesSceneComponent.fireAppearanceChange();
 	}
@@ -45,7 +49,6 @@ public class MeshPlugin extends Plugin {
 		verticesSceneComponent.getPoints().clear();
 		edgesSceneComponent.removeAllChildren();
 		vectorsSceneComponent.removeAllChildren();
-
 	}
 
 	private void drawVertices(SceneComponent sceneComponent,
@@ -96,10 +99,8 @@ public class MeshPlugin extends Plugin {
 	}
 
 	private SceneComponent getFieldVectorSceneComponent(Triangle triangle) {
-		// TODO Auto-generated method stub
 		SceneComponent arrowSceneComponent = new SceneComponent();
 		double length = getTriangleLength(triangle);
-		//double[] normedFieldVec = getNormedFieldVector(triangle.getFieldVector(),length/8);
 		double[] normedFieldVec ={length/4,length/4}; // for test generation
 		double angle = Math.PI/4 -Math.atan2(normedFieldVec[1], normedFieldVec[0]);
 		double s = Math.sin(angle)*length/12;
@@ -142,15 +143,6 @@ public class MeshPlugin extends Plugin {
 			Vertex vertex = new Vertex(center.getX() + normedFieldVec[0], center.getY() + normedFieldVec[1]);
 			return vertex;
 	}
-	//return array of normed FieldVector with length = l
-	private double[] getNormedFieldVector(FieldVector fieldVec, double l){
-		double[] normedVector = new double[2];
-		double length = Math.sqrt(fieldVec.x*fieldVec.x+fieldVec.y*fieldVec.y);
-		normedVector[0]=(fieldVec.x/length)*l;
-		normedVector[1]=(fieldVec.y/length)*l;
-		return normedVector;
-		
-	}
 	
 	//return vertex of center
 	private Vertex getTriangleCenter(Triangle triangle){
@@ -168,6 +160,14 @@ public class MeshPlugin extends Plugin {
 		parentSceneComponent.addChild(verticesSceneComponent);
 		parentSceneComponent.addChild(edgesSceneComponent);
 		parentSceneComponent.addChild(vectorsSceneComponent);
+	}
+
+	public boolean isDrawFieldVectors() {
+		return isDrawFieldVectors;
+	}
+
+	public void setDrawFieldVectors(boolean isDrawFieldVectors) {
+		this.isDrawFieldVectors = isDrawFieldVectors;
 	}
 
 }
