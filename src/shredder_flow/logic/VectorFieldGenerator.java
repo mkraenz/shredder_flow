@@ -2,7 +2,6 @@ package shredder_flow.logic;
 
 import java.util.Random;
 
-import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 public class VectorFieldGenerator {
@@ -13,17 +12,23 @@ public class VectorFieldGenerator {
 		this.triangles = triangleList;
 	}
 
+	public void generate() {
+		// TODO: implement
+		// The task is to provide different generate()
+		// methods that can be called from the VectorFieldInvoker, e.g.
+		// generateRandomField(), generateAsGradientOfPiecewiseLinearFunction(),
+		// generateAs90DegreeRotationOfGradientFieldOfPiecewiseLinearFunction()
+		// ...
+	}
+
 	public void generateRandomVectorField() {
 		int highestRandomValue = 100;
-		double scale = 0.000001;
+		double scale = 0.01;
 		Random random = new Random();
 		for (Triangle triangle : triangles) {
 			FieldVector vector = triangle.getFieldVector();
-			vector.set(
-					random.nextInt(highestRandomValue) * scale
-							* Math.pow(-1, random.nextInt(highestRandomValue)),
-					random.nextInt(highestRandomValue) * scale
-							* Math.pow(-1, random.nextInt(highestRandomValue)));
+			vector.set(random.nextInt(highestRandomValue) * scale,
+					random.nextInt(highestRandomValue) * scale);
 		}
 	}
 
@@ -43,29 +48,36 @@ public class VectorFieldGenerator {
 		}
 	}
 
-	/**
-	 * Builds gradient with method from
-	 * http://dgd.service.tu-berlin.de/wordpress/vismathws10
-	 * /2012/10/17/gradient-of-scalar-functions/.
-	 * 
-	 * @param triangle
-	 */
 	private Vector2d getGradient(Triangle triangle) {
-		Point2d v1 = triangle.getVertices().get(0).getPosition();
-		double x1 = v1.x;
-		double y1 = v1.y;
-		Point2d v2 = triangle.getVertices().get(1).getPosition();
-		double x2 = v2.x;
-		double y2 = v2.y;
-		Point2d v3 = triangle.getVertices().get(2).getPosition();
-		double x3 = v3.x;
-		double y3 = v3.y;
-		double f1 = triangle.getVertices().get(0).getFunctionValue();
-		double f2 = triangle.getVertices().get(1).getFunctionValue();
-		double f3 = triangle.getVertices().get(2).getFunctionValue();
-		double gradY = (f1 - f3) * (x3 - x2);
-		gradY = gradY / ((y1 - y3) * (x3 - x2) - (x1 - x3) * (y3 - y2));
-		double gradX = (f3 - f2 - gradY * (y3 - y2)) / (x3 - x2);
-		return new Vector2d(gradX, gradY);
+		VertexList vertices = triangle.getVertices();
+		Vector2d grad = new Vector2d(1, 1);
+		Vector2d e01 = new Vector2d(vertices.get(1).getX()
+				- vertices.get(0).getX(), vertices.get(1).getY()
+				- vertices.get(0).getY());
+		Vector2d e12 = new Vector2d(vertices.get(2).getX()
+				- vertices.get(1).getX(), vertices.get(2).getY()
+				- vertices.get(1).getY());
+		Vector2d e20 = new Vector2d(vertices.get(0).getX()
+				- vertices.get(2).getX(), vertices.get(0).getY()
+				- vertices.get(2).getY());
+		double area = Math.abs(triangle.getArea());
+		grad.x = -(vertices.get(0).getFunctionValue() * e12.y
+				+ vertices.get(1).getFunctionValue() * e20.y + vertices.get(2)
+				.getFunctionValue() * e01.y)
+				/ (2 * area);
+		grad.y = (vertices.get(0).getFunctionValue() * e12.x
+				+ vertices.get(1).getFunctionValue() * e20.x + vertices.get(2)
+				.getFunctionValue() * e01.x)
+				/ (2 * area);
+		return grad;
 	}
+
+	public Vector2d rotateGradient(Triangle triangle) {
+		Vector2d vec = triangle.getFieldVector();
+		double temp = vec.x;
+		vec.x = -vec.y;
+		vec.y = temp;
+		return vec;
+	}
+
 }
