@@ -18,7 +18,7 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 	private MeshModel model;
 	private DraggablePolygon2DAdapter polygonAdapter;
 	private int maximalTriangleNumber;
-	private int minimalAngleConstraint;
+	private double minimalAngleConstraint;
 	private double maximalAreaConstraint;
 	private JTextField maxTriangleTextField;
 	private RuppertAdapter ruppertAdapter;
@@ -123,12 +123,11 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				minimalAngleConstraint = Integer
-						.parseInt(minAngleOfTriangleTextField.getText());
+				minimalAngleConstraint = Double.parseDouble(minAngleOfTriangleTextField.getText());
 				ruppertAdapter.setMinimalAngleConstraint(minimalAngleConstraint);
 			} catch (Exception e2) {
 				System.out
-						.println("WARNING: Could not convert given minTriangleAngleNumber to integer.");
+						.println("WARNING: Could not convert given minTriangleAngleNumber to double.");
 			}
 		}
 	}

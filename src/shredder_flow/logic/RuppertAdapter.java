@@ -6,9 +6,9 @@ public class RuppertAdapter {
 
 	private TriangulationVertexList vertices;
 	private TriangleList triangles;
-	private int maximalTriangleNumber = -1;
-	private int minimalAngleConstraint = 30;
-	private double maximalAreaConstraint = -1;
+	private int maximalTriangleNumber;
+	private double minimalAngleConstraint;
+	private double maximalAreaConstraint;
 
 	/**
 	 * Constructor
@@ -22,13 +22,19 @@ public class RuppertAdapter {
 			TriangleList triangleList) {
 		this.vertices = vertexList;
 		this.triangles = triangleList;
+		double[][] pointsMock = {{0,0}};
+		Ruppert ruppert = new Ruppert(pointsMock);
+		this.maximalTriangleNumber = ruppert.getMaximalNumberOfTriangles();
+		this.minimalAngleConstraint = ruppert.getAngleConstraint();
+		this.maximalAreaConstraint = ruppert.getAreaConstraint();
+		
 	}
 
 	public void setMaximalTriangleNumber(int maximalTriangleNumber) {
 		this.maximalTriangleNumber = maximalTriangleNumber;
 	}
 
-	public void setMinimalAngleConstraint(int minimalAngleConstraint) {
+	public void setMinimalAngleConstraint(double minimalAngleConstraint) {
 		this.minimalAngleConstraint = minimalAngleConstraint;
 	}
 
@@ -45,7 +51,7 @@ public class RuppertAdapter {
 		return maximalTriangleNumber;
 	}
 
-	public int getMinimalAngleConstraint() {
+	public double getMinimalAngleConstraint() {
 		return minimalAngleConstraint;
 	}
 	
