@@ -90,10 +90,8 @@ public class MeshPlugin extends Plugin {
 	private void drawFieldVectors(SceneComponent sceneComponent,
 			TriangleList triangles) {
 		for (Triangle triangle : triangles) {
-			if(triangle.getFieldVector().length() != 0){
-				SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(triangle);
-				sceneComponent.addChild(fieldVectorSceneComponent);
-			}
+			SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(triangle);
+			sceneComponent.addChild(fieldVectorSceneComponent);
 		}
 	}
 
