@@ -6,9 +6,9 @@ public class RuppertAdapter {
 
 	private TriangulationVertexList vertices;
 	private TriangleList triangles;
-	private int maximalTriangleNumber;
-	private double minimalAngleConstraint;
-	private double maximalAreaConstraint;
+	private int maximalTriangleNumber = 1000;
+	private double minimalAngleConstraint = 30;
+	private double maximalAreaConstraint = 1;
 
 	/**
 	 * Constructor
@@ -22,12 +22,6 @@ public class RuppertAdapter {
 			TriangleList triangleList) {
 		this.vertices = vertexList;
 		this.triangles = triangleList;
-		double[][] pointsMock = {{0,0}};
-		Ruppert ruppert = new Ruppert(pointsMock);
-		this.maximalTriangleNumber = ruppert.getMaximalNumberOfTriangles();
-		this.minimalAngleConstraint = ruppert.getAngleConstraint();
-		this.maximalAreaConstraint = ruppert.getAreaConstraint();
-		
 	}
 
 	public void setMaximalTriangleNumber(int maximalTriangleNumber) {
@@ -38,15 +32,14 @@ public class RuppertAdapter {
 		this.minimalAngleConstraint = minimalAngleConstraint;
 	}
 
-	public void setMaximalAreaConstraint(double maximalAreaConstraint){
+	public void setMaximalAreaConstraint(double maximalAreaConstraint) {
 		this.maximalAreaConstraint = maximalAreaConstraint;
 	}
 
-	
 	public TriangulationVertexList getVertexList() {
 		return vertices;
 	}
-	
+
 	public int getMaximalTriangleNumber() {
 		return maximalTriangleNumber;
 	}
@@ -54,8 +47,8 @@ public class RuppertAdapter {
 	public double getMinimalAngleConstraint() {
 		return minimalAngleConstraint;
 	}
-	
-	public double getMaximalAreaConstraint(){
+
+	public double getMaximalAreaConstraint() {
 		return this.maximalAreaConstraint;
 	}
 
@@ -121,10 +114,10 @@ public class RuppertAdapter {
 	private Ruppert triangulateWithRuppert(double[][] vertexCoordinates) {
 		Ruppert ruppert = new Ruppert(vertexCoordinates);
 		ruppert.setAngleConstraint(minimalAngleConstraint);
-		if (maximalTriangleNumber > 0) {
+		if (ruppert.getMaximalNumberOfTriangles() != maximalTriangleNumber) {
 			ruppert.setMaximalNumberOfTriangles(maximalTriangleNumber);
 		}
-		if (maximalAreaConstraint > 0){
+		if (ruppert.getAreaConstraint() != maximalAreaConstraint) {
 			ruppert.setAreaConstraint(maximalAreaConstraint);
 		}
 		ruppert.refine();
@@ -140,5 +133,5 @@ public class RuppertAdapter {
 		}
 		return a;
 	}
-	
+
 }
