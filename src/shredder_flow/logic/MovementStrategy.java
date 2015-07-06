@@ -46,6 +46,7 @@ public class MovementStrategy {
 			// intersect the triangle in positive vector direction.
 			// Unfortunately, currently it does become null sometimes.
 			particle.setReceivesUpdates(false);
+			System.err.println("No Intersection with Triangle Boundary.");
 			return;
 		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
@@ -97,6 +98,7 @@ public class MovementStrategy {
 		return triangle;
 	}
 
+	// still buggy
 	private Point2d getIntersectionWithBoundary(Point2d position,
 			Vector2d vector, Triangle triangle) {
 		Point2d positionPlusEpsilon = new Point2d(position.x + vector.x,
