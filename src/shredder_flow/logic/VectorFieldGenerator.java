@@ -47,7 +47,107 @@ public class VectorFieldGenerator {
 			triangleVec.set(-vec.y, vec.x);
 		}
 	}
+	
+	public void generateAVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = -triangle.getMiddlePoint().y*i.x+triangle.getMiddlePoint().x*j.x;
+			vec.y = -triangle.getMiddlePoint().y*i.y+triangle.getMiddlePoint().x*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateBVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = -triangle.getMiddlePoint().y*i.x-triangle.getMiddlePoint().x*j.x;
+			vec.y = -triangle.getMiddlePoint().y*i.y-triangle.getMiddlePoint().x*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateCVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = triangle.getMiddlePoint().y*i.x-triangle.getMiddlePoint().x*j.x;
+			vec.y = triangle.getMiddlePoint().y*i.y-triangle.getMiddlePoint().x*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateDVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = i.x+triangle.getMiddlePoint().x*j.x;
+			vec.y = i.y+triangle.getMiddlePoint().x*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateEVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = triangle.getMiddlePoint().x*i.x+triangle.getMiddlePoint().y*j.x;
+			vec.y = triangle.getMiddlePoint().x*i.y+triangle.getMiddlePoint().y*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateFVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = -triangle.getMiddlePoint().x*i.x+triangle.getMiddlePoint().y*j.x;
+			vec.y = -triangle.getMiddlePoint().x*i.y+triangle.getMiddlePoint().y*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
 
+	public void generateGVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = i.x+(triangle.getMiddlePoint().x+triangle.getMiddlePoint().y)*j.x;
+			vec.y = i.y+(triangle.getMiddlePoint().x+triangle.getMiddlePoint().y)*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+
+	public void generateHVectorField(Vector2d i){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = i.x*Math.abs(triangle.getMiddlePoint().x);
+			vec.y = i.y*Math.abs(triangle.getMiddlePoint().x);
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateIVectorField(Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = j.x*Math.abs(triangle.getMiddlePoint().y);
+			vec.y = j.y*Math.abs(triangle.getMiddlePoint().y);
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
+	public void generateJVectorField(Vector2d i, Vector2d j){
+		for (Triangle triangle : triangles) {
+			Vector2d vec = new Vector2d(1,1);
+			FieldVector triangleVec = triangle.getFieldVector();
+			vec.x = -triangle.getMiddlePoint().y*j.x+(triangle.getMiddlePoint().x+triangle.getMiddlePoint().y)*j.x;
+			vec.y = -triangle.getMiddlePoint().y*j.y+(triangle.getMiddlePoint().x+triangle.getMiddlePoint().y)*j.y;
+			triangleVec.set(vec.x, vec.y);
+		}
+	}
+	
 	private Vector2d getGradient(Triangle triangle) {
 		VertexList vertices = triangle.getVertices();
 		Vector2d grad = new Vector2d(1, 1);
@@ -78,6 +178,33 @@ public class VectorFieldGenerator {
 		vec.x = -vec.y;
 		vec.y = temp;
 		return vec;
+	}
+
+	public void generateWhirlpool(Vector2d i, Vector2d j) {
+		for (Triangle triangle : triangles) {
+			FieldVector vector = triangle.getFieldVector();
+			vector.set(
+					-triangle.getMiddlePoint().y
+							/ (Math.sqrt(Math.pow(triangle.getMiddlePoint().x,
+									2)
+									* i.x
+									+ Math.pow(triangle.getMiddlePoint().y, 2)))
+							+ triangle.getMiddlePoint().x
+							/ (Math.sqrt(Math.pow(triangle.getMiddlePoint().x,
+									2)
+									+ Math.pow(triangle.getMiddlePoint().y, 2)))
+							* j.x,
+					-triangle.getMiddlePoint().y
+							/ (Math.sqrt(Math.pow(triangle.getMiddlePoint().x,
+									2)
+									* i.y
+									+ Math.pow(triangle.getMiddlePoint().y, 2)))
+							+ triangle.getMiddlePoint().x
+							/ (Math.sqrt(Math.pow(triangle.getMiddlePoint().x,
+									2)
+									+ Math.pow(triangle.getMiddlePoint().y, 2)))
+							* j.y);
+		}
 	}
 
 }
