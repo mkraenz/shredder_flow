@@ -13,23 +13,17 @@ public class VectorFieldGenerator {
 		this.triangles = triangleList;
 	}
 
-	public void generate() {
-		// TODO: implement
-		// The task is to provide different generate()
-		// methods that can be called from the VectorFieldInvoker, e.g.
-		// generateRandomField(), generateAsGradientOfPiecewiseLinearFunction(),
-		// generateAs90DegreeRotationOfGradientFieldOfPiecewiseLinearFunction()
-		// ...
-	}
-
 	public void generateRandomVectorField() {
 		int highestRandomValue = 100;
 		double scale = 0.000001;
 		Random random = new Random();
 		for (Triangle triangle : triangles) {
 			FieldVector vector = triangle.getFieldVector();
-			vector.set(random.nextInt(highestRandomValue) * scale,
-					random.nextInt(highestRandomValue) * scale);
+			vector.set(
+					random.nextInt(highestRandomValue) * scale
+							* Math.pow(-1, random.nextInt(highestRandomValue)),
+					random.nextInt(highestRandomValue) * scale
+							* Math.pow(-1, random.nextInt(highestRandomValue)));
 		}
 	}
 
@@ -69,9 +63,9 @@ public class VectorFieldGenerator {
 		double f1 = triangle.getVertices().get(0).getFunctionValue();
 		double f2 = triangle.getVertices().get(1).getFunctionValue();
 		double f3 = triangle.getVertices().get(2).getFunctionValue();
-		double gradY = (f1 -f3)*(x3-x2);
-		gradY = gradY / ((y1-y3)*(x3-x2) - (x1-x3)*(y3-y2));
-		double gradX = (f3-f2 - gradY*(y3-y2))/(x3-x2);
+		double gradY = (f1 - f3) * (x3 - x2);
+		gradY = gradY / ((y1 - y3) * (x3 - x2) - (x1 - x3) * (y3 - y2));
+		double gradX = (f3 - f2 - gradY * (y3 - y2)) / (x3 - x2);
 		return new Vector2d(gradX, gradY);
 	}
 }
