@@ -58,7 +58,7 @@ public class Triangle {
 		}
 	}
 
-	private Triangle getNeighborWithVertices(Vertex vertex1, Vertex vertex2) {
+	public Triangle getNeighborWithVertices(Vertex vertex1, Vertex vertex2) {
 		for (Triangle triangle : neighbors) {
 			if (triangle.getVertices().contains(vertex1)
 					&& triangle.getVertices().contains(vertex2)) {
@@ -83,8 +83,8 @@ public class Triangle {
 
 	/**
 	 * Gives the neighboring triangle closest to this position. If there are
-	 * more than one, then returns the triangle that
-	 * lies in the given direction based at given position.
+	 * more than one, then returns the triangle that lies in the given direction
+	 * based at given position.
 	 * 
 	 * @param x
 	 * @param y
@@ -96,14 +96,15 @@ public class Triangle {
 		if (neighbor != null) {
 			return neighbor;
 		} else {
-			return getNeighborInDirection(x,y,direction);
+			return getNeighborInDirection(x, y, direction);
 		}
 	}
 
-	private Triangle getNeighborInDirection(double x, double y, Vector2d direction) {
+	private Triangle getNeighborInDirection(double x, double y,
+			Vector2d direction) {
 		// TODO Auto-generated method stub
 		return null;
-		
+
 	}
 
 	public VertexList getVertices() {
@@ -150,5 +151,26 @@ public class Triangle {
 		} else {
 			return false;
 		}
+	}
+
+	public boolean isBoundaryTriangle() {
+		Vertex a = this.getVertices().get(0);
+		Vertex b = this.getVertices().get(1);
+		Vertex c = this.getVertices().get(2);
+
+		Vertex ab = new Vertex((a.getX() + b.getX()) / 2,
+				(a.getY() + b.getY()) / 2);
+		Vertex bc = new Vertex((c.getX() + b.getX()) / 2,
+				(c.getY() + b.getY()) / 2);
+		Vertex ca = new Vertex((a.getX() + c.getX()) / 2,
+				(a.getY() + c.getY()) / 2);
+
+		if (!getNeighbor(ab.getX(), ab.getY()).equals(null)
+				&& !getNeighbor(bc.getX(), bc.getY()).equals(null)
+				&& !getNeighbor(ca.getX(), ca.getY()).equals(null)) {
+			return true;
+		}
+
+		return false;
 	}
 }

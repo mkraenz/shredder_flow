@@ -28,4 +28,14 @@ public class VectorFieldGenerator {
 			vector.set(random.nextInt(highestRandomValue)*scale,random.nextInt(highestRandomValue)*scale);
 		}
 	}
+	public boolean genTangentialFlowAtBoundary(){
+		return false;
+	}
+	public void setTangentialFlowAtBoundary(){
+		for(Triangle triangle : triangles){
+			if(triangle.isBoundaryTriangle()==true){
+				
+			}
+		}
+	}
 }
