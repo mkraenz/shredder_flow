@@ -38,43 +38,29 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 		final int ROWS = 14;
 		final int COLUMNS = 2;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
+		addButton(new TriangulateAction(), "Triangulate");
+		addButton(new ResetTriangulationAction(), "Reset Triangulation");
 		addTriangleOptButton();
-		addTriangulateButton();
-		addResetButton();
-	}
-
-	private void addResetButton() {
-		JButton resetButton = new JButton();
-		resetButton.setAction(new ResetTriangulationAction());
-		shrinkPanel.add(resetButton);
-		resetButton.setText("Reset Triangulation");
-	}
-
-	private void addTriangulateButton() {
-		final JButton triangulateButton = new JButton();
-		triangulateButton.setAction(new TriangulateAction());
-		shrinkPanel.add(triangulateButton);
-		triangulateButton.setText("Triangulate");
 	}
 
 	private void addTriangleOptButton() {
-		maxTriangleTextField = new JTextField("-1");
-		minAngleOfTriangleTextField = new JTextField("30");
-		maxAreaTextField = new JTextField("-1");
+		maxTriangleTextField = new JTextField(String.valueOf(ruppertAdapter
+				.getMaximalTriangleNumber()));
+		minAngleOfTriangleTextField = new JTextField(
+				String.valueOf(ruppertAdapter.getMinimalAngleConstraint()));
+		maxAreaTextField = new JTextField(String.valueOf(ruppertAdapter
+				.getMaximalAreaConstraint()));
 
 		shrinkPanel.add(new JLabel("Max Number of Triangle:"));
 		shrinkPanel.add(maxTriangleTextField);
-		addButton(new SetMaxTriangleAction(), "Set new max number of triangle");
-		addButton(new ResetMaxTriangleAction(), "Reset max number of triangle");
-		shrinkPanel.add(new JLabel("Min Angle of Triangles:"));
+		addButton(new SetMaxTriangleAction(), "Set new maximum number of triangle");
+		shrinkPanel.add(new JLabel("Minimum Angle:"));
 		shrinkPanel.add(minAngleOfTriangleTextField);
 		addButton(new SetMinAngleTriangleAction(),
-				"Set new min angle for triangle");
-		addButton(new ResetMinAngleAction(), "Reset min angle of triangle");
-		shrinkPanel.add(new JLabel("Max Area of Triangle:"));
+				"Set new minimum angle");
+		shrinkPanel.add(new JLabel("Maximal Area of Triangles:"));
 		shrinkPanel.add(maxAreaTextField);
-		addButton(new SetMaxAreaAction(), "Set new max area of triangle");
-		addButton(new ResetMaxAreaAction(), "Reset max area of triangle");
+		addButton(new SetMaxAreaAction(), "Set maximum area of triangle");
 
 	}
 
@@ -123,11 +109,11 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 			try {
 				maximalTriangleNumber = Integer.parseInt(maxTriangleTextField
 						.getText());
+				ruppertAdapter.setMaximalTriangleNumber(maximalTriangleNumber);
 			} catch (Exception e2) {
 				System.out
 						.println("WARNING: Could not convert given maxTriangleNumber to integer.");
 			}
-			ruppertAdapter.setMaximalTriangleNumber(maximalTriangleNumber);
 		}
 	}
 
@@ -139,31 +125,11 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 			try {
 				minimalAngleConstraint = Integer
 						.parseInt(minAngleOfTriangleTextField.getText());
+				ruppertAdapter.setMinimalAngleConstraint(minimalAngleConstraint);
 			} catch (Exception e2) {
 				System.out
 						.println("WARNING: Could not convert given minTriangleAngleNumber to integer.");
 			}
-			ruppertAdapter.setMinimalAngleConstraint(minimalAngleConstraint);
-		}
-	}
-
-	class ResetMinAngleAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			ruppertAdapter.setMinimalAngleConstraint(30);
-		}
-	}
-
-	class ResetMaxTriangleAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			ruppertAdapter.setMaximalTriangleNumber(-1);
 		}
 	}
 
@@ -175,22 +141,11 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 			try {
 				maximalAreaConstraint = Double.parseDouble(maxAreaTextField
 						.getText());
+				ruppertAdapter.setMaximalAreaConstraint(maximalAreaConstraint);
 			} catch (Exception e2) {
 				System.out
 						.println("WARNING: Could not convert given maxAreaOfTriangle to double.");
 			}
-			ruppertAdapter.setMaximalAreaConstraint(maximalAreaConstraint);
 		}
 	}
-
-	class ResetMaxAreaAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			ruppertAdapter.setMaximalAreaConstraint(-1);
-		}
-	}
-
 }
