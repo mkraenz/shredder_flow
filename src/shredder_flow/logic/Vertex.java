@@ -18,13 +18,19 @@ public class Vertex {
 		return position.y;
 	}
 
+	@Override
+	public String toString() {
+		return getPosition().toString();
+	}
+
 	public double getX() {
 		return position.x;
 	}
+
 	/**
 	 * @return new instance representing the position of the vertex.
 	 */
-	public Point2d getPosition(){
+	public Point2d getPosition() {
 		return new Point2d(position.x, position.y);
 	}
 

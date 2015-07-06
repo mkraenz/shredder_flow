@@ -164,4 +164,9 @@ public class Triangle {
 		double area = (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
 		return area;
 	}
+
+	@Override
+	public String toString() {
+		return "Triangle [vertices=" + vertices + "]";
+	}
 }
