@@ -15,13 +15,11 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 
 	private MeshModel model;
 	private DraggablePolygon2DAdapter polygonAdapter;
-	private MeshPlugin meshPlugin;
 
 	public TriangulationInvoker(MeshModel model,
-			DraggablePolygon2DAdapter polygonAdapter, MeshPlugin drawerPlugin) {
+			DraggablePolygon2DAdapter polygonAdapter) {
 		this.model = model;
 		this.polygonAdapter = polygonAdapter;
-		this.meshPlugin = drawerPlugin;
 		addGuiElements();
 	}
 
@@ -54,7 +52,6 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 		public void actionPerformed(ActionEvent e) {
 			reset();
 			invokeTriangulation();
-			meshPlugin.draw();
 		}
 	}
 
@@ -77,6 +74,5 @@ public class TriangulationInvoker extends View2DShrinkPanelPlugin {
 	private void reset() {
 		model.getVertices().clear();
 		model.getTriangles().clear();
-		meshPlugin.draw();
 	}
 }
