@@ -151,4 +151,16 @@ public class Triangle {
 			return false;
 		}
 	}
+
+	public double getArea() {
+		double x1 = vertices.get(0).getX();
+		double y1 = vertices.get(0).getY();
+		double x2 = vertices.get(1).getX();
+		double y2 = vertices.get(1).getY();
+		double x3 = vertices.get(2).getX();
+		double y3 = vertices.get(2).getY();
+		
+		double area = (x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))/2;
+		return area;
+	}
 }

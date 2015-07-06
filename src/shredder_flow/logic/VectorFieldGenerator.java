@@ -58,19 +58,12 @@ public class VectorFieldGenerator {
 	private Vector2d getGradient(Triangle triangle) {
 		VertexList vertices = triangle.getVertices();
 		Vector2d grad = new Vector2d(1, 1);
-		double e_ab1 = vertices.get(1).getX() - vertices.get(0).getX();
-		double e_ab2 = vertices.get(1).getY() - vertices.get(0).getY();
-		double e_bc1 = vertices.get(2).getX() - vertices.get(1).getX();
-		double e_bc2 = vertices.get(2).getY() - vertices.get(1).getY();
-		double temp = e_ab1 * e_bc2;
-		grad.y = (vertices.get(2).getFunctionValue() / e_bc2
-				- vertices.get(1).getFunctionValue() / e_bc2
-				- vertices.get(1).getFunctionValue() * e_bc1 / temp + vertices
-				.get(0).getFunctionValue() * e_bc1 / temp)
-				/ (1 - (e_ab2 * e_bc1 / temp));
-		grad.x = (vertices.get(1).getFunctionValue()
-				- vertices.get(0).getFunctionValue() - grad.y * e_ab2)
-				/ e_ab1;
+		Vector2d e01 = new Vector2d(vertices.get(1).getX()-vertices.get(0).getX(), vertices.get(1).getY()-vertices.get(0).getY());
+		Vector2d e12 = new Vector2d(vertices.get(2).getX()-vertices.get(1).getX(), vertices.get(2).getY()-vertices.get(1).getY());
+		Vector2d e20 = new Vector2d(vertices.get(0).getX()-vertices.get(2).getX(), vertices.get(0).getY()-vertices.get(2).getY());
+		double area =Math.abs(triangle.getArea());
+		grad.x=-(vertices.get(0).getFunctionValue()*e12.y+vertices.get(1).getFunctionValue()*e20.y+vertices.get(2).getFunctionValue()*e01.y)/(2*area);
+		grad.y=(vertices.get(0).getFunctionValue()*e12.x+vertices.get(1).getFunctionValue()*e20.x+vertices.get(2).getFunctionValue()*e01.x)/(2*area);
 		return grad;
 	}
 
