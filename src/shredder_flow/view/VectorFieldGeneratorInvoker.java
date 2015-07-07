@@ -29,6 +29,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String HFUNCTION_FIELD = "H-Function Field";
 	private static final String IFUNCTION_FIELD = "I-Function Field";
 	private static final String JFUNCTION_FIELD = "J-Function Field";
+	private static final String WHIRLPOOL_FIELD = "Whirlpool Field";
 	private VectorFieldGenerator generator;
 	private JComboBox<String> fieldComboBox;
 	private JTextField iXComponentTextField;
@@ -102,6 +103,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		fieldComboBox.addItem(HFUNCTION_FIELD);
 		fieldComboBox.addItem(IFUNCTION_FIELD);
 		fieldComboBox.addItem(JFUNCTION_FIELD);
+		fieldComboBox.addItem(WHIRLPOOL_FIELD);
 		
 	}
 	
@@ -191,6 +193,10 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 			if(fieldComboBox.getSelectedItem() == JFUNCTION_FIELD){
 				read();
 				generator.generateAVectorField(i, j);
+			}
+			if(fieldComboBox.getSelectedItem() == WHIRLPOOL_FIELD){
+				read();
+				generator.generateWhirlpool(i, j);
 			}
 		}
 	}
