@@ -49,7 +49,7 @@ public class MovementStrategyTest {
 	}
 
 	@Test
-	public void testParticleMoveOverTwoTrianglesWithoutTouchingEdge()
+	public void testParticleMoveOverTwoTrianglesOneDirectionForVectors()
 			throws Exception {
 		leftTriangle.getFieldVector().set(1, 0);
 		rightTriangle.getFieldVector().set(1.0 / 2, 0);
