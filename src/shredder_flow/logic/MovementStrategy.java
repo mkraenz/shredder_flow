@@ -8,6 +8,8 @@ public class MovementStrategy {
 	private TriangleList triangles;
 	private final double EPS = 0.00001;
 	private int triangleJumpsInThisUpdate;
+	private Vertex lastCollidingEdgeVertex1;
+	private Vertex lastCollidingEdgeVertex2;
 
 	public MovementStrategy(TriangleList triangles) {
 		this.triangles = triangles;
@@ -50,7 +52,7 @@ public class MovementStrategy {
 			return;
 		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
-				intersection);
+				intersection); // here is another problem
 		particle.setPosition(intersection.x, intersection.y);
 		Triangle newTriangle = getNextTriangleHeuristic(intersection,
 				triangle.getFieldVector());
@@ -105,23 +107,36 @@ public class MovementStrategy {
 				position.y + vector.y);
 		double minCoefficient = Double.MAX_VALUE;
 		Point2d intersection = null;
+		Vertex currentCollidingEdgeVertex1 = null;
+		Vertex currentCollidingEdgeVertex2 = null;
 
 		for (int i = 0; i < triangle.getVertices().size(); i++) {
-			Point2d vertexA = triangle.getVertices()
-					.get(i % triangle.getVertices().size()).getPosition();
-			Point2d vertexB = triangle.getVertices()
-					.get((i + 1) % triangle.getVertices().size()).getPosition();
-			Point2d intersectionWithEdge = intersectToLines(vertexA, vertexB,
-					position, positionPlusEpsilon);
+			Vertex vertexA = triangle.getVertices().get(
+					i % triangle.getVertices().size());
+			Vertex vertexB = triangle.getVertices().get(
+					(i + 1) % triangle.getVertices().size());
+			if (vertexA.equals(lastCollidingEdgeVertex1)
+					&& vertexB.equals(lastCollidingEdgeVertex2)
+					|| vertexA.equals(lastCollidingEdgeVertex2)
+					&& vertexB.equals(lastCollidingEdgeVertex1)) {
+				continue;
+			}
+			Point2d intersectionWithEdge = intersectToLines(
+					vertexA.getPosition(), vertexB.getPosition(), position,
+					positionPlusEpsilon);
 
 			double coefficient = getCoefficient(position, vector,
 					intersectionWithEdge);
 
 			if (coefficient >= 0 && coefficient < minCoefficient) {
+				currentCollidingEdgeVertex1 = vertexA;
+				currentCollidingEdgeVertex2 = vertexB;
 				minCoefficient = coefficient;
 				intersection = intersectionWithEdge;
 			}
 		}
+		lastCollidingEdgeVertex1 = currentCollidingEdgeVertex1;
+		lastCollidingEdgeVertex2 = currentCollidingEdgeVertex2;
 		return intersection;
 	}
 
