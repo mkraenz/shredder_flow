@@ -95,9 +95,11 @@ public class MeshPlugin extends Plugin {
 		double minSideLength = getMinSideLength(triangles);
 		double maxFieldVector = getMaxFieldVectorLength(triangles);
 		for (Triangle triangle : triangles) {
-			SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(
-					triangle, minSideLength, maxFieldVector);
-			sceneComponent.addChild(fieldVectorSceneComponent);
+			if (triangle.getFieldVector().length() > 0) {
+				SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(
+						triangle, minSideLength, maxFieldVector);
+				sceneComponent.addChild(fieldVectorSceneComponent);
+			}
 		}
 	}
 
@@ -125,7 +127,7 @@ public class MeshPlugin extends Plugin {
 			double minSideLength, double maxFieldVector) {
 		SceneComponent arrowSceneComponent = new SceneComponent();
 		double[] normedFieldVec = getNormedFieldVector(
-				triangle.getFieldVector(), (minSideLength / maxFieldVector)/4);
+				triangle.getFieldVector(), (minSideLength / maxFieldVector) / 4);
 		double angle = Math.PI / 4
 				- Math.atan2(normedFieldVec[1], normedFieldVec[0]);
 		double s = Math.sin(angle) * minSideLength / 8;

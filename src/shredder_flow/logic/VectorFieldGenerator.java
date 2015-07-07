@@ -21,14 +21,13 @@ public class VectorFieldGenerator {
 		// ...
 	}
 
-	public void generateRandomVectorField() {
-		int highestRandomValue = 100;
-		double scale = 0.01;
+	public void generateRandomVectorField(double rangeMin, double rangeMax, double scale) {
 		Random random = new Random();
 		for (Triangle triangle : triangles) {
 			FieldVector vector = triangle.getFieldVector();
-			vector.set(random.nextInt(highestRandomValue) * scale,
-					random.nextInt(highestRandomValue) * scale);
+			vector.set(rangeMin + (rangeMax - rangeMin) * random.nextDouble(),
+					rangeMin + (rangeMax - rangeMin) * random.nextDouble());
+			vector.scale(scale);
 		}
 	}
 

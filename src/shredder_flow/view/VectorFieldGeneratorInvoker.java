@@ -67,7 +67,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (fieldComboBox.getSelectedItem() == RANDOM_FIELD) {
-				generator.generateRandomVectorField();
+				generator.generateRandomVectorField(-1,1, 0.0001);
 			}
 			if (fieldComboBox.getSelectedItem() == GRADIENT_FIELD) {
 				generator.generateGradiantField();
@@ -94,14 +94,5 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 			vectorDrawer.setDrawFieldVectors(showVectorsCheckbox.isSelected());
 		}
 
-	}
-
-	class RandomVectorFieldAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			generator.generateRandomVectorField();
-		}
 	}
 }
