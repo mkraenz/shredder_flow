@@ -44,8 +44,6 @@ public class Builder {
 		DraggablePolygon2DAdapter polygon2DAdapter = new DraggablePolygon2DAdapter(
 				subdividedPolygonPlugin);
 		setMeshRelatedPlugins(viewer, polygon2DAdapter, triangles, vertices, autoredrawer);
-		setFunctionGeneratorPlugin(viewer, vertices);
-		setVectorFieldGeneratorPlugin(viewer, triangles);
 		
 		setParticleUpdaterPlugin(viewer, UPDATES_PER_SECOND, particles, triangles, autoredrawer);
 		redrawTimer.start();
@@ -73,16 +71,16 @@ public class Builder {
 	}
 
 	private void setVectorFieldGeneratorPlugin(Java2DViewer viewer,
-			TriangleList triangles) {
+			TriangleList triangles, MeshPlugin vectorDrawer) {
 		VectorFieldGeneratorInvoker vectorFieldGeneratorInvoker = new VectorFieldGeneratorInvoker(
-				new VectorFieldGenerator(triangles));
+				new VectorFieldGenerator(triangles), vectorDrawer);
 		viewer.registerPlugin(vectorFieldGeneratorInvoker);
 	}
 
 	private void setFunctionGeneratorPlugin(Java2DViewer viewer,
-			TriangulationVertexList vertices) {
+			TriangulationVertexList vertices, MeshPlugin valueDrawer) {
 		FunctionGeneratorInvoker functionGeneratorInvoker = new FunctionGeneratorInvoker(
-				new FunctionGenerator(vertices));
+				new FunctionGenerator(vertices), valueDrawer);
 		viewer.registerPlugin(functionGeneratorInvoker);
 	}
 
@@ -99,6 +97,8 @@ public class Builder {
 				meshModel, polygon2DAdapter);
 		viewer.registerPlugin(triangulationInvoker);
 
+		setFunctionGeneratorPlugin(viewer, vertices, meshPlugin);
+		setVectorFieldGeneratorPlugin(viewer, triangles, meshPlugin);
 	}
 
 	public static void main(String[] args) {
