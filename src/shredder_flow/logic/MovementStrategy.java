@@ -53,6 +53,10 @@ public class MovementStrategy {
 		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
 				intersection); // here is another problem
+		if(timeUntilEdgeHit == 1.5){
+			getTimeMovedInCurrentTriangle(pos, vec,
+					intersection); // here is another problem
+		}
 		particle.setPosition(intersection.x, intersection.y);
 		Triangle newTriangle = getNextTriangleHeuristic(intersection,
 				triangle.getFieldVector());
@@ -90,7 +94,7 @@ public class MovementStrategy {
 			Point2d targetPosition) {
 		Vector2d targetMinusBase = new Vector2d(targetPosition.x - base.x,
 				targetPosition.y - base.y);
-		return targetMinusBase.dot(vec);
+		return targetMinusBase.length()/vec.length();
 	}
 
 	private Triangle getNextTriangleHeuristic(Point2d p, Vector2d dir) {
