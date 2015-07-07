@@ -15,9 +15,11 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String RANDOM_VALUES = "Random Values";
 	private FunctionGenerator generator;
 	private JComboBox<String> functionsComboBox;
+	private MeshPlugin valueDrawer;
 
-	public FunctionGeneratorInvoker(FunctionGenerator generator) {
+	public FunctionGeneratorInvoker(FunctionGenerator generator, MeshPlugin valueDrawer) {
 		this.generator = generator;
+		this.valueDrawer = valueDrawer;
 		addGuiElements();
 	}
 

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -12,7 +13,6 @@ import javax.vecmath.Vector2d;
 
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
 import shredder_flow.logic.VectorFieldGenerator;
-import shredder_flow.view.TriangulationInvoker.SetMaxTriangleAction;
 
 public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
@@ -31,6 +31,8 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String JFUNCTION_FIELD = "J-Function Field";
 	private static final String WHIRLPOOL_FIELD = "Whirlpool Field";
 	private VectorFieldGenerator generator;
+	private MeshPlugin vectorDrawer;
+	private JCheckBox showVectorsCheckbox;
 	private JComboBox<String> fieldComboBox;
 	private JTextField iXComponentTextField;
 	private JTextField jXComponentTextField;
@@ -43,11 +45,10 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private Vector2d i;
 	private Vector2d j;
 
-
-
-
-	public VectorFieldGeneratorInvoker(VectorFieldGenerator generator) {
+	public VectorFieldGeneratorInvoker(VectorFieldGenerator generator,
+			MeshPlugin vectorDrawer) {
 		this.generator = generator;
+		this.vectorDrawer = vectorDrawer;
 		addGuiElements();
 	}
 
@@ -58,17 +59,18 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		 * best solution to have this invokeGeneration() method. Feel free to do
 		 * it in a more suitable way. See below for reference
 		 */
-	}	
-	
+	}
+
 	private void addGuiElements() {
 		final int ROWS = 6;
 		final int COLUMNS = 2;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
+		addShowVectorsCheckbox();
 		addFunctionSelectBox();
 		addButton(new ApplyFunctionAction(), "Apply");
 		addFunctionOptBox();
 	}
-	
+
 	private void addFunctionOptBox() {
 		iXComponentTextField = new JTextField("1");
 		iYComponentTextField = new JTextField("1");
@@ -83,13 +85,18 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(jXComponentTextField);
 		shrinkPanel.add(new JLabel("y component of j:"));
 		shrinkPanel.add(jYComponentTextField);
-		
+	}
+
+	private void addShowVectorsCheckbox() {
+		showVectorsCheckbox = new JCheckBox(new DrawVectorsAction());
+		showVectorsCheckbox.setText("Show Vector Field");
+		shrinkPanel.add(showVectorsCheckbox);
 	}
 
 	private void addFunctionSelectBox() {
 		fieldComboBox = new JComboBox<String>();
 		shrinkPanel.add(fieldComboBox);
-		
+
 		fieldComboBox.addItem(RANDOM_FIELD);
 		fieldComboBox.addItem(GRADIENT_FIELD);
 		fieldComboBox.addItem(SYMPLECTIC_FIELD);
@@ -104,97 +111,93 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		fieldComboBox.addItem(IFUNCTION_FIELD);
 		fieldComboBox.addItem(JFUNCTION_FIELD);
 		fieldComboBox.addItem(WHIRLPOOL_FIELD);
-		
+
 	}
-	
-	public void read(){
+
+	public void read() {
 		try {
-			iXComponent = Double.parseDouble(iXComponentTextField
-					.getText());
+			iXComponent = Double.parseDouble(iXComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given iXComponent to integer.");
 		}
 		try {
-			iYComponent = Double.parseDouble(iYComponentTextField
-					.getText());
+			iYComponent = Double.parseDouble(iYComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given iYComponent to integer.");
 		}
 		try {
-			jXComponent = Double.parseDouble(jXComponentTextField
-					.getText());
+			jXComponent = Double.parseDouble(jXComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given jXComponent to integer.");
 		}
 		try {
-			jYComponent = Double.parseDouble(jYComponentTextField
-					.getText());
+			jYComponent = Double.parseDouble(jYComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
 					.println("WARNING: Could not convert given jXComponent to integer.");
 		}
-		i = new Vector2d(iXComponent,iYComponent);
-		j = new Vector2d(jXComponent,jYComponent);
+		i = new Vector2d(iXComponent, iYComponent);
+		j = new Vector2d(jXComponent, jYComponent);
 	}
-	
+
 	class ApplyFunctionAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(fieldComboBox.getSelectedItem() == RANDOM_FIELD){
+			if (fieldComboBox.getSelectedItem() == RANDOM_FIELD) {
 				generator.generateRandomVectorField();
 			}
-			if(fieldComboBox.getSelectedItem() == GRADIENT_FIELD){
+			if (fieldComboBox.getSelectedItem() == GRADIENT_FIELD) {
 				generator.generateGradiantField();
 			}
-			if(fieldComboBox.getSelectedItem() == SYMPLECTIC_FIELD){
+			if (fieldComboBox.getSelectedItem() == SYMPLECTIC_FIELD) {
 				generator.generateSymplecticVectorField();
 			}
-			if(fieldComboBox.getSelectedItem() == AFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == AFUNCTION_FIELD) {
 				read();
 				generator.generateAVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == BFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == BFUNCTION_FIELD) {
 				read();
 				generator.generateBVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == CFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == CFUNCTION_FIELD) {
 				read();
 				generator.generateCVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == DFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == DFUNCTION_FIELD) {
 				read();
 				generator.generateDVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == EFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == EFUNCTION_FIELD) {
 				read();
 				generator.generateEVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == FFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == FFUNCTION_FIELD) {
 				read();
 				generator.generateFVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == GFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == GFUNCTION_FIELD) {
 				read();
 				generator.generateGVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == HFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == HFUNCTION_FIELD) {
 				read();
 				generator.generateHVectorField(i);
 			}
-			if(fieldComboBox.getSelectedItem() == IFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == IFUNCTION_FIELD) {
 				read();
 				generator.generateIVectorField(j);
 			}
-			if(fieldComboBox.getSelectedItem() == JFUNCTION_FIELD){
+			if (fieldComboBox.getSelectedItem() == JFUNCTION_FIELD) {
 				read();
 				generator.generateAVectorField(i, j);
 			}
-			if(fieldComboBox.getSelectedItem() == WHIRLPOOL_FIELD){
+			if (fieldComboBox.getSelectedItem() == WHIRLPOOL_FIELD) {
 				read();
 				generator.generateWhirlpool(i, j);
 			}
@@ -207,7 +210,18 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(button);
 		button.setText(caption);
 	}
-	
+
+	class DrawVectorsAction extends AbstractAction {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			vectorDrawer.setDrawFieldVectors(showVectorsCheckbox.isSelected());
+		}
+
+	}
+
 	class RandomVectorFieldAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
