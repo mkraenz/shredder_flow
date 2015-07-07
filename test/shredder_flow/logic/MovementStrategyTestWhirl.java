@@ -52,11 +52,18 @@ public class MovementStrategyTestWhirl {
 		assertEquals(0.5, particle.getX(), 0);
 		assertEquals(0, particle.getY(), 0);
 		assertEquals(bottomTriangle, particle.getTriangle());
-		// TODO set breakpoint here
+
+		particle.update(1.0);
+		assertEquals(-0.25, particle.getX(), 0.001);
+		assertEquals(- Math.sqrt(3) / 4, particle.getY(), 0.001);
+		
+		particle.update(1.0);
+		assertEquals(-0.25, particle.getX(), 0.001);
+		assertEquals(Math.sqrt(3) / 4, particle.getY(), 0.001);
+		
 		particle.update(1.5);
-		assertEquals(0.5, particle.getX(), 0);
-		assertEquals(0, particle.getY(), 0);
-		assertEquals(bottomTriangle, particle.getTriangle());
+		assertEquals(-0.25, particle.getX(), 0.001);
+		assertEquals(Math.sqrt(3) / 4, particle.getY(), 0.001);
 	}
 
 	private void setParallelFieldVector(Vertex vertex1, Vertex vertex2,
