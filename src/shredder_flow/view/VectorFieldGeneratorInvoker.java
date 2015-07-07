@@ -73,9 +73,9 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 	private void addFunctionOptBox() {
 		iXComponentTextField = new JTextField("1");
-		iYComponentTextField = new JTextField("1");
+		iYComponentTextField = new JTextField("0");
 		jXComponentTextField = new JTextField("0");
-		jYComponentTextField = new JTextField("0");
+		jYComponentTextField = new JTextField("1");
 
 		shrinkPanel.add(new JLabel(" "));
 		shrinkPanel.add(new JLabel("x component of i:"));
