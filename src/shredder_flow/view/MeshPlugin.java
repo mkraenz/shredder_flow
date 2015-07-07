@@ -22,7 +22,7 @@ public class MeshPlugin extends Plugin {
 	private SceneComponent verticesSceneComponent;
 	private SceneComponent edgesSceneComponent;
 	private SceneComponent vectorsSceneComponent;
-
+	
 	public MeshPlugin(MeshModel model) {
 		this.model = model;
 		this.verticesSceneComponent = new SceneComponent();
@@ -112,5 +112,4 @@ public class MeshPlugin extends Plugin {
 		parentSceneComponent.addChild(edgesSceneComponent);
 		parentSceneComponent.addChild(vectorsSceneComponent);
 	}
-
 }

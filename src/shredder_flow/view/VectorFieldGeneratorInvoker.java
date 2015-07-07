@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
 import shredder_flow.logic.VectorFieldGenerator;
@@ -12,6 +13,7 @@ import shredder_flow.logic.VectorFieldGenerator;
 public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 	private VectorFieldGenerator generator;
+	private JCheckBox applyTangentialFlow;
 
 	public VectorFieldGeneratorInvoker(VectorFieldGenerator generator) {
 		this.generator = generator;
@@ -32,6 +34,9 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		final int COLUMNS = 2;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addRandomVectorFieldButton();
+		applyTangentialFlow = new JCheckBox(new ApplyTangentialFlowAction());
+		applyTangentialFlow.setText( "Tangential flow on boundary");
+		shrinkPanel.add(applyTangentialFlow);
 	}
 	
 	private void addRandomVectorFieldButton() {
@@ -43,6 +48,14 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		button.setAction(action);
 		shrinkPanel.add(button);
 		button.setText(caption);
+	}
+	class ApplyTangentialFlowAction extends AbstractAction {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			generator.setIsTangentialFlow(applyTangentialFlow.isSelected());
+		}
+		
 	}
 	
 	class RandomVectorFieldAction extends AbstractAction {
