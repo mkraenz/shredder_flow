@@ -7,7 +7,6 @@ public class MovementStrategy {
 
 	private TriangleList triangles;
 	private final double EPS = 0.00001;
-	private int triangleJumpsInThisUpdate;
 	private Vertex lastCollidingEdgeVertex1;
 	private Vertex lastCollidingEdgeVertex2;
 
@@ -16,7 +15,6 @@ public class MovementStrategy {
 	}
 
 	public void setNextPositionAndTriangle(double timeToMove, Particle particle) {
-		triangleJumpsInThisUpdate = 100;
 		performStepInsideOneTriangle(timeToMove, particle);
 	}
 
@@ -43,24 +41,15 @@ public class MovementStrategy {
 			Point2d pos, Triangle triangle, Vector2d vec) {
 		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
 		if (intersection == null) {
-			// TODO: this should never be null. We are dealing with triangles
-			// and every line through a point inside that triangle must
-			// intersect the triangle in positive vector direction.
-			// Unfortunately, currently it does become null sometimes.
 			particle.setReceivesUpdates(false);
-			System.err.println("No Intersection with Triangle Boundary.");
 			return;
 		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
-				intersection); // here is another problem
-		if(timeUntilEdgeHit == 1.5){
-			getTimeMovedInCurrentTriangle(pos, vec,
-					intersection); // here is another problem
-		}
+				intersection);
 		particle.setPosition(intersection.x, intersection.y);
 		Triangle newTriangle = getNextTriangleHeuristic(intersection,
 				triangle.getFieldVector());
-		if (newTriangle != null) {
+		if (newTriangle != null && deltaT - timeUntilEdgeHit > 0) {
 			initNextMoveInNewTriangleOrStopUpdates(particle, newTriangle,
 					deltaT - timeUntilEdgeHit);
 		} else {
@@ -70,13 +59,8 @@ public class MovementStrategy {
 
 	private void initNextMoveInNewTriangleOrStopUpdates(Particle particle,
 			Triangle newTriangle, double timeLeft) {
-		if (triangleJumpsInThisUpdate < 0) {
-			particle.setReceivesUpdates(false);
-		} else {
-			triangleJumpsInThisUpdate--;
-			particle.setTriangle(newTriangle);
-			performStepInsideOneTriangle(timeLeft, particle);
-		}
+		particle.setTriangle(newTriangle);
+		performStepInsideOneTriangle(timeLeft, particle);
 	}
 
 	private double getTimeMovedInCurrentTriangle(Point2d base, Vector2d vec,
@@ -94,7 +78,8 @@ public class MovementStrategy {
 			Point2d targetPosition) {
 		Vector2d targetMinusBase = new Vector2d(targetPosition.x - base.x,
 				targetPosition.y - base.y);
-		return targetMinusBase.length()/vec.length();
+		return Math.signum(targetMinusBase.dot(vec)) * targetMinusBase.length()
+				/ vec.length();
 	}
 
 	private Triangle getNextTriangleHeuristic(Point2d p, Vector2d dir) {
@@ -104,7 +89,15 @@ public class MovementStrategy {
 		return triangle;
 	}
 
-	// still buggy
+	/**
+	 * Currently has side effects on data fields!
+	 * 
+	 * @param position
+	 * @param vector
+	 * @param triangle
+	 * @return intersection point with triangle boundary in positive vector
+	 *         direction, if existent, else null.
+	 */
 	private Point2d getIntersectionWithBoundary(Point2d position,
 			Vector2d vector, Triangle triangle) {
 		Point2d positionPlusEpsilon = new Point2d(position.x + vector.x,
