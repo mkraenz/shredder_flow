@@ -69,10 +69,11 @@ public class MovementStrategy {
 	}
 
 	/**
-	 * Method assumes that the targetPosition lies on the line spanned by the
-	 * vector based at given base.
 	 * 
-	 * @return coefficient lambda of base + lambda * vec = target
+	 * @param base
+	 * @param vec
+	 * @param targetPosition
+	 * @return oriented ratio of the given vectors
 	 */
 	private double getCoefficient(Point2d base, Vector2d vec,
 			Point2d targetPosition) {
