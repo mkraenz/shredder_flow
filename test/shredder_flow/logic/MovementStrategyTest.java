@@ -129,6 +129,23 @@ public class MovementStrategyTest {
 		}
 		assertPositionEquals(particle, 0, 0.5);
 	}
+	@Test
+	public void testParticleMoveOverTwoTrianglesOneVecParallelToEdge()
+			throws Exception {
+		leftTriangle.getFieldVector().set(0, 1);
+		rightTriangle.getFieldVector().set(-1, 1);
+
+		Particle particle = new Particle(0.5, 0, rightTriangle,
+				new MovementStrategy(triangles));
+		updateAndAssert(rightTriangle, particle, 0.5, 0, 0.5);
+
+		updateAndAssert(leftTriangle, particle, 0.25, 0, 0.75);
+		for (int i = 0; i < 1000; i++) {
+			particle.update(1);
+			assertPositionEquals(particle, 0, 1);
+		}
+		assertPositionEquals(particle, 0, 1);
+	}
 
 	private void assertPositionEquals(Particle particle, double expectedX,
 			double expectedY) {
