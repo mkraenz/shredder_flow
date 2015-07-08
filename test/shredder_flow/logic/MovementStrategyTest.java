@@ -62,7 +62,7 @@ public class MovementStrategyTest {
 	}
 
 	@Test
-	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectors()
+	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsLinearDependant()
 			throws Exception {
 		leftTriangle.getFieldVector().set(1, 0);
 		rightTriangle.getFieldVector().set(-1, 0);
@@ -79,6 +79,56 @@ public class MovementStrategyTest {
 		}
 		assertPositionEquals(particle, 0, 0);
 	}
+	
+	@Test
+	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsLinearIndependant()
+			throws Exception {
+		leftTriangle.getFieldVector().set(1, 0);
+		rightTriangle.getFieldVector().set(-1, 1);
+
+		Particle particle = new Particle(-1.0 / 2, 0, leftTriangle,
+				new MovementStrategy(triangles));
+		updateAndAssert(rightTriangle, particle, 1, 0, 0);
+
+		for (int i = 0; i < 1000; i++) {
+			particle.update(1);
+			assertPositionEquals(particle, 0, 0);
+		}
+		assertPositionEquals(particle, 0, 0);
+	}
+	
+	@Test
+	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsOrthogonal()
+			throws Exception {
+		leftTriangle.getFieldVector().set(1, 1);
+		rightTriangle.getFieldVector().set(-1, 1);
+
+		Particle particle = new Particle(-0.5, 0, leftTriangle,
+				new MovementStrategy(triangles));
+		updateAndAssert(rightTriangle, particle, 100, 0, 0.5);
+
+		for (int i = 0; i < 1000; i++) {
+			particle.update(1);
+			assertPositionEquals(particle, 0, 0.5);
+		}
+		assertPositionEquals(particle, 0, 0.5);
+	}
+	@Test
+	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsOrthogonalRightToLeft()
+			throws Exception {
+		leftTriangle.getFieldVector().set(1, 1);
+		rightTriangle.getFieldVector().set(-1, 1);
+
+		Particle particle = new Particle(0.5, 0, rightTriangle,
+				new MovementStrategy(triangles));
+		updateAndAssert(leftTriangle, particle, 100, 0, 0.5);
+
+		for (int i = 0; i < 1000; i++) {
+			particle.update(1);
+			assertPositionEquals(particle, 0, 0.5);
+		}
+		assertPositionEquals(particle, 0, 0.5);
+	}
 
 	private void assertPositionEquals(Particle particle, double expectedX,
 			double expectedY) {
@@ -94,7 +144,7 @@ public class MovementStrategyTest {
 	}
 
 	private void updateAndAssert(Triangle leftTriangle, Particle particle,
-			double deltaT, double expectedX, int expectedY) {
+			double deltaT, double expectedX, double expectedY) {
 		particle.update(deltaT);
 		assertPositionEquals(particle, expectedX, expectedY);
 		assertEquals(leftTriangle, particle.getTriangle());
