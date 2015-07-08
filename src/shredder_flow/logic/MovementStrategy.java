@@ -9,6 +9,7 @@ public class MovementStrategy {
 	private final double EPS = 0.00001;
 	private Vertex lastCollidingEdgeVertex1;
 	private Vertex lastCollidingEdgeVertex2;
+	private int edgeJumpsInThisUpdate = 100;
 
 	public MovementStrategy(TriangleList triangles) {
 		this.triangles = triangles;
@@ -44,6 +45,11 @@ public class MovementStrategy {
 			particle.setReceivesUpdates(false);
 			return;
 		}
+		if (particle.getTriangle().isInTriangle(intersection.x, intersection.y)) {
+			// TODO is this a numerical error, i.e. is the intersection close to
+			// the boundary or is it far away?
+			System.out.println("Intersection not in triangle");
+		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
 				intersection);
 		particle.setPosition(intersection.x, intersection.y);
@@ -59,8 +65,13 @@ public class MovementStrategy {
 
 	private void initNextMoveInNewTriangleOrStopUpdates(Particle particle,
 			Triangle newTriangle, double timeLeft) {
-		particle.setTriangle(newTriangle);
-		performStepInsideOneTriangle(timeLeft, particle);
+		if (edgeJumpsInThisUpdate < 0) {
+			particle.setReceivesUpdates(false);
+		} else {
+			edgeJumpsInThisUpdate--;
+			particle.setTriangle(newTriangle);
+			performStepInsideOneTriangle(timeLeft, particle);
+		}
 	}
 
 	private double getTimeMovedInCurrentTriangle(Point2d base, Vector2d vec,
