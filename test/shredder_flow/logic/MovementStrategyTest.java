@@ -14,7 +14,7 @@ public class MovementStrategyTest {
 	private TriangleList triangles;
 	private Triangle leftTriangle;
 	private Triangle rightTriangle;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		vertex0 = new Vertex(-1, 0);
@@ -79,7 +79,7 @@ public class MovementStrategyTest {
 		}
 		assertPositionEquals(particle, 0, 0);
 	}
-	
+
 	@Test
 	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsLinearIndependant()
 			throws Exception {
@@ -96,7 +96,7 @@ public class MovementStrategyTest {
 		}
 		assertPositionEquals(particle, 0, 0);
 	}
-	
+
 	@Test
 	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsOrthogonal()
 			throws Exception {
@@ -113,6 +113,7 @@ public class MovementStrategyTest {
 		}
 		assertPositionEquals(particle, 0, 0.5);
 	}
+
 	@Test
 	public void testParticleMoveOverTwoTrianglesWithCollidingFieldVectorsOrthogonalRightToLeft()
 			throws Exception {
@@ -129,6 +130,7 @@ public class MovementStrategyTest {
 		}
 		assertPositionEquals(particle, 0, 0.5);
 	}
+
 	@Test
 	public void testParticleMoveOverTwoTrianglesOneVecParallelToEdge()
 			throws Exception {
@@ -145,6 +147,17 @@ public class MovementStrategyTest {
 			assertPositionEquals(particle, 0, 1);
 		}
 		assertPositionEquals(particle, 0, 1);
+	}
+
+	@Test
+	public void testParticleMoveOverTwoTrianglesOneVecParallelToEdgeBiggerStep()
+			throws Exception {
+		leftTriangle.getFieldVector().set(0, 1);
+		rightTriangle.getFieldVector().set(-1, 1);
+
+		Particle particle = new Particle(0.5, 0, rightTriangle,
+				new MovementStrategy(triangles));
+		updateAndAssert(leftTriangle, particle, 1, 0, 1);
 	}
 
 	private void assertPositionEquals(Particle particle, double expectedX,

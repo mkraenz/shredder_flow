@@ -39,9 +39,9 @@ public class MovementStrategyTestWhirl {
 	public void testWhirlMovement() {
 		Particle particle = new Particle(0.5, 0, upperTriangle,
 				new MovementStrategy(triangles));
-		setParallelFieldVector(vertexNegI, vertexPosI, leftTriangle);
-		setParallelFieldVector(vertexPosI, vertexOne, upperTriangle);
-		setParallelFieldVector(vertexOne, vertexNegI, bottomTriangle);
+		setFieldVectorParallelToOuterEdge(vertexNegI, vertexPosI, leftTriangle);
+		setFieldVectorParallelToOuterEdge(vertexPosI, vertexOne, upperTriangle);
+		setFieldVectorParallelToOuterEdge(vertexOne, vertexNegI, bottomTriangle);
 
 		particle.update(0.5);
 		assertEquals(-0.25, particle.getX(), 0);
@@ -55,19 +55,32 @@ public class MovementStrategyTestWhirl {
 
 		particle.update(1.0);
 		assertEquals(-0.25, particle.getX(), 0.001);
-		assertEquals(- Math.sqrt(3) / 4, particle.getY(), 0.001);
-		
+		assertEquals(-Math.sqrt(3) / 4, particle.getY(), 0.001);
+
 		particle.update(1.0);
 		assertEquals(-0.25, particle.getX(), 0.001);
 		assertEquals(Math.sqrt(3) / 4, particle.getY(), 0.001);
-		
+
 		particle.update(1.5);
 		assertEquals(-0.25, particle.getX(), 0.001);
 		assertEquals(Math.sqrt(3) / 4, particle.getY(), 0.001);
 	}
 
-	private void setParallelFieldVector(Vertex vertex1, Vertex vertex2,
-			Triangle triangle) {
+	@Test
+	public void testSinkInZero() {
+		Particle particle = new Particle(0.5, 0, upperTriangle,
+				new MovementStrategy(triangles));
+		leftTriangle.getFieldVector().set(0.5, -Math.sqrt(3) / 2);
+		setFieldVectorParallelToOuterEdge(vertexPosI, vertexOne, upperTriangle);
+		setFieldVectorParallelToOuterEdge(vertexOne, vertexNegI, bottomTriangle);
+		particle.update(10);
+		assertEquals(0, particle.getX(), 0);
+		assertEquals(0, particle.getY(), 0);
+
+	}
+
+	private void setFieldVectorParallelToOuterEdge(Vertex vertex1,
+			Vertex vertex2, Triangle triangle) {
 		Vector2d vec = new Vector2d(vertex1.getX() - vertex2.getX(),
 				vertex1.getY() - vertex2.getY());
 		triangle.getFieldVector().set(vec.x, vec.y);
