@@ -49,7 +49,7 @@ public class MovementStrategy {
 			Point2d barycenter = triangle.getBarycenter();
 			FieldVector vec = triangle.getFieldVector();
 			Point2d barycenterPlusEpsTimesVec = new Point2d(barycenter.x
-					+ vec.x * EPS, barycenter.y + vec.x * EPS);
+					+ vec.x, barycenter.y + vec.x);
 			Point2d intersectionWithPreviousEdge = intersectToLines(barycenter,
 					barycenterPlusEpsTimesVec,
 					lastCollidingEdgeVertex1.getPosition(),
@@ -58,7 +58,6 @@ public class MovementStrategy {
 					&& getCoefficient(barycenter, vec,
 							intersectionWithPreviousEdge) > 0) {
 				return true;
-
 			} else {
 				return false;
 			}
@@ -189,7 +188,8 @@ public class MovementStrategy {
 	/**
 	 * See https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
 	 * 
-	 * @return intersection point of the two lines, spanned by given points
+	 * @return intersection point of the two lines, spanned by given points, or
+	 *         null if they are parallel
 	 */
 	private Point2d intersectToLines(Point2d point1OnLine1,
 			Point2d point2OnLine1, Point2d point1OnLine2, Point2d point2OnLine2) {
@@ -209,6 +209,11 @@ public class MovementStrategy {
 				* (x3 * y4 - y3 * x4);
 		double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
 		// TODO check what is returned for parallel lines
-		return new Point2d(pxNumerator / denominator, pyNumerator / denominator);
+		if (denominator != 0) {
+			return new Point2d(pxNumerator / denominator, pyNumerator
+					/ denominator);
+		} else {
+			return null;
+		}
 	}
 }
