@@ -1,5 +1,6 @@
 package shredder_flow.logic;
 
+import javax.vecmath.Point2d;
 import javax.vecmath.Vector2d;
 
 public class Triangle {
@@ -153,6 +154,19 @@ public class Triangle {
 		}
 	}
 
+	public Point2d getBarycenter() {
+		double x1 = vertices.get(0).getX();
+		double y1 = vertices.get(0).getY();
+		double x2 = vertices.get(1).getX();
+		double y2 = vertices.get(1).getY();
+		double x3 = vertices.get(2).getX();
+		double y3 = vertices.get(2).getY();
+		double x = (x1 + x2 + x3) / 3;
+		double y = (y1 + y2 + y3) / 3;
+		Point2d vert = new Point2d(x, y);
+		return vert;
+	}
+
 	public double getArea() {
 		double x1 = vertices.get(0).getX();
 		double y1 = vertices.get(0).getY();
@@ -175,4 +189,8 @@ public class Triangle {
 		return middle;
 	}
 
+	@Override
+	public String toString() {
+		return "Triangle [vertices=" + vertices + "]";
+	}
 }
