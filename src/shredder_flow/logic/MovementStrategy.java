@@ -85,7 +85,9 @@ public class MovementStrategy {
 	 */
 	private double getCoefficient(Point2d base, Vector2d vec,
 			Point2d targetPosition) {
-		return (targetPosition.x - base.x) / vec.x;
+		Vector2d targetMinusBase = new Vector2d(targetPosition.x - base.x,
+				targetPosition.y - base.y);
+		return targetMinusBase.dot(vec);
 	}
 
 	private Triangle getNextTriangleHeuristic(Point2d p, Vector2d dir) {
