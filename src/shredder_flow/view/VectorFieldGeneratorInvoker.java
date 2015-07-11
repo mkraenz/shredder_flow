@@ -19,6 +19,9 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String SYMPLECTIC_FIELD = "Symplectic Field";
 	private static final String RANDOM_FIELD = "Random Field";
 	private static final String GRADIENT_FIELD = "Gradient Field";
+	private static final String GRAVIY_FIELD = "Gravity Field";
+	private static final String MAGNETIC_FIELD = "Magnetic_Field";
+	private static final String WHIRLPOOL_FIELD = "Whirlpool Field";
 	private static final String AFUNCTION_FIELD = "A-Function Field";
 	private static final String BFUNCTION_FIELD = "B-Function Field";
 	private static final String CFUNCTION_FIELD = "C-Function Field";
@@ -29,7 +32,6 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String HFUNCTION_FIELD = "H-Function Field";
 	private static final String IFUNCTION_FIELD = "I-Function Field";
 	private static final String JFUNCTION_FIELD = "J-Function Field";
-	private static final String WHIRLPOOL_FIELD = "Whirlpool Field";
 	private VectorFieldGenerator generator;
 	private MeshPlugin vectorDrawer;
 	private JCheckBox showVectorsCheckbox;
@@ -100,7 +102,10 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 		fieldComboBox.addItem(RANDOM_FIELD);
 		fieldComboBox.addItem(GRADIENT_FIELD);
+		fieldComboBox.addItem(GRAVIY_FIELD);
+		fieldComboBox.addItem(MAGNETIC_FIELD);
 		fieldComboBox.addItem(SYMPLECTIC_FIELD);
+		fieldComboBox.addItem(WHIRLPOOL_FIELD);
 		fieldComboBox.addItem(AFUNCTION_FIELD);
 		fieldComboBox.addItem(BFUNCTION_FIELD);
 		fieldComboBox.addItem(CFUNCTION_FIELD);
@@ -111,7 +116,6 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		fieldComboBox.addItem(HFUNCTION_FIELD);
 		fieldComboBox.addItem(IFUNCTION_FIELD);
 		fieldComboBox.addItem(JFUNCTION_FIELD);
-		fieldComboBox.addItem(WHIRLPOOL_FIELD);
 
 	}
 
@@ -155,8 +159,18 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 			if (fieldComboBox.getSelectedItem() == GRADIENT_FIELD) {
 				generator.generateGradiantField();
 			}
+			if (fieldComboBox.getSelectedItem() == GRAVIY_FIELD){
+				generator.generateMassGravityVectorField(100000, 1);
+			}
+			if (fieldComboBox.getSelectedItem() ==MAGNETIC_FIELD){
+				generator.generateMagneticField();
+			}
 			if (fieldComboBox.getSelectedItem() == SYMPLECTIC_FIELD) {
 				generator.generateSymplecticVectorField();
+			}
+			if (fieldComboBox.getSelectedItem() == WHIRLPOOL_FIELD) {
+				read();
+				generator.generateWhirlpool(i, j);
 			}
 			if (fieldComboBox.getSelectedItem() == AFUNCTION_FIELD) {
 				read();
@@ -197,10 +211,6 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 			if (fieldComboBox.getSelectedItem() == JFUNCTION_FIELD) {
 				read();
 				generator.generateAVectorField(i, j);
-			}
-			if (fieldComboBox.getSelectedItem() == WHIRLPOOL_FIELD) {
-				read();
-				generator.generateWhirlpool(i, j);
 			}
 		}
 	}
