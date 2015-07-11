@@ -1,10 +1,15 @@
 package shredder_flow.view;
 
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import shredder_flow.logic.ParticleCreator;
 import de.jtem.java2dx.plugin.View2DShrinkPanelPlugin;
@@ -57,6 +62,15 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 			resetParticles();
 		}
 
+	}
+
+
+	class MyMouseListener extends MouseAdapter {
+		public void mouseClicked(MouseEvent evt) {
+			if (evt.getClickCount() == 2) {
+				creator.addParticle(evt.getX(), evt.getY());
+			}
+		}
 	}
 
 	private void resetParticles() {

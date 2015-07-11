@@ -164,4 +164,15 @@ public class Triangle {
 		double area = (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
 		return area;
 	}
+
+	public Vector2d getMiddlePoint() {
+		Vector2d middle = new Vector2d(1, 1);
+		middle.set((this.getVertices().get(0).getX()
+				+ this.getVertices().get(1).getX() + this.getVertices().get(2)
+				.getX()) / 3, (this.getVertices().get(0).getY()
+				+ this.getVertices().get(1).getY() + this.getVertices().get(2)
+				.getY()) / 3);
+		return middle;
+	}
+
 }
