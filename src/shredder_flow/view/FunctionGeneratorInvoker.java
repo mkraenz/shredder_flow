@@ -71,7 +71,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(functionsComboBox);
 	}
 
-	private void addGuiElementsForHandwrittenFunction() {
+	private void addGuiElementsFunction() {
 		shrinkPanel.removeAll();
 		final int ROWS = 4;
 		final int COLUMNS = 1;
@@ -97,7 +97,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(functionsComboBox);
 	}
 
-	private void addGuiElementsForHandwrittenSumFunction() {
+	private void addGuiElementsFunctionSum() {
 		shrinkPanel.removeAll();
 		final int ROWS = 4;
 		final int COLUMNS = 1;
@@ -181,7 +181,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		addButton(new BuildFunctionSumAction(), "Apply");
 	}
 
-	private void readerAndExecutorforHandwrittenFunctions() {
+	private void performer() {
 		double alpha = 1;
 		double xUp = 1;
 		double yUp = 1;
@@ -213,7 +213,7 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 		generator.generateHandwrittenFuction(alpha, xUp, yUp, constant);
 	}
 
-	private void readerAndExecutorForHandwrittenSumFunction() {
+	private void performerSum() {
 		double alpha = 1;
 		double xUp = 1;
 		double beta = 1;
@@ -253,16 +253,6 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				.generateHandwrittenFuctionSum(alpha, xUp, beta, yUp, constant);
 	}
 
-	private void buttonRemoverAndFunctionBuilderForHandwrittenFunction() {
-		shrinkPanel.remove(button);
-		buildFunction();
-	}
-	
-	private void buttonRemoverAndFunctionBuilderForHandwrittenFunctionSum() {
-		shrinkPanel.remove(button);
-		buildFunctionWithSum();
-	}
-	
 	class ApplyFunctionAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
@@ -272,15 +262,14 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				generator.generateRandomFunction(-10, 10);
 			}
 			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
-				buttonRemoverAndFunctionBuilderForHandwrittenFunction();
+				shrinkPanel.remove(button);
+				buildFunction();
 			}
 			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
-				buttonRemoverAndFunctionBuilderForHandwrittenFunctionSum();
+				shrinkPanel.remove(button);
+				buildFunctionWithSum();
 			}
-		
-
 		}
-
 	}
 
 	class BuildFunctionAction extends AbstractAction {
@@ -293,12 +282,14 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				addGuiElements();
 			}
 			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
-				readerAndExecutorforHandwrittenFunctions();
-				buttonRemoverAndFunctionBuilderForHandwrittenFunction();
+				performer();
+				shrinkPanel.remove(button);
+				buildFunction();
 			}
 			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
-				addGuiElementsForHandwrittenSumFunction();
-				buttonRemoverAndFunctionBuilderForHandwrittenFunctionSum();
+				addGuiElementsFunctionSum();
+				shrinkPanel.remove(button);
+				buildFunctionWithSum();
 			}
 		}
 
@@ -314,12 +305,14 @@ public class FunctionGeneratorInvoker extends View2DShrinkPanelPlugin {
 				addGuiElements();
 			}
 			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION) {
-				addGuiElementsForHandwrittenFunction();
-				buttonRemoverAndFunctionBuilderForHandwrittenFunction();
+				addGuiElementsFunction();
+				shrinkPanel.remove(button);
+				buildFunction();
 			}
 			if (functionsComboBox.getSelectedItem() == HANDWRITTEN_FUNCTION_SUM) {
-				readerAndExecutorForHandwrittenSumFunction();
-				buttonRemoverAndFunctionBuilderForHandwrittenFunctionSum();
+				performerSum();
+				shrinkPanel.remove(button);
+				buildFunctionWithSum();
 			}
 		}
 
