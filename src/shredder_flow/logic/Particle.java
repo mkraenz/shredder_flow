@@ -26,8 +26,8 @@ public class Particle {
 		this.position.set(x, y);
 	}
 
-	public void setReceivesUpdates(boolean movement) {
-		this.receivesUpdates = movement;
+	public void setReceivesUpdates(boolean receivesUpdates) {
+		this.receivesUpdates = receivesUpdates;
 	}
 
 	public void setTriangle(Triangle triangle) {

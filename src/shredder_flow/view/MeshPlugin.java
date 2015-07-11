@@ -95,9 +95,11 @@ public class MeshPlugin extends Plugin {
 		double minSideLength = getMinSideLength(triangles);
 		double maxFieldVector = getMaxFieldVectorLength(triangles);
 		for (Triangle triangle : triangles) {
-			SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(
-					triangle, minSideLength, maxFieldVector);
-			sceneComponent.addChild(fieldVectorSceneComponent);
+			if (triangle.getFieldVector().length() > 0) {
+				SceneComponent fieldVectorSceneComponent = getFieldVectorSceneComponent(
+						triangle, minSideLength, maxFieldVector);
+				sceneComponent.addChild(fieldVectorSceneComponent);
+			}
 		}
 	}
 

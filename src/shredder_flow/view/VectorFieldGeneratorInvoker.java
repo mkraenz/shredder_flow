@@ -154,7 +154,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (fieldComboBox.getSelectedItem() == RANDOM_FIELD) {
-				generator.generateRandomVectorField();
+				generator.generateRandomVectorField(-1,1, 0.0001);
 			}
 			if (fieldComboBox.getSelectedItem() == GRADIENT_FIELD) {
 				generator.generateGradiantField();
@@ -238,7 +238,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			generator.generateRandomVectorField();
+			generator.generateRandomVectorField(-1,1, 0.0001);
 		}
 	}
 }
