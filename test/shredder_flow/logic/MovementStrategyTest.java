@@ -2,6 +2,8 @@ package shredder_flow.logic;
 
 import static org.junit.Assert.*;
 
+import javax.vecmath.Point2d;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -147,6 +149,22 @@ public class MovementStrategyTest {
 			assertPositionEquals(particle, 0, 1);
 		}
 		assertPositionEquals(particle, 0, 1);
+	}
+
+	@Test
+	public void testIsParallel() throws Exception {
+		Point2d point1OnLine1 = new Point2d(0, 0);
+		Point2d point2OnLine1 = new Point2d(0, 1);
+		Point2d point1OnLine2 = new Point2d(1, 0);
+		Point2d point2OnLine2 = new Point2d(1, 1);
+
+		MovementStrategy move = new MovementStrategy(null);
+		Point2d intersection = move.intersectToLines(point1OnLine1,
+				point2OnLine1, point1OnLine2, point2OnLine2);
+		if (intersection != null) {
+			System.out.println("Intersection x =" + intersection.x);
+			System.out.println("Intersection y =" + intersection.y);
+		}
 	}
 
 	@Test

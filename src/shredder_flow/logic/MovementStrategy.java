@@ -34,36 +34,45 @@ public class MovementStrategy {
 		if (triangle.isInTriangle(newPosX, newPosY)) {
 			particle.setPosition(newPosX, newPosY);
 		} else {
-			if (currentFieldVectorPointsBackwards(triangle)) {
-				System.out.println("vector points backwards");
+			if (pointsBackwards(particle) == true) {
 				particle.setReceivesUpdates(false);
 			} else {
 				performTriangleJump(timeLeft, particle, pos, triangle, vec);
 			}
+
 		}
 	}
 
-	private boolean currentFieldVectorPointsBackwards(Triangle triangle) {
+	private boolean pointsBackwards(Particle particle) {
 		if (lastCollidingEdgeVertex1 != null
 				&& lastCollidingEdgeVertex2 != null) {
-			Point2d barycenter = triangle.getBarycenter();
-			FieldVector vec = triangle.getFieldVector();
-			Point2d barycenterPlusEpsTimesVec = new Point2d(barycenter.x
-					+ vec.x, barycenter.y + vec.x);
-			Point2d intersectionWithPreviousEdge = intersectToLines(barycenter,
-					barycenterPlusEpsTimesVec,
-					lastCollidingEdgeVertex1.getPosition(),
-					lastCollidingEdgeVertex2.getPosition());
-			if (intersectionWithPreviousEdge != null
-					&& getCoefficient(barycenter, vec,
-							intersectionWithPreviousEdge) > 0) {
+			Triangle triangle = particle.getTriangle();
+			Vector2d vec = triangle.getFieldVector();
+			Point2d point1OnFieldVectorLine = triangle.getBarycenter();
+			Point2d point2OnFieldVectorLine = new Point2d(
+					point1OnFieldVectorLine.x + vec.x,
+					point1OnFieldVectorLine.y + vec.y);
+			Point2d point1OnLine1 = new Point2d(
+					lastCollidingEdgeVertex1.getX(),
+					lastCollidingEdgeVertex1.getY());
+			Point2d point2OnLine1 = new Point2d(
+					lastCollidingEdgeVertex2.getX(),
+					lastCollidingEdgeVertex2.getY());
+			Point2d intersectionPoint = intersectToLines(
+					point1OnFieldVectorLine, point2OnFieldVectorLine,
+					point1OnLine1, point2OnLine1);
+			double coeff = getCoefficient(point1OnFieldVectorLine, vec,
+					intersectionPoint);
+			if (coeff > 0) {
 				return true;
 			} else {
 				return false;
 			}
 		} else {
 			return false;
+
 		}
+
 	}
 
 	private void performTriangleJump(double deltaT, Particle particle,
@@ -71,7 +80,6 @@ public class MovementStrategy {
 		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
 		if (intersection == null) {
 			particle.setReceivesUpdates(false);
-			System.out.println("Stop updates");
 			return;
 		}
 		if (particle.getTriangle().isInTriangle(intersection.x, intersection.y)) {
@@ -81,13 +89,6 @@ public class MovementStrategy {
 		}
 		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
 				intersection);
-		if (timeUntilEdgeHit > 100) {
-			System.out.println("suspiciously high timeUntilEdgeHit = "
-					+ timeUntilEdgeHit);
-		}
-		System.out.println("intersection = " + intersection.x + "    |   "
-				+ intersection.y);
-		System.out.println("timeUntilEdgeHit = " + timeUntilEdgeHit);
 		particle.setPosition(intersection.x, intersection.y);
 		Triangle newTriangle = getNextTriangleHeuristic(intersection,
 				triangle.getFieldVector());
@@ -188,10 +189,9 @@ public class MovementStrategy {
 	/**
 	 * See https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
 	 * 
-	 * @return intersection point of the two lines, spanned by given points, or
-	 *         null if they are parallel
+	 * @return intersection point of the two lines, spanned by given points
 	 */
-	private Point2d intersectToLines(Point2d point1OnLine1,
+	protected Point2d intersectToLines(Point2d point1OnLine1,
 			Point2d point2OnLine1, Point2d point1OnLine2, Point2d point2OnLine2) {
 		double x1 = point1OnLine1.x;
 		double x2 = point2OnLine1.x;
@@ -208,12 +208,6 @@ public class MovementStrategy {
 		double pyNumerator = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2)
 				* (x3 * y4 - y3 * x4);
 		double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-		// TODO check what is returned for parallel lines
-		if (denominator != 0) {
-			return new Point2d(pxNumerator / denominator, pyNumerator
-					/ denominator);
-		} else {
-			return null;
-		}
+		return new Point2d(pxNumerator / denominator, pyNumerator / denominator);
 	}
 }
