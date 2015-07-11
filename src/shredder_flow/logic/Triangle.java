@@ -83,8 +83,8 @@ public class Triangle {
 
 	/**
 	 * Gives the neighboring triangle closest to this position. If there are
-	 * more than one, then returns the triangle that lies in the given direction
-	 * based at given position.
+	 * more than one, then returns the triangle that
+	 * lies in the given direction based at given position.
 	 * 
 	 * @param x
 	 * @param y
@@ -96,15 +96,14 @@ public class Triangle {
 		if (neighbor != null) {
 			return neighbor;
 		} else {
-			return getNeighborInDirection(x, y, direction);
+			return getNeighborInDirection(x,y,direction);
 		}
 	}
 
-	private Triangle getNeighborInDirection(double x, double y,
-			Vector2d direction) {
+	private Triangle getNeighborInDirection(double x, double y, Vector2d direction) {
 		// TODO Auto-generated method stub
 		return null;
-
+		
 	}
 
 	public VertexList getVertices() {
@@ -151,17 +150,5 @@ public class Triangle {
 		} else {
 			return false;
 		}
-	}
-
-	public double getArea() {
-		double x1 = vertices.get(0).getX();
-		double y1 = vertices.get(0).getY();
-		double x2 = vertices.get(1).getX();
-		double y2 = vertices.get(1).getY();
-		double x3 = vertices.get(2).getX();
-		double y3 = vertices.get(2).getY();
-
-		double area = (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
-		return area;
 	}
 }

@@ -6,9 +6,8 @@ public class RuppertAdapter {
 
 	private TriangulationVertexList vertices;
 	private TriangleList triangles;
-	private int maximalTriangleNumber = 1000;
-	private double minimalAngleConstraint = 30;
-	private double maximalAreaConstraint = 1;
+	private int maximalTriangleNumber = -1;
+	private int minimalAngleConstraint = 30;
 
 	/**
 	 * Constructor
@@ -28,12 +27,8 @@ public class RuppertAdapter {
 		this.maximalTriangleNumber = maximalTriangleNumber;
 	}
 
-	public void setMinimalAngleConstraint(double minimalAngleConstraint) {
+	public void setMinimalAngleConstraint(int minimalAngleConstraint) {
 		this.minimalAngleConstraint = minimalAngleConstraint;
-	}
-
-	public void setMaximalAreaConstraint(double maximalAreaConstraint) {
-		this.maximalAreaConstraint = maximalAreaConstraint;
 	}
 
 	public TriangulationVertexList getVertexList() {
@@ -44,12 +39,8 @@ public class RuppertAdapter {
 		return maximalTriangleNumber;
 	}
 
-	public double getMinimalAngleConstraint() {
+	public int getMinimalAngleConstraint() {
 		return minimalAngleConstraint;
-	}
-
-	public double getMaximalAreaConstraint() {
-		return this.maximalAreaConstraint;
 	}
 
 	public TriangleList getTriangleList() {
@@ -114,11 +105,8 @@ public class RuppertAdapter {
 	private Ruppert triangulateWithRuppert(double[][] vertexCoordinates) {
 		Ruppert ruppert = new Ruppert(vertexCoordinates);
 		ruppert.setAngleConstraint(minimalAngleConstraint);
-		if (ruppert.getMaximalNumberOfTriangles() != maximalTriangleNumber) {
+		if (maximalTriangleNumber > 0) {
 			ruppert.setMaximalNumberOfTriangles(maximalTriangleNumber);
-		}
-		if (ruppert.getAreaConstraint() != maximalAreaConstraint) {
-			ruppert.setAreaConstraint(maximalAreaConstraint);
 		}
 		ruppert.refine();
 		return ruppert;
@@ -133,5 +121,4 @@ public class RuppertAdapter {
 		}
 		return a;
 	}
-
 }

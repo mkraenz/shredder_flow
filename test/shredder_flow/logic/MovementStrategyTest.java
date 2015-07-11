@@ -14,7 +14,7 @@ public class MovementStrategyTest {
 	private TriangleList triangles;
 	private Triangle leftTriangle;
 	private Triangle rightTriangle;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		vertex0 = new Vertex(-1, 0);

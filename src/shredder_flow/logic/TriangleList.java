@@ -8,8 +8,7 @@ public class TriangleList extends ArrayList<Triangle> {
 
 	/**
 	 * Returns the first Triangle such that the given position (x,y) lies inside
-	 * or on the boundary of that triangle. If there is no such triangle,
-	 * returns null.
+	 * or on the boundary of that triangle. If there is no such triangle, returns null.
 	 * 
 	 * @param x
 	 * @param y
@@ -23,4 +22,5 @@ public class TriangleList extends ArrayList<Triangle> {
 		}
 		return null;
 	}
+
 }
