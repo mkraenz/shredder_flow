@@ -34,12 +34,36 @@ public class MovementStrategy {
 		if (triangle.isInTriangle(newPosX, newPosY)) {
 			particle.setPosition(newPosX, newPosY);
 		} else {
-			if (pointsBackwards(particle) == true) {
-				particle.setReceivesUpdates(false);
-			} else {
-				performTriangleJump(timeLeft, particle, pos, triangle, vec);
-			}
+			performTriangleJump(timeLeft, particle, pos, triangle, vec);
+		}
 
+	}
+
+	
+
+	private void performTriangleJump(double deltaT, Particle particle,
+			Point2d pos, Triangle triangle, Vector2d vec) {
+		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
+		if (intersection == null) {
+			particle.setReceivesUpdates(false);
+			return;
+		}
+		if (particle.getTriangle().isInTriangle(intersection.x, intersection.y)) {
+			// TODO is this a numerical error, i.e. is the intersection close to
+			// the boundary or is it far away?
+			System.out.println("Intersection not in triangle");
+		}
+
+		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
+				intersection);
+		particle.setPosition(intersection.x, intersection.y);
+		Triangle newTriangle = getNextTriangleHeuristic(intersection,
+				triangle.getFieldVector());
+		if (newTriangle != null && deltaT - timeUntilEdgeHit > 0) {
+			initNextMoveInNewTriangleOrStopUpdates(particle, newTriangle,
+					deltaT - timeUntilEdgeHit);
+		} else {
+			particle.setReceivesUpdates(false);
 		}
 	}
 
@@ -74,33 +98,7 @@ public class MovementStrategy {
 		}
 
 	}
-
-	private void performTriangleJump(double deltaT, Particle particle,
-			Point2d pos, Triangle triangle, Vector2d vec) {
-		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
-		if (intersection == null) {
-			particle.setReceivesUpdates(false);
-			return;
-		}
-		if (particle.getTriangle().isInTriangle(intersection.x, intersection.y)) {
-			// TODO is this a numerical error, i.e. is the intersection close to
-			// the boundary or is it far away?
-			System.out.println("Intersection not in triangle");
-		}
-
-		double timeUntilEdgeHit = getTimeMovedInCurrentTriangle(pos, vec,
-				intersection);
-		particle.setPosition(intersection.x, intersection.y);
-		Triangle newTriangle = getNextTriangleHeuristic(intersection,
-				triangle.getFieldVector());
-		if (newTriangle != null && deltaT - timeUntilEdgeHit > 0) {
-			initNextMoveInNewTriangleOrStopUpdates(particle, newTriangle,
-					deltaT - timeUntilEdgeHit);
-		} else {
-			particle.setReceivesUpdates(false);
-		}
-	}
-
+	
 	private void initNextMoveInNewTriangleOrStopUpdates(Particle particle,
 			Triangle newTriangle, double timeLeft) {
 		if (edgeJumpsInThisUpdate < 0) {
