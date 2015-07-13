@@ -174,6 +174,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 				generator.generateMassGravityVectorField(100000, 1);
 			}
 			if (fieldComboBox.getSelectedItem() ==MAGNETIC_FIELD){
+				read();
 				generator.generateMagneticField(squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == SYMPLECTIC_FIELD) {

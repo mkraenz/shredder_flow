@@ -35,6 +35,19 @@ public class ParticleCreator {
 		}
 	}
 	
+	public void addRandomParticleCloudAroundXY(double x, double y) {
+		int particleCount = 100;
+		int highestRandomValue = 100;
+		double xShift = -0.5+x;
+		double yShift = -0.5+y;
+		double scale = 0.01;
+		Random random = new Random();
+		for (int i = 0; i < particleCount; i++) {
+			addParticle(random.nextInt(highestRandomValue) * scale + xShift,
+					random.nextInt(highestRandomValue) * scale + yShift);
+		}
+	}
+	
 	public void addOneRandomParticleCloud() {
 		int particleCount = 1;
 		int highestRandomValue = 100;
