@@ -35,6 +35,7 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 		addParticleOptBox();
 		addButton(new SetOneParticleAction(), "Set One Partce at the Coordinate (x,y)");
 		addButton(new RandomParticlesAroundXYAction(), "Random Particles around (x,y)");
+		addButton(new RandomTotallyParticlesAction(), "Random Particles");
 		addButton(new ResetParticlesAction(), "Reset");
 	}
 
@@ -57,6 +58,11 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 
 	private void addRandomParticleCloud() {
 		creator.addRandomParticleCloud();
+		particlePlugin.draw();
+	}
+	
+	private void addTotallyRandomParticleCloud() {
+		creator.addRandomTotallyParticleCloud();
 		particlePlugin.draw();
 	}
 	
@@ -96,7 +102,6 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 			System.out
 					.println("WARNING: Could not convert given xComponent to double.");
 		}
-		System.out.println(xComponent);
 		creator.addRandomParticleCloudAroundXY(xComponent, yComponent);
 		particlePlugin.draw();
 	}
@@ -107,6 +112,15 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			addRandomParticleCloud();
+		}
+	}
+	
+	class RandomTotallyParticlesAction extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			addTotallyRandomParticleCloud();
 		}
 	}
 
