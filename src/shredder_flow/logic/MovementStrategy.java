@@ -39,8 +39,6 @@ public class MovementStrategy {
 
 	}
 
-	
-
 	private void performTriangleJump(double deltaT, Particle particle,
 			Point2d pos, Triangle triangle, Vector2d vec) {
 		Point2d intersection = getIntersectionWithBoundary(pos, vec, triangle);
@@ -67,37 +65,6 @@ public class MovementStrategy {
 		}
 	}
 
-	private boolean pointsBackwards(Particle particle) {
-		if (lastCollidingEdgeVertex1 != null
-				&& lastCollidingEdgeVertex2 != null) {
-			Triangle triangle = particle.getTriangle();
-			Vector2d vec = triangle.getFieldVector();
-			Point2d point1OnFieldVectorLine = triangle.getBarycenter();
-			Point2d point2OnFieldVectorLine = new Point2d(
-					point1OnFieldVectorLine.x + vec.x,
-					point1OnFieldVectorLine.y + vec.y);
-			Point2d point1OnLine1 = new Point2d(
-					lastCollidingEdgeVertex1.getX(),
-					lastCollidingEdgeVertex1.getY());
-			Point2d point2OnLine1 = new Point2d(
-					lastCollidingEdgeVertex2.getX(),
-					lastCollidingEdgeVertex2.getY());
-			Point2d intersectionPoint = intersectToLines(
-					point1OnFieldVectorLine, point2OnFieldVectorLine,
-					point1OnLine1, point2OnLine1);
-			double coeff = getCoefficient(point1OnFieldVectorLine, vec,
-					intersectionPoint);
-			if (coeff > 0) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-
-		}
-
-	}
 	
 	private void initNextMoveInNewTriangleOrStopUpdates(Particle particle,
 			Triangle newTriangle, double timeLeft) {
@@ -138,37 +105,34 @@ public class MovementStrategy {
 
 	private Point2d getIntersectionWithBoundary(Point2d position,
 			Vector2d vector, Triangle triangle) {
-		Point2d positionPlusEpsilon = new Point2d(position.x + vector.x,
-				position.y + vector.y);
 		double minCoefficient = Double.MAX_VALUE;
-		Point2d intersection = null;
+		Point2d intersection;
 		Vertex currentCollidingEdgeVertex1 = null;
 		Vertex currentCollidingEdgeVertex2 = null;
-
+		double lambda;
+		Point2d pVertex1;
+		Point2d pVertex2;
 		for (int i = 0; i < triangle.getVertices().size(); i++) {
 			Vertex vertexA = triangle.getVertices().get(
 					i % triangle.getVertices().size());
+			pVertex1.set(vertexA.getX(), vertexA.getY());
+				
 			Vertex vertexB = triangle.getVertices().get(
 					(i + 1) % triangle.getVertices().size());
-			if (vertexA.equals(lastCollidingEdgeVertex1)
-					&& vertexB.equals(lastCollidingEdgeVertex2)
-					|| vertexA.equals(lastCollidingEdgeVertex2)
-					&& vertexB.equals(lastCollidingEdgeVertex1)) {
-				continue;
-			}
-			Point2d intersectionWithEdge = intersectToLines(
-					vertexA.getPosition(), vertexB.getPosition(), position,
-					positionPlusEpsilon);
+			pVertex2.set(vertexB.getX(),vertexB.getY());
+			
+			lambda = getLambda(position,vector,pVertex1,pVertex2);
+			if(lambda>=0&&lambda<=1)
+			intersection=getIntersection(pVertex1,pVertex2,lambda);
+			
+			
 
-			double coefficient = getCoefficient(position, vector,
-					intersectionWithEdge);
-
-			if (coefficient >= 0 && coefficient < minCoefficient) {
+			/*if (coefficient >= 0 && coefficient < minCoefficient) {
 				currentCollidingEdgeVertex1 = vertexA;
 				currentCollidingEdgeVertex2 = vertexB;
 				minCoefficient = coefficient;
 				intersection = intersectionWithEdge;
-			}
+			}*/
 		}
 		lastCollidingEdgeVertex1 = currentCollidingEdgeVertex1;
 		lastCollidingEdgeVertex2 = currentCollidingEdgeVertex2;
@@ -180,6 +144,71 @@ public class MovementStrategy {
 	 * 
 	 * @return intersection point of the two lines, spanned by given points
 	 */
+	private double getLambda(Point2d position, Vector2d vec, Point2d vertex1,
+			Point2d vertex2) {
+		double p0 = position.x;
+		double p1 = position.y;
+		double v0 = vec.x;
+		double v1 = vec.y;
+		double a0 = vertex1.x;
+		double a1 = vertex1.y;
+		double b0 = vertex2.x;
+		double b1 = vertex2.y;
+
+		double zaehler = a1 * v0 - a0 * v1 - p1 * v0 + p0 * v1;
+		double nenner = v1 * (b0 - a0) - v0 * (b1 - a1);
+		return zaehler / nenner;
+	}
+	
+	private Point2d getIntersection(Point2d vertex1, Point2d vertex2, double lambda){
+		double a0 = vertex1.x;
+		double a1 = vertex1.y;
+		double b0 = vertex2.x;
+		double b1 = vertex2.y; 
+		double x = a0+lambda*(b0-a0);
+		double y = a1+lambda*(b1-a1);
+		Point2d intersection = new Point2d(x,y);
+		return intersection;
+	}
+
+	private double getT(double a, double b, double p, double v, double lambda) {
+		double zaehler = a -lambda*(b-a)-p;
+		return zaehler/v;
+	}
+
+	private boolean pointsBackwards(Particle particle) {
+		if (lastCollidingEdgeVertex1 != null
+				&& lastCollidingEdgeVertex2 != null) {
+			Triangle triangle = particle.getTriangle();
+			Vector2d vec = triangle.getFieldVector();
+			Point2d point1OnFieldVectorLine = triangle.getBarycenter();
+			Point2d point2OnFieldVectorLine = new Point2d(
+					point1OnFieldVectorLine.x + vec.x,
+					point1OnFieldVectorLine.y + vec.y);
+			Point2d point1OnLine1 = new Point2d(
+					lastCollidingEdgeVertex1.getX(),
+					lastCollidingEdgeVertex1.getY());
+			Point2d point2OnLine1 = new Point2d(
+					lastCollidingEdgeVertex2.getX(),
+					lastCollidingEdgeVertex2.getY());
+			Point2d intersectionPoint = intersectToLines(
+					point1OnFieldVectorLine, point2OnFieldVectorLine,
+					point1OnLine1, point2OnLine1);
+			double coeff = getCoefficient(point1OnFieldVectorLine, vec,
+					intersectionPoint);
+			if (coeff > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+
+		}
+
+	}
+
+	
 	private Point2d intersectToLines(Point2d point1OnLine1,
 			Point2d point2OnLine1, Point2d point1OnLine2, Point2d point2OnLine2) {
 		double x1 = point1OnLine1.x;
