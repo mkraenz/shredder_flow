@@ -20,7 +20,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private static final String RANDOM_FIELD = "Random Field";
 	private static final String GRADIENT_FIELD = "Gradient Field";
 	private static final String GRAVIY_FIELD = "Gravity Field";
-	private static final String MAGNETIC_FIELD = "Magnetic_Field";
+	private static final String MAGNETIC_FIELD = "Magnetic Field";
 	private static final String WHIRLPOOL_FIELD = "Whirlpool Field";
 	private static final String AFUNCTION_FIELD = "A-Function Field";
 	private static final String BFUNCTION_FIELD = "B-Function Field";
@@ -40,10 +40,12 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	private JTextField jXComponentTextField;
 	private JTextField iYComponentTextField;
 	private JTextField jYComponentTextField;
+	private JTextField squeezefactorTextField;
 	private double iXComponent;
 	private double jXComponent;
 	private double iYComponent;
 	private double jYComponent;
+	private double squeezefactor;
 	private Vector2d i;
 	private Vector2d j;
 
@@ -64,7 +66,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 	}
 
 	private void addGuiElements() {
-		final int ROWS = 6;
+		final int ROWS = 8;
 		final int COLUMNS = 2;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addShowVectorsCheckbox();
@@ -78,6 +80,7 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		iYComponentTextField = new JTextField("0");
 		jXComponentTextField = new JTextField("0");
 		jYComponentTextField = new JTextField("1");
+		squeezefactorTextField = new JTextField("1");
 
 		shrinkPanel.add(new JLabel(" "));
 		shrinkPanel.add(new JLabel("x component of i:"));
@@ -88,6 +91,8 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 		shrinkPanel.add(jXComponentTextField);
 		shrinkPanel.add(new JLabel("y component of j:"));
 		shrinkPanel.add(jYComponentTextField);
+		shrinkPanel.add(new JLabel("squeezefactor:"));
+		shrinkPanel.add(squeezefactorTextField);
 	}
 
 	private void addShowVectorsCheckbox() {
@@ -124,25 +129,31 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 			iXComponent = Double.parseDouble(iXComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
-					.println("WARNING: Could not convert given iXComponent to integer.");
+					.println("WARNING: Could not convert given iXComponent to double.");
 		}
 		try {
 			iYComponent = Double.parseDouble(iYComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
-					.println("WARNING: Could not convert given iYComponent to integer.");
+					.println("WARNING: Could not convert given iYComponent to double.");
 		}
 		try {
 			jXComponent = Double.parseDouble(jXComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
-					.println("WARNING: Could not convert given jXComponent to integer.");
+					.println("WARNING: Could not convert given jXComponent to double.");
 		}
 		try {
 			jYComponent = Double.parseDouble(jYComponentTextField.getText());
 		} catch (Exception e2) {
 			System.out
-					.println("WARNING: Could not convert given jXComponent to integer.");
+					.println("WARNING: Could not convert given jXComponent to double.");
+		}
+		try {
+			squeezefactor = Double.parseDouble(squeezefactorTextField.getText());
+		} catch (Exception e2) {
+			System.out
+					.println("WARNING: Could not convert given squeezefactor to double.");
 		}
 		i = new Vector2d(iXComponent, iYComponent);
 		j = new Vector2d(jXComponent, jYComponent);
@@ -163,54 +174,55 @@ public class VectorFieldGeneratorInvoker extends View2DShrinkPanelPlugin {
 				generator.generateMassGravityVectorField(100000, 1);
 			}
 			if (fieldComboBox.getSelectedItem() ==MAGNETIC_FIELD){
-				generator.generateMagneticField();
+				read();
+				generator.generateMagneticField(squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == SYMPLECTIC_FIELD) {
 				generator.generateSymplecticVectorField();
 			}
 			if (fieldComboBox.getSelectedItem() == WHIRLPOOL_FIELD) {
 				read();
-				generator.generateWhirlpool(i, j);
+				generator.generateWhirlpool(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == AFUNCTION_FIELD) {
 				read();
-				generator.generateAVectorField(i, j);
+				generator.generateAVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == BFUNCTION_FIELD) {
 				read();
-				generator.generateBVectorField(i, j);
+				generator.generateBVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == CFUNCTION_FIELD) {
 				read();
-				generator.generateCVectorField(i, j);
+				generator.generateCVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == DFUNCTION_FIELD) {
 				read();
-				generator.generateDVectorField(i, j);
+				generator.generateDVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == EFUNCTION_FIELD) {
 				read();
-				generator.generateEVectorField(i, j);
+				generator.generateEVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == FFUNCTION_FIELD) {
 				read();
-				generator.generateFVectorField(i, j);
+				generator.generateFVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == GFUNCTION_FIELD) {
 				read();
-				generator.generateGVectorField(i, j);
+				generator.generateGVectorField(i, j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == HFUNCTION_FIELD) {
 				read();
-				generator.generateHVectorField(i);
+				generator.generateHVectorField(i, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == IFUNCTION_FIELD) {
 				read();
-				generator.generateIVectorField(j);
+				generator.generateIVectorField(j, squeezefactor);
 			}
 			if (fieldComboBox.getSelectedItem() == JFUNCTION_FIELD) {
 				read();
-				generator.generateAVectorField(i, j);
+				generator.generateAVectorField(i, j, squeezefactor);
 			}
 		}
 	}
