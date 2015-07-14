@@ -31,12 +31,10 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 		final int COLUMNS = 2;
 		shrinkPanel.setLayout(new GridLayout(ROWS, COLUMNS));
 		addButton(new RandomParticlesAction(), "Random Particles around 0");
-		addButton(new SetOneRandomParticleAction(), "One Random Particle around 0");
+		addButton(new ResetParticlesAction(), "Reset");
 		addParticleOptBox();
 		addButton(new SetOneParticleAction(), "Set One Partce at the Coordinate (x,y)");
-		addButton(new RandomParticlesAroundXYAction(), "Random Particles around (x,y)");
-		addButton(new RandomTotallyParticlesAction(), "Random Particles");
-		addButton(new ResetParticlesAction(), "Reset");
+		addButton(new SetOneRandomParticleAction(), "One Random Particle around 0");
 	}
 
 	private void addParticleOptBox() {
@@ -58,11 +56,6 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 
 	private void addRandomParticleCloud() {
 		creator.addRandomParticleCloud();
-		particlePlugin.draw();
-	}
-	
-	private void addTotallyRandomParticleCloud() {
-		creator.addRandomTotallyParticleCloud();
 		particlePlugin.draw();
 	}
 	
@@ -89,38 +82,12 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 		particlePlugin.draw();
 	}
 	
-	private void setSomeParticles(){
-		try {
-			xComponent = Double.parseDouble(xComponentTextField.getText());
-		} catch (Exception e2) {
-			System.out
-					.println("WARNING: Could not convert given xComponent to double.");
-		}
-		try {
-			yComponent = Double.parseDouble(yComponentTextField.getText());
-		} catch (Exception e2) {
-			System.out
-					.println("WARNING: Could not convert given xComponent to double.");
-		}
-		creator.addRandomParticleCloudAroundXY(xComponent, yComponent);
-		particlePlugin.draw();
-	}
-	
 	class RandomParticlesAction extends AbstractAction {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			addRandomParticleCloud();
-		}
-	}
-	
-	class RandomTotallyParticlesAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			addTotallyRandomParticleCloud();
 		}
 	}
 
@@ -149,15 +116,6 @@ public class ParticleAdderPanel extends View2DShrinkPanelPlugin {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			setOneRandomParticle();
-		}
-	}
-	
-	class RandomParticlesAroundXYAction extends AbstractAction{
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			setSomeParticles();
 		}
 	}
 
