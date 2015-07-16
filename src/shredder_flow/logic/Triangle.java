@@ -59,7 +59,7 @@ public class Triangle {
 		}
 	}
 
-	private Triangle getNeighborWithVertices(Vertex vertex1, Vertex vertex2) {
+	public Triangle getNeighborWithVertices(Vertex vertex1, Vertex vertex2) {
 		for (Triangle triangle : neighbors) {
 			if (triangle.getVertices().contains(vertex1)
 					&& triangle.getVertices().contains(vertex2)) {
